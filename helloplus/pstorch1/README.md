@@ -1,4 +1,3 @@
-Include a README.md in that directory with a brief explanation of what your program does, how to run it, and how that technology might be used in your group project. This only needs to be a few sentences long.
 This program is a small QT program that asks for the user's name and outputs a greeting to the user based on the name. This involves opening a separate window and incorporating a button that the user can click once they have typed their name, which will be useful for the UI of the app created later.
 
 To run the program, unzip the zip file and simply run the executable; a window will pop up asking for your name.
