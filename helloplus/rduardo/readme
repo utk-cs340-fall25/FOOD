@@ -1,0 +1,11 @@
+# HelloWorld+ (Anagram Checker)
+
+## What it does
+This C++ program checks if a given input string is an **anagram of "Hello World"**.  
+- Ignores spaces and letter case.  
+- Reports if the input is an exact anagram.  
+- If not, it lists which letters are **missing** or **extra**.
+
+## How this relates to our project
+This shows basic text parsing and validation in C++, which can also be used for input handling or search features in our group project.
+
