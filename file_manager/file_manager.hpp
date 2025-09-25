@@ -40,3 +40,5 @@ class File_Manager
         int Read_Recipe(const std::string, struct Recipe&); // This will read a .rcp file
         int Write_Recipe(const std::string, const struct Recipe&); // This will write to a .rcp file
 };
+
+std::string to_lower(std::string);
