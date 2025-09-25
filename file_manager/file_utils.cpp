@@ -7,5 +7,8 @@ void File_Manager::Reset(void)
     input_buffer.clear();
     output_buffer.clear();
 
+    buffered_rcp = false;
+    rcp_name.clear();
+
     return;
 }

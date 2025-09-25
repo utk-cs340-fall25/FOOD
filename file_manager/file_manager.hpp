@@ -3,7 +3,20 @@
 #include <list>
 #include <map>
 
+struct Ingredient
+{
+    std::string name;
+    std::string amount_s;
+    std::string unit;
+    double amount_d;
+};
 
+struct Recipe
+{
+    std::string name;
+    std::vector <Ingredient> ingredients;
+    std::vector <std::string> instructions;
+};
 
 class File_Manager
 {
@@ -24,6 +37,6 @@ class File_Manager
     public:
         File_Manager();
 
-        void Read_Recipe(const std::string); // This will read a .rcp file
-        void Write_Recipe(const std::string); // This will write to a .rcp file
+        int Read_Recipe(const std::string, struct Recipe&); // This will read a .rcp file
+        int Write_Recipe(const std::string, const struct Recipe&); // This will write to a .rcp file
 };

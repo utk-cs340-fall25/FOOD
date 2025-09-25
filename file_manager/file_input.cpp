@@ -1,77 +1,92 @@
 #include "file_manager.hpp"
 #include <iostream>
+#include <cstdint>
+#include <cctype>
+#include <string>
 #include <filesystem>
 #include <stdexcept>
 #include <winerror.h>
 
-void File_Manager::Read_Recipe(const std::string path)
+std::string to_lower(std::string string)
 {
-    // For saving an already loaded file
-    if (buffered_rcp == true)
+    std::string output = string;
+
+    for (uint64_t i = 0; i < string.length(); i += 1)
     {
-        bool complete = false;
-
-        do
-        {
-            char ans;
-            std::cout << "There is a buffered recipe called " << rcp_name << ". Would you like to save it? (y/n)";
-            std::cin >> ans;
-
-            // If the file is to be saved or not
-            if (ans == 'y')
-            {
-                std::filesystem::path out_path;
-                std::cout << "Enter the path of the file you wish to write to:";
-                std::cin >> out_path;
-                
-                // Finding a valid or acceptable path to write to
-                do
-                {
-                    if (std::filesystem::exists(out_path))
-                    {
-                        std::cout << "File already exists. Do you wish to overwrite it? (y/n)";
-                        std::cin >> ans;
-
-                        // Answer checking
-                        if (ans == 'y')
-                        {
-                            Write_Recipe(out_path.string());
-                            complete = true;
-                        }
-                        else if (ans == 'n')
-                        {
-                            std::cout << "Enter the path of the file you wish to write to:";
-                            std::cin >> out_path;
-                            continue;
-                        }
-                        else throw (std::invalid_argument("Invalid answer of " + ans + '\n'));
-                    } 
-                    else
-                    {
-                        Write_Recipe(out_path.string());
-                        complete = true;
-                        break;
-                    }
-                } while (true);     
-            }
-            else if (ans == 'n')
-            {
-                Reset();
-                complete = true;
-            }
-            else throw (std::invalid_argument("Invalid answer of " + ans + '\n'));
-
-        } while (!complete);
+        output.at(i) = (char)tolower((char)output.at(i));
     }
 
+    return output;
+};
+
+int File_Manager::Read_Recipe(const std::string path, struct Recipe &output_recipe)
+{
     file_input.open(path);
-    if (!file_input.is_open())
-    {
-        throw (ERROR_FILE_NOT_FOUND);
-        return;
-    }
+    if (!file_input.is_open()) return ERROR_OPEN_FAILED;
 
     // File Reading
+    struct Recipe recipe;
+    std::string temp_string;
 
-    return;
+    file_input >> recipe.name;
+
+    while (to_lower(temp_string) != "instructions")
+    {
+        std::string::size_type sz;
+        struct Ingredient temp_ingredient;
+        file_input >> temp_ingredient.amount_s >> temp_ingredient.unit >> temp_ingredient.name;
+        temp_ingredient.name = to_lower(temp_ingredient.name);
+        try
+        {
+            temp_ingredient.amount_d = std::stod(temp_string, &sz);
+        }
+        catch(std::invalid_argument) {return ERROR_INVALID_DATA;}
+
+        recipe.ingredients.push_back(temp_ingredient);
+    }
+
+    while (std::getline(file_input, temp_string, '\n'))
+    {
+        recipe.instructions.push_back(temp_string);
+    }
+
+    output_recipe = recipe;
+    Reset();
+    return ERROR_SUCCESS;
+}
+
+int File_Manager::Write_Recipe(const std::string path, const struct Recipe &output_recipe)
+{
+    std::filesystem::path out_path(path);
+    if (std::filesystem::exists(out_path)) return ERROR_FILE_EXISTS;
+
+    file_output.open(path);
+    if (!file_output.is_open()) return ERROR_OPEN_FAILED;
+
+    if (output_recipe.name == "") return ERROR_INVALID_DATA;
+    output_buffer.push_back(output_recipe.name + "\n\n");
+
+    for (uint64_t i = 0; i < output_recipe.ingredients.size(); i += 1)
+    {
+        if (output_recipe.ingredients.at(i).amount_s == "") return ERROR_INVALID_DATA;
+        if (output_recipe.ingredients.at(i).unit == "") return ERROR_INVALID_DATA;
+
+        output_buffer.push_back(output_recipe.ingredients.at(i).amount_s + ' ' + 
+                                output_recipe.ingredients.at(i).unit + '\n');
+    }
+
+    for (uint64_t i = 0; i < output_recipe.instructions.size(); i += 1)
+    {
+        if (output_recipe.instructions.at(i) == "") return ERROR_INVALID_DATA;
+        output_buffer.push_back(output_recipe.instructions.at(i) + '\n');
+    }
+
+    for (uint64_t i = 0; i < output_buffer.size(); i += 1)
+    {
+        file_output << output_buffer.front();
+        output_buffer.pop_front();
+    }
+
+    Reset();
+    return ERROR_SUCCESS;
 }
