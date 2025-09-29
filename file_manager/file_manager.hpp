@@ -1,7 +1,10 @@
+#pragma once
+
 #include <fstream>
 #include <string>
 #include <list>
 #include <map>
+#include <vector>
 
 struct Ingredient
 {
@@ -36,7 +39,9 @@ class File_Manager
         void Reset(void);
     public:
         File_Manager();
-
+        ~File_Manager();
+        void print_recipe(const struct Recipe&);
+        
         int Read_Recipe(const std::string, struct Recipe&); // This will read a .rcp file
         int Write_Recipe(const std::string, const struct Recipe&); // This will write to a .rcp file
 };

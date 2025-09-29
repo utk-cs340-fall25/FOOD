@@ -1,19 +1,23 @@
 #include "file_manager.hpp"
+#include "../error_handlers/error.hpp"
+
 #include <iostream>
 #include <cstdint>
 #include <cctype>
 #include <string>
 #include <filesystem>
 #include <stdexcept>
-#include <winerror.h>
 
 int File_Manager::Write_Recipe(const std::string path, const struct Recipe &output_recipe)
 {
-    std::filesystem::path out_path(path);
-    if (std::filesystem::exists(out_path)) return ERROR_FILE_EXISTS;
-
+    if (path.substr(path.length() - 4, 4) != ".rcp") return ERROR_BAD_EXTENSION;
+    
     file_output.open(path);
-    if (!file_output.is_open()) return ERROR_OPEN_FAILED;
+    if (!file_output.is_open())
+    {
+        if (!std::filesystem::exists(path)) return ERROR_FILE_NOT_FOUND;
+        else return ERROR_OPEN_FAILED;
+    }
 
     if (output_recipe.name == "") return ERROR_INVALID_DATA;
     output_buffer.push_back(to_lower(output_recipe.name) + "\n\n");

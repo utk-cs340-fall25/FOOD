@@ -1,4 +1,8 @@
 #include "file_manager.hpp"
+#include "../error_handlers/error.hpp"
+
+#include <iostream>
+#include <cstdint>
 
 std::string to_lower(std::string string)
 {
@@ -12,6 +16,14 @@ std::string to_lower(std::string string)
     return output;
 };
 
+File_Manager::File_Manager()
+{
+    Reset();
+}
+File_Manager::~File_Manager()
+{
+    Reset();
+}
 void File_Manager::Reset(void)
 {
     file_input.close();
@@ -23,4 +35,25 @@ void File_Manager::Reset(void)
     rcp_name.clear();
 
     return;
+}
+void File_Manager::print_recipe(const struct Recipe& recipe)
+{
+    output_buffer.push_back(to_lower(recipe.name) + "\n\n");
+
+    for (uint64_t i = 0; i < recipe.ingredients.size(); i += 1)
+    {
+        output_buffer.push_back(recipe.ingredients.at(i).amount_s + ' ' + 
+                                recipe.ingredients.at(i).unit + '\n');
+    }
+
+    for (uint64_t i = 0; i < recipe.instructions.size(); i += 1)
+    {
+        output_buffer.push_back(recipe.instructions.at(i) + '\n');
+    }
+
+    for (uint64_t i = 0; i < output_buffer.size(); i += 1)
+    {
+        std::cout << output_buffer.front();
+        output_buffer.pop_front();
+    }
 }
