@@ -9,6 +9,8 @@
 #include <map>
 #include <QString>
 #include <QTextEdit>
+#include <QPushButton>
+#include <QLineEdit>
 
 using namespace Qt;
 using namespace std;
@@ -21,6 +23,8 @@ int main(int argc, char *argv[])
     QListWidget *selection = new QListWidget(&input);
     //QLabel *output = new QLabel();
     QTextEdit *output = new QTextEdit(&input);
+    QLineEdit *searchBar = new QLineEdit(&input);
+    QPushButton *enter = new QPushButton("Search");
     map<QString, bool> ingredients;
     map<QString, bool>::iterator iit;
 
@@ -72,7 +76,35 @@ int main(int argc, char *argv[])
         }
     });
 
+    // search function
+    QObject::connect(enter, &QPushButton::clicked, [&]()
+    {
+        // restore search when emtpy
+        if( searchBar->text().isEmpty() )
+        {
+            for( int i = 0; i < selection->count(); i++ )
+            {
+                QListWidgetItem *temp = selection->item(i);
+                temp->setHidden(false);
+
+            }
+        } else
+        {
+            // go thru the list and hide the ones that do not have the search term
+            for( int i = 0; i < selection->count(); i++ )
+            {
+                QListWidgetItem *temp = selection->item(i);
+                if( !( temp->text().contains( searchBar->text() ) ) )
+                {
+                    temp->setHidden(true);
+                }
+            }
+        }
+    });
+
     input.setLayout(layout);
+    layout->addWidget(searchBar);
+    layout->addWidget(enter);
     layout->addWidget(selection);
     layout->addWidget(output);
 
