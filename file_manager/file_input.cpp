@@ -1,5 +1,5 @@
 #include "file_manager.hpp"
-#include "../error_handlers/error.hpp"
+#include "error.hpp"
 
 #include <iostream>
 #include <cstdint>
@@ -8,15 +8,15 @@
 #include <filesystem>
 #include <stdexcept>
 
-int File_Manager::Read_Recipe(const std::string path, struct Recipe &output_recipe)
+int File_Manager::Read_Recipe(const std::string path, struct Recipe& output_recipe)
 {
-    if (path.substr(path.length() - 4, 4) != ".rcp") return ERROR_BAD_EXTENSION;
-    
+    if (path.substr(path.length() - 4, 4) != ".rcp") return STATUS_BAD_EXTENSION;
+
     file_input.open(path);
     if (!file_input.is_open())
     {
-        if (!std::filesystem::exists(path)) return ERROR_FILE_NOT_FOUND;
-        else return ERROR_OPEN_FAILED;
+        if (!std::filesystem::exists(path)) return STATUS_FILE_NOT_FOUND;
+        else return STATUS_OPEN_FAILED;
     }
 
     // File Reading
@@ -34,19 +34,21 @@ int File_Manager::Read_Recipe(const std::string path, struct Recipe &output_reci
         temp_ingredient.name = to_lower(temp_ingredient.name);
         try
         {
-            temp_ingredient.amount_d = std::stod(temp_string, &sz);
+            //temp_ingredient.amount_d = std::stod(temp_string, &sz);
         }
-        catch(std::invalid_argument) {return ERROR_INVALID_DATA;}
+        catch (std::invalid_argument) { return STATUS_INVALID_DATA; }
 
         recipe.ingredients.push_back(temp_ingredient);
+        file_input >> temp_string;
     }
 
     while (std::getline(file_input, temp_string, '\n'))
     {
+        if (temp_string.length() == 0) continue;
         recipe.instructions.push_back(temp_string);
     }
 
     output_recipe = recipe;
     Reset();
-    return ERROR_SUCCESS;
+    return STATUS_SUCCESS;
 }

@@ -3,19 +3,20 @@
 #include <map>
 
 #include "file_manager.hpp"
-#include "../error_handlers/error.hpp"
+#include "error.hpp"
 
 std::map <int64_t, std::string> ERROR_MSGS;
 
-void ERROR_LOADER()
+void STATUS_LOADER()
 {
-    ERROR_MSGS[ERROR_SUCCESS] = "Successfuly performed";
-    ERROR_MSGS[ERROR_OPEN_FAILED] = "Invalid permissions";
-    ERROR_MSGS[ERROR_FILE_NOT_FOUND] = "No file found at path";
-    ERROR_MSGS[ERROR_INVALID_DATA] = "Invalid data in file";
-    ERROR_MSGS[ERROR_BAD_ARGUMENTS] = "Invalid arguments were passed";
-    ERROR_MSGS[ERROR_FILE_EXISTS] = "File already exists";
-    
+    ERROR_MSGS[STATUS_SUCCESS] = "Successfuly performed";
+    ERROR_MSGS[STATUS_OPEN_FAILED] = "Invalid permissions";
+    ERROR_MSGS[STATUS_FILE_NOT_FOUND] = "No file found at path";
+    ERROR_MSGS[STATUS_INVALID_DATA] = "Invalid data in file";
+    ERROR_MSGS[STATUS_BAD_ARGUMENTS] = "Invalid arguments were passed";
+    ERROR_MSGS[STATUS_FILE_EXISTS] = "File already exists";
+    ERROR_MSGS[STATUS_BAD_EXTENSION] = "File has an improper extension";
+
     return;
 }
 
@@ -44,9 +45,10 @@ int main(int argc, char* argv[])
     struct Recipe rcp;
 
     int64_t status;
+    STATUS_LOADER();
 
     status = fm.Read_Recipe(argv[1], rcp);
-    if (status != ERROR_SUCCESS)
+    if (status != STATUS_SUCCESS)
     {
         Error_Printer(status, "Read_Recipe");
         return 1;
@@ -54,10 +56,25 @@ int main(int argc, char* argv[])
 
     fm.print_recipe(rcp);
 
-    status = fm.Write_Recipe(argv[1], rcp);
-    if (status != ERROR_SUCCESS)
+    status = fm.Write_Recipe(argv[2], rcp, false);
+    if (status != STATUS_SUCCESS)
     {
-        Error_Printer(status, "Read_Recipe");
+        if (status == STATUS_FILE_EXISTS)
+        {
+            char ans;
+            std::cout << "Do you wish to overwrite the file located at the path? (y/n)";
+            std::cin >> ans;
+            if (ans == 'y')
+            {
+                status = fm.Write_Recipe(argv[2], rcp, true);
+                if (status != STATUS_SUCCESS)
+                {
+                    Error_Printer(status, "Write_Recipe");
+                    return 1;
+                }
+            }
+        }
+        Error_Printer(status, "Write_Recipe");
         return 1;
     }
 

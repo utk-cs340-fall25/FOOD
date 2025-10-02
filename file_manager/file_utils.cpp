@@ -1,5 +1,5 @@
 #include "file_manager.hpp"
-#include "../error_handlers/error.hpp"
+#include "error.hpp"
 
 #include <iostream>
 #include <cstdint>
@@ -24,7 +24,7 @@ File_Manager::~File_Manager()
 {
     Reset();
 }
-void File_Manager::Reset(void)
+void File_Manager::Reset()
 {
     file_input.close();
     file_output.close();
@@ -42,8 +42,9 @@ void File_Manager::print_recipe(const struct Recipe& recipe)
 
     for (uint64_t i = 0; i < recipe.ingredients.size(); i += 1)
     {
-        output_buffer.push_back(recipe.ingredients.at(i).amount_s + ' ' + 
-                                recipe.ingredients.at(i).unit + '\n');
+        output_buffer.push_back(recipe.ingredients.at(i).amount_s + ' ' +
+            recipe.ingredients.at(i).unit + ' ' +
+            recipe.ingredients.at(i).name + '\n');
     }
 
     for (uint64_t i = 0; i < recipe.instructions.size(); i += 1)
@@ -56,4 +57,7 @@ void File_Manager::print_recipe(const struct Recipe& recipe)
         std::cout << output_buffer.front();
         output_buffer.pop_front();
     }
+
+    Reset();
+    return;
 }
