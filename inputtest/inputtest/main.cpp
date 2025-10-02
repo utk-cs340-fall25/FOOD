@@ -6,8 +6,14 @@
 #include <QListWidgetItem>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <map>
+#include <QString>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QLineEdit>
 
 using namespace Qt;
+using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -15,32 +21,90 @@ int main(int argc, char *argv[])
     Input input;
     QVBoxLayout *layout = new QVBoxLayout(&input);
     QListWidget *selection = new QListWidget(&input);
-    QLabel *output = new QLabel();
+    //QLabel *output = new QLabel();
+    QTextEdit *output = new QTextEdit(&input);
+    QLineEdit *searchBar = new QLineEdit(&input);
+    QPushButton *enter = new QPushButton("Search");
+    map<QString, bool> ingredients;
+    map<QString, bool>::iterator iit;
 
-    QListWidgetItem *item1 = new QListWidgetItem("Zucchini", selection);
-    item1->setFlags(item1->flags() | ItemIsUserCheckable);
-    item1->setCheckState(Unchecked);
+    // temporary map fillings
+    ingredients["Zucchini"] = false;
+    ingredients["Salt"] = false;
+    ingredients["Oil"] = false;
+
+    // temporary list fillings
+    QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
+    item3->setFlags(item3->flags() | ItemIsUserCheckable);
+    item3->setCheckState(Unchecked);
 
     QListWidgetItem *item2 = new QListWidgetItem("Salt", selection);
     item2->setFlags(item2->flags() | ItemIsUserCheckable);
     item2->setCheckState(Unchecked);
 
-    QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
-    item3->setFlags(item3->flags() | ItemIsUserCheckable);
-    item3->setCheckState(Unchecked);
+    QListWidgetItem *item1 = new QListWidgetItem("Zucchini", selection);
+    item1->setFlags(item1->flags() | ItemIsUserCheckable);
+    item1->setCheckState(Unchecked);
 
+    // for the list of ingridents had & set default text
+    output->setReadOnly(true);
+    output->setText("Ingredients Owned:");
+
+    // checkbox selection
     QObject::connect(selection, &QListWidget::itemChanged, [&](const QListWidgetItem *item)
     {
         if(item->checkState() == Checked)
         {
-            output->setText(item->text());
+            // checked ingrident had
+            ingredients[item->text()] = true;
         } else
         {
-            output->setText("No " + item->text() + " :(");
+            // unchecked ingrident no had
+            ingredients[item->text()] = false;
+        }
+
+        // outputting the list of ingredients we have
+        output->clear();
+        output->append("Ingredients Owned:");
+        for( iit = ingredients.begin(); iit != ingredients.end(); iit++)
+        {
+            // if we have it, add it on
+            if( iit->second == true )
+            {
+                output->append(iit->first);
+            }
+        }
+    });
+
+    // search function
+    QObject::connect(enter, &QPushButton::clicked, [&]()
+    {
+        // restore search when emtpy
+        if( searchBar->text().isEmpty() )
+        {
+            for( int i = 0; i < selection->count(); i++ )
+            {
+                QListWidgetItem *temp = selection->item(i);
+                temp->setHidden(false);
+
+            }
+        } else
+        {
+            // go thru the list and hide the ones that do not have the search term
+            for( int i = 0; i < selection->count(); i++ )
+            {
+                QListWidgetItem *temp = selection->item(i);
+                if( !( temp->text().contains( searchBar->text() ) ) )
+                {
+                    temp->setHidden(true);
+                }
+            }
         }
     });
 
     input.setLayout(layout);
+    layout->addWidget(searchBar);
+    layout->addWidget(enter);
     layout->addWidget(selection);
     layout->addWidget(output);
 
