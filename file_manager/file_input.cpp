@@ -7,9 +7,11 @@
 #include <string>
 #include <filesystem>
 #include <stdexcept>
+#include <cctype>
 
 int File_Manager::Read_Recipe(const std::string path, struct Recipe& output_recipe)
 {
+    Reset();
     if (path.substr(path.length() - 4, 4) != ".rcp") return STATUS_BAD_EXTENSION;
 
     file_input.open(path);
@@ -25,8 +27,9 @@ int File_Manager::Read_Recipe(const std::string path, struct Recipe& output_reci
 
     file_input >> recipe.name;
     recipe.name = to_lower(recipe.name);
+    temp_string.resize(1);
 
-    while (to_lower(temp_string) != "instructions")
+    while (to_lower(temp_string) != "i")
     {
         std::string::size_type sz;
         struct Ingredient temp_ingredient;
@@ -39,9 +42,18 @@ int File_Manager::Read_Recipe(const std::string path, struct Recipe& output_reci
         catch (std::invalid_argument) { return STATUS_INVALID_DATA; }
 
         recipe.ingredients.push_back(temp_ingredient);
-        file_input >> temp_string;
+        
+        char temp_char = file_input.peek();
+        while (isspace((int)temp_char))
+        {
+            file_input >> std::noskipws >> temp_char;
+            temp_char = file_input.peek();
+        }
+        
+        temp_string.at(0) = temp_char;
     }
 
+    std::getline(file_input, temp_string, '\n');
     while (std::getline(file_input, temp_string, '\n'))
     {
         if (temp_string.length() == 0) continue;

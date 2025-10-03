@@ -10,6 +10,7 @@
 
 int File_Manager::Write_Recipe(const std::string path, const struct Recipe& output_recipe, bool overwrite)
 {
+    Reset();
     if (path.substr(path.length() - 4, 4) != ".rcp") return STATUS_BAD_EXTENSION;
     if (std::filesystem::exists(path) && !overwrite) return STATUS_FILE_EXISTS;
 
@@ -42,7 +43,7 @@ int File_Manager::Write_Recipe(const std::string path, const struct Recipe& outp
         output_buffer.push_back(output_recipe.instructions.at(i) + '\n');
     }
 
-    for (uint64_t i = 0; i < output_buffer.size(); i += 1)
+    while (output_buffer.size() > 0)
     {
         file_output << output_buffer.front();
         output_buffer.pop_front();

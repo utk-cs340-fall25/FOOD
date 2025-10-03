@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     File_Manager fm;
     struct Recipe rcp;
 
-    int64_t status;
+    uint64_t status;
     STATUS_LOADER();
 
     status = fm.Read_Recipe(argv[1], rcp);
@@ -57,23 +57,23 @@ int main(int argc, char* argv[])
     fm.print_recipe(rcp);
 
     status = fm.Write_Recipe(argv[2], rcp, false);
-    if (status != STATUS_SUCCESS)
+    if (status == STATUS_FILE_EXISTS)
     {
-        if (status == STATUS_FILE_EXISTS)
+        char ans;
+        std::cout << "Do you wish to overwrite the file located at the path? (y/n)";
+        std::cin >> ans;
+        if (ans == 'y')
         {
-            char ans;
-            std::cout << "Do you wish to overwrite the file located at the path? (y/n)";
-            std::cin >> ans;
-            if (ans == 'y')
+            status = fm.Write_Recipe(argv[2], rcp, true);
+            if (status != STATUS_SUCCESS)
             {
-                status = fm.Write_Recipe(argv[2], rcp, true);
-                if (status != STATUS_SUCCESS)
-                {
-                    Error_Printer(status, "Write_Recipe");
-                    return 1;
-                }
+                Error_Printer(status, "Write_Recipe");
+                return 1;
             }
         }
+    }
+    else if (status != STATUS_SUCCESS)
+    {
         Error_Printer(status, "Write_Recipe");
         return 1;
     }

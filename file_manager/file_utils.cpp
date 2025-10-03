@@ -47,12 +47,14 @@ void File_Manager::print_recipe(const struct Recipe& recipe)
             recipe.ingredients.at(i).name + '\n');
     }
 
+    output_buffer.push_back("\ninstructions\n");
+
     for (uint64_t i = 0; i < recipe.instructions.size(); i += 1)
     {
         output_buffer.push_back(recipe.instructions.at(i) + '\n');
     }
 
-    for (uint64_t i = 0; i < output_buffer.size(); i += 1)
+    while (output_buffer.size() > 0)
     {
         std::cout << output_buffer.front();
         output_buffer.pop_front();
