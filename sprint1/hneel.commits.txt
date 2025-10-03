@@ -1,0 +1,113 @@
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   1) #include "input.h"
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   2) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   3) #include <QApplication>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   4) #include <QWidget>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   5) #include <QListWidget>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   6) #include <QListWidgetItem>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   7) #include <QVBoxLayout>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400   8) #include <QLabel>
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400   9) #include <map>
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  10) #include <QString>
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  11) #include <QTextEdit>
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  12) #include <QPushButton>
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  13) #include <QLineEdit>
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  14) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  15) using namespace Qt;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  16) using namespace std;
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  17) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  18) int main(int argc, char *argv[])
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  19) {
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  20)     QApplication a(argc, argv);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  21)     Input input;
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  22)     QVBoxLayout *layout = new QVBoxLayout(&input);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  23)     QListWidget *selection = new QListWidget(&input);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  24)     //QLabel *output = new QLabel();
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  25)     QTextEdit *output = new QTextEdit(&input);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  26)     QLineEdit *searchBar = new QLineEdit(&input);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  27)     QPushButton *enter = new QPushButton("Search");
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  28)     map<QString, bool> ingredients;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  29)     map<QString, bool>::iterator iit;
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  30) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  31)     // temporary map fillings
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  32)     ingredients["Zucchini"] = false;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  33)     ingredients["Salt"] = false;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  34)     ingredients["Oil"] = false;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  35) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  36)     // temporary list fillings
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  37)     QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  38)     item3->setFlags(item3->flags() | ItemIsUserCheckable);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  39)     item3->setCheckState(Unchecked);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  40) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  41)     QListWidgetItem *item2 = new QListWidgetItem("Salt", selection);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  42)     item2->setFlags(item2->flags() | ItemIsUserCheckable);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  43)     item2->setCheckState(Unchecked);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  44) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  45)     QListWidgetItem *item1 = new QListWidgetItem("Zucchini", selection);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  46)     item1->setFlags(item1->flags() | ItemIsUserCheckable);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  47)     item1->setCheckState(Unchecked);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  48) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  49)     // for the list of ingridents had & set default text
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  50)     output->setReadOnly(true);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  51)     output->setText("Ingredients Owned:");
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  52) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  53)     // checkbox selection
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  54)     QObject::connect(selection, &QListWidget::itemChanged, [&](const QListWidgetItem *item)
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  55)     {
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  56)         if(item->checkState() == Checked)
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  57)         {
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  58)             // checked ingrident had
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  59)             ingredients[item->text()] = true;
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  60)         } else
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  61)         {
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  62)             // unchecked ingrident no had
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  63)             ingredients[item->text()] = false;
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  64)         }
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  65) 
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  66)         // outputting the list of ingredients we have
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  67)         output->clear();
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  68)         output->append("Ingredients Owned:");
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  69)         for( iit = ingredients.begin(); iit != ingredients.end(); iit++)
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  70)         {
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  71)             // if we have it, add it on
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  72)             if( iit->second == true )
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  73)             {
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  74)                 output->append(iit->first);
+2953b1fb (Ro Neel 2025-10-01 20:01:57 -0400  75)             }
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  76)         }
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  77)     });
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400  78) 
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  79)     // search function
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  80)     QObject::connect(enter, &QPushButton::clicked, [&]()
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  81)     {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  82)         // restore search when emtpy
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  83)         if( searchBar->text().isEmpty() )
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  84)         {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  85)             for( int i = 0; i < selection->count(); i++ )
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  86)             {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  87)                 QListWidgetItem *temp = selection->item(i);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  88)                 temp->setHidden(false);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  89) 
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  90)             }
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  91)         } else
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  92)         {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  93)             // go thru the list and hide the ones that do not have the search term
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  94)             for( int i = 0; i < selection->count(); i++ )
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  95)             {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  96)                 QListWidgetItem *temp = selection->item(i);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  97)                 if( !( temp->text().contains( searchBar->text() ) ) )
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  98)                 {
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400  99)                     temp->setHidden(true);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 100)                 }
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 101)             }
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 102)         }
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 103)     });
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 104) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 105)     input.setLayout(layout);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 106)     layout->addWidget(searchBar);
+de37fc60 (Ro Neel 2025-10-01 20:27:42 -0400 107)     layout->addWidget(enter);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 108)     layout->addWidget(selection);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 109)     layout->addWidget(output);
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 110) 
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 111)     input.show();
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 112)     return a.exec();
+24b50afa (Ro Neel 2025-09-23 12:51:32 -0400 113) }
