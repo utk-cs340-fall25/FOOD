@@ -32,19 +32,20 @@ int main(int argc, char *argv[])
     ingredients["Zucchini"] = false;
     ingredients["Salt"] = false;
     ingredients["Oil"] = false;
+    ingredients["Bihon Noodles"] = false;
 
     // temporary list fillings
-    QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
-    item3->setFlags(item3->flags() | ItemIsUserCheckable);
-    item3->setCheckState(Unchecked);
+    //QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
+    //item3->setFlags(item3->flags() | ItemIsUserCheckable);
+    //item3->setCheckState(Unchecked);
 
-    QListWidgetItem *item2 = new QListWidgetItem("Salt", selection);
-    item2->setFlags(item2->flags() | ItemIsUserCheckable);
-    item2->setCheckState(Unchecked);
-
-    QListWidgetItem *item1 = new QListWidgetItem("Zucchini", selection);
-    item1->setFlags(item1->flags() | ItemIsUserCheckable);
-    item1->setCheckState(Unchecked);
+    // dynamically creating the list from the map
+    for(iit = ingredients.begin(); iit != ingredients.end(); iit++)
+    {
+        QListWidgetItem *item = new QListWidgetItem(iit->first, selection);
+        item->setFlags(item->flags() | ItemIsUserCheckable);
+        item->setCheckState(Unchecked);
+    }
 
     // for the list of ingridents had & set default text
     output->setReadOnly(true);
@@ -90,13 +91,16 @@ int main(int argc, char *argv[])
             }
         } else
         {
-            // go thru the list and hide the ones that do not have the search term
+            // go thru the list and hide the ones that do not have the search term & show the ones that do
             for( int i = 0; i < selection->count(); i++ )
             {
                 QListWidgetItem *temp = selection->item(i);
                 if( !( temp->text().contains( searchBar->text() ) ) )
                 {
                     temp->setHidden(true);
+                } else
+                {
+                    temp->setHidden(false);
                 }
             }
         }
@@ -109,5 +113,22 @@ int main(int argc, char *argv[])
     layout->addWidget(output);
 
     input.show();
+
+    // freeing on quit
+    QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
+    {
+        for( int i = 0; i < selection->count(); i++ )
+        {
+            QListWidgetItem *temp = selection->item(i);
+            delete temp;
+        }
+
+        delete enter;
+        delete searchBar;
+        delete output;
+        delete selection;
+        delete layout;
+    });
+
     return a.exec();
 }
