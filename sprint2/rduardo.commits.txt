@@ -1,0 +1,995 @@
+git ls-files RobsSearchFunc/ | while read file; do
+    git blame -- "$file" | grep "WanabeNecro" >> sprint2/rduardo.commits.txt
+done THE WITCHCRAFT WORKS
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) cmake_minimum_required(VERSION 3.5)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) project(RecipeApp LANGUAGES CXX)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) set(CMAKE_CXX_STANDARD 17)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) set(CMAKE_CXX_STANDARD_REQUIRED ON)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) # Enable Qt's automatic processing
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) set(CMAKE_AUTOMOC ON)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) set(CMAKE_AUTORCC ON)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) set(CMAKE_AUTOUIC ON)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) # Find Qt (Qt6 version)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) find_package(Qt6 REQUIRED COMPONENTS Widgets)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) # Define sources
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) set(SOURCES
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18)     main.cpp
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19)     mainwindow.cpp
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) )
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22) set(HEADERS
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23)     mainwindow.h
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24) )
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26) set(UI_FILES
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27)     mainwindow.ui
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28) )
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 30) # Create the executable
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 31) add_executable(${PROJECT_NAME}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 32)     ${SOURCES}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 33)     ${HEADERS}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34)     ${UI_FILES}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 35) )
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 36) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37) # Link with Qt libraries
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38) target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 40) # --- Auto-copy recipes.txt to build folder ---
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 41) add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 42)     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 43)         ${CMAKE_SOURCE_DIR}/recipes.txt
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 44)         $<TARGET_FILE_DIR:${PROJECT_NAME}>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 45) )
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   1) <?xml version="1.0" encoding="UTF-8"?>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   2) <!DOCTYPE QtCreatorProject>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   3) <!-- Written by QtCreator 17.0.1, 2025-10-13T19:32:48. -->
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   4) <qtcreator>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   5)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   6)   <variable>EnvironmentId</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   7)   <value type="QByteArray">{ca5bab3f-532b-4d4c-805a-f0321ae7976d}</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   8)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   9)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  10)   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  11)   <value type="qlonglong">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  12)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  13)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  14)   <variable>ProjectExplorer.Project.EditorSettings</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  15)   <valuemap type="QVariantMap">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  16)    <value type="bool" key="EditorConfiguration.AutoDetect">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  17)    <value type="bool" key="EditorConfiguration.AutoIndent">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  18)    <value type="bool" key="EditorConfiguration.CamelCaseNavigation">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  19)    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  20)     <value type="QString" key="language">Cpp</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  21)     <valuemap type="QVariantMap" key="value">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  22)      <value type="QByteArray" key="CurrentPreferences">CppGlobal</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  23)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  24)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  25)    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  26)     <value type="QString" key="language">QmlJS</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  27)     <valuemap type="QVariantMap" key="value">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  28)      <value type="QByteArray" key="CurrentPreferences">QmlJSGlobal</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  29)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  30)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  31)    <value type="qlonglong" key="EditorConfiguration.CodeStyle.Count">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  32)    <value type="QByteArray" key="EditorConfiguration.Codec">UTF-8</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  33)    <value type="bool" key="EditorConfiguration.ConstrainTooltips">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  34)    <value type="int" key="EditorConfiguration.IndentSize">4</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  35)    <value type="bool" key="EditorConfiguration.KeyboardTooltips">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  36)    <value type="int" key="EditorConfiguration.LineEndingBehavior">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  37)    <value type="int" key="EditorConfiguration.MarginColumn">80</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  38)    <value type="bool" key="EditorConfiguration.MouseHiding">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  39)    <value type="bool" key="EditorConfiguration.MouseNavigation">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  40)    <value type="int" key="EditorConfiguration.PaddingMode">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  41)    <value type="int" key="EditorConfiguration.PreferAfterWhitespaceComments">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  42)    <value type="bool" key="EditorConfiguration.PreferSingleLineComments">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  43)    <value type="bool" key="EditorConfiguration.ScrollWheelZooming">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  44)    <value type="bool" key="EditorConfiguration.ShowMargin">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  45)    <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  46)    <value type="bool" key="EditorConfiguration.SmartSelectionChanging">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  47)    <value type="bool" key="EditorConfiguration.SpacesForTabs">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  48)    <value type="int" key="EditorConfiguration.TabKeyBehavior">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  49)    <value type="int" key="EditorConfiguration.TabSize">8</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  50)    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  51)    <value type="bool" key="EditorConfiguration.UseIndenter">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  52)    <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  53)    <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  54)    <value type="bool" key="EditorConfiguration.cleanIndentation">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  55)    <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  56)    <value type="QString" key="EditorConfiguration.ignoreFileTypes">*.md, *.MD, Makefile</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  57)    <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  58)    <value type="bool" key="EditorConfiguration.skipTrailingWhitespace">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  59)    <value type="bool" key="EditorConfiguration.tintMarginArea">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  60)   </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  61)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  62)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  63)   <variable>ProjectExplorer.Project.PluginSettings</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  64)   <valuemap type="QVariantMap">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  65)    <valuemap type="QVariantMap" key="AutoTest.ActiveFrameworks">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  66)     <value type="bool" key="AutoTest.Framework.Boost">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  67)     <value type="bool" key="AutoTest.Framework.CTest">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  68)     <value type="bool" key="AutoTest.Framework.Catch">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  69)     <value type="bool" key="AutoTest.Framework.GTest">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  70)     <value type="bool" key="AutoTest.Framework.QtQuickTest">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  71)     <value type="bool" key="AutoTest.Framework.QtTest">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  72)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  73)    <value type="bool" key="AutoTest.ApplyFilter">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  74)    <valuemap type="QVariantMap" key="AutoTest.CheckStates"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  75)    <valuelist type="QVariantList" key="AutoTest.PathFilters"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  76)    <value type="int" key="AutoTest.RunAfterBuild">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  77)    <value type="bool" key="AutoTest.UseGlobal">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  78)    <valuemap type="QVariantMap" key="ClangTools">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  79)     <value type="bool" key="ClangTools.AnalyzeOpenFiles">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  80)     <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  81)     <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.DefaultTidyAndClazy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  82)     <value type="int" key="ClangTools.ParallelJobs">6</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  83)     <value type="bool" key="ClangTools.PreferConfigFile">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  84)     <valuelist type="QVariantList" key="ClangTools.SelectedDirs"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  85)     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  86)     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  87)     <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  88)    </valuemap>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  89)    <valuemap type="QVariantMap" key="ClangdSettings">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  90)     <value type="bool" key="blockIndexing">false</value>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  91)     <value type="bool" key="useGlobalSettings">true</value>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  92)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  93)   </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  94)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  95)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  96)   <variable>ProjectExplorer.Project.Target.0</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  97)   <valuemap type="QVariantMap">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  98)    <value type="QString" key="DeviceType">Desktop</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  99)    <value type="bool" key="HasPerBcDcs">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 100)    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.9.2 MinGW 64-bit</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 101)    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.9.2 MinGW 64-bit</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 102)    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt6.692.win64_mingw_kit</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 103)    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 104)    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 105)    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 106)    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 107)     <value type="QString" key="CMake.Build.Type">Debug</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 108)     <value type="int" key="CMake.Configure.BaseEnvironment">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 109)     <value type="bool" key="CMake.Configure.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 110)     <valuelist type="QVariantList" key="CMake.Configure.UserEnvironmentChanges"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 111)     <value type="QString" key="CMake.Initial.Parameters">-DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 112) -DCMAKE_PREFIX_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 113) -DQT_QMAKE_EXECUTABLE:FILEPATH=%{Qt:qmakeExecutable}
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 114) -DCMAKE_COLOR_DIAGNOSTICS:BOOL=ON
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 115) -DCMAKE_BUILD_TYPE:STRING=Debug
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 116) -DCMAKE_GENERATOR:STRING=Ninja
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 117) -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 118) -DCMAKE_C_COMPILER:FILEPATH=%{Compiler:Executable:C}
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 119) -DCMAKE_PROJECT_INCLUDE_BEFORE:FILEPATH=%{BuildConfig:BuildDirectory:NativeFilePath}/.qtc/package-manager/auto-setup.cmake
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 120) -DQT_MAINTENANCE_TOOL:FILEPATH=C:/Qt/MaintenanceTool.exe</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 121)     <value type="int" key="EnableQmlDebugging">0</value>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 122)     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Duard\Documents\FOOD\build\Desktop_Qt_6_9_2_MinGW_64_bit-Debug</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 123)     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 124)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 125)       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 126)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 127)        <value type="QString">all</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 128)       </valuelist>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 129)       <value type="bool" key="CMakeProjectManager.MakeStep.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 130)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.UserEnvironmentChanges"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 131)       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 132)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 133)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 134)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 135)      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 136)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Build</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 137)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 138)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 139)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 140)     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 141)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 142)       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 143)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 144)        <value type="QString">clean</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 145)       </valuelist>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 146)       <value type="bool" key="CMakeProjectManager.MakeStep.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 147)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.UserEnvironmentChanges"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 148)       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 149)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 150)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.MakeStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 151)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 152)      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 153)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Clean</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 154)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Clean</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 155)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Clean</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 156)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 157)     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 158)     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 159)     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.CustomParsers"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 160)     <value type="bool" key="ProjectExplorer.BuildConfiguration.ParseStandardOutput">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 161)     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 162)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Debug</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 163)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeBuildConfiguration</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 164)     <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 165)     <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 166)     <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 167)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 168)       <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 169)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 170)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 171)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 172)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 173)      <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 174)      <valuemap type="QVariantMap" key="ProjectExplorer.DeployConfiguration.CustomData"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 175)      <value type="bool" key="ProjectExplorer.DeployConfiguration.CustomDataEnabled">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 176)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.DefaultDeployConfiguration</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 177)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 178)     <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 179)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 180)       <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 181)        <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 182)        <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 183)         <value type="QString"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 184)        </valuelist>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 185)        <value type="bool" key="CMakeProjectManager.MakeStep.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 186)        <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.UserEnvironmentChanges"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 187)        <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 188)        <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.CMakePackageStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 189)       </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 190)       <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 191)        <value type="QString" key="ApplicationManagerPlugin.Deploy.InstallPackageStep.Arguments">install-package --acknowledge</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 192)        <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 193)        <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Install Application Manager package</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 194)        <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.InstallPackageStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 195)        <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedFiles"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 196)        <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedHosts"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 197)        <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedRemotePaths"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 198)        <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedSysroots"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 199)        <valuelist type="QVariantList" key="RemoteLinux.LastDeployedLocalTimes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 200)        <valuelist type="QVariantList" key="RemoteLinux.LastDeployedRemoteTimes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 201)       </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 202)       <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 203)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 204)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 205)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 206)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 207)      <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 208)      <valuemap type="QVariantMap" key="ProjectExplorer.DeployConfiguration.CustomData"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 209)      <value type="bool" key="ProjectExplorer.DeployConfiguration.CustomDataEnabled">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 210)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.Configuration</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 211)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 212)     <value type="qlonglong" key="ProjectExplorer.Target.DeployConfigurationCount">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 213)     <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 214)      <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 215)      <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 216)      <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 217)      <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 218)      <valuelist type="QVariantList" key="CustomOutputParsers"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 219)      <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 220)      <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 221)      <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 222)      <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 223)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">RecipeApp</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 224)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 225)      <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">RecipeApp</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 226)      <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 227)      <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 228)      <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 229)      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 230)      <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Duard/Documents/FOOD/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 231)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 232)     <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 233)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 234)    <value type="qlonglong" key="ProjectExplorer.Target.BuildConfigurationCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 235)    <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 236)     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 237)      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 238)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 239)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 240)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 241)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 242)     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 243)     <valuemap type="QVariantMap" key="ProjectExplorer.DeployConfiguration.CustomData"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 244)     <value type="bool" key="ProjectExplorer.DeployConfiguration.CustomDataEnabled">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 245)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.DefaultDeployConfiguration</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 246)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 247)    <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 248)     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 249)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 250)       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 251)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 252)        <value type="QString"></value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 253)       </valuelist>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 254)       <value type="bool" key="CMakeProjectManager.MakeStep.ClearSystemEnvironment">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 255)       <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.UserEnvironmentChanges"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 256)       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 257)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.CMakePackageStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 258)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 259)      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 260)       <value type="QString" key="ApplicationManagerPlugin.Deploy.InstallPackageStep.Arguments">install-package --acknowledge</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 261)       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 262)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Install Application Manager package</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 263)       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.InstallPackageStep</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 264)       <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedFiles"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 265)       <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedHosts"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 266)       <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedRemotePaths"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 267)       <valuelist type="QVariantList" key="ProjectExplorer.RunConfiguration.LastDeployedSysroots"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 268)       <valuelist type="QVariantList" key="RemoteLinux.LastDeployedLocalTimes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 269)       <valuelist type="QVariantList" key="RemoteLinux.LastDeployedRemoteTimes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 270)      </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 271)      <value type="qlonglong" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 272)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 273)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 274)      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Deploy</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 275)     </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 276)     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 277)     <valuemap type="QVariantMap" key="ProjectExplorer.DeployConfiguration.CustomData"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 278)     <value type="bool" key="ProjectExplorer.DeployConfiguration.CustomDataEnabled">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 279)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ApplicationManagerPlugin.Deploy.Configuration</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 280)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 281)    <value type="qlonglong" key="ProjectExplorer.Target.DeployConfigurationCount">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 282)    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 283)     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 284)     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 285)     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 286)     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 287)     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 288)     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 289)     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 290)     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 291)     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 292)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">RecipeApp</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 293)     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 294)     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">RecipeApp</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 295)     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 296)     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 297)     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 298)     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 299)     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Duard/Documents/FOOD/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 300)    </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 301)    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 302)   </valuemap>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 303)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 304)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 305)   <variable>ProjectExplorer.Project.TargetCount</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 306)   <value type="qlonglong">1</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 307)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 308)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 309)   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 310)   <value type="int">22</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 311)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 312)  <data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 313)   <variable>Version</variable>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 314)   <value type="int">22</value>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 315)  </data>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 316) </qtcreator>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 1) <?xml version="1.0" encoding="utf-8"?>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 2) <!DOCTYPE TS>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 3) <TS version="2.1" language="en_US"></TS>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 1) <?xml version="1.0" encoding="utf-8"?>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 2) <!DOCTYPE TS>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 3) <TS version="2.1" language="en_US"></TS>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) #include "additemdialog.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) #include "ui_additemdialog.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) AddItemDialog::AddItemDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AddItemDialog) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) ui->setupUi(this);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) AddItemDialog::~AddItemDialog() { delete ui; }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) void AddItemDialog::setInitial(const InventoryItem &it) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) ui->nameLineEdit->setText(it.name);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) ui->qtySpin->setValue(it.qty);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) ui->unitLineEdit->setText(it.unit);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) ui->tagsLineEdit->setText(it.tags.join(", "));
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21) InventoryItem AddItemDialog::resultItem() const {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22) InventoryItem it;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23) it.name = ui->nameLineEdit->text().trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24) it.qty = ui->qtySpin->value();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25) it.unit = ui->unitLineEdit->text().trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26) QStringList tags = ui->tagsLineEdit->text().split(',', Qt::SkipEmptyParts);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27) for (auto &t : tags) it.tags.append(t.trimmed().toLower());
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28) return it;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) #pragma once
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) #include <QDialog>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) #include "inventorymodel.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) namespace Ui { class AddItemDialog; }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) class AddItemDialog : public QDialog {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) Q_OBJECT
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) public:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) explicit AddItemDialog(QWidget* parent = nullptr);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) ~AddItemDialog() override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) void setInitial(const InventoryItem &it);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) InventoryItem resultItem() const;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) private:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19) Ui::AddItemDialog *ui;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) };
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) <?xml version="1.0" encoding="UTF-8"?>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) <item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) <layout class="QFormLayout" name="formLayout">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) <item row="0" column="0">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) <widget class="QLabel" name="labelName">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) <property name="text">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) <string>Name</string>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) <item row="0" column="1">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) <widget class="QLineEdit" name="nameLineEdit"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) <item row="1" column="0">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) <widget class="QLabel" name="labelQty">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) <property name="text">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) <string>Quantity</string>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21) <item row="1" column="1">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22) <widget class="QDoubleSpinBox" name="qtySpin">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23) <property name="minimum">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24) <double>0</double>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26) <property name="maximum">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27) <double>1000000</double>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 30) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 31) <item row="2" column="0">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 32) <widget class="QLabel" name="labelUnit">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 33) <property name="text">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34) <string>Unit</string>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 35) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 36) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38) <item row="2" column="1">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39) <widget class="QLineEdit" name="unitLineEdit"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 40) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 41) <item row="3" column="0">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 42) <widget class="QLabel" name="labelTags">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 43) <property name="text">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 44) <string>Tags (comma separated)</string>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 45) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 46) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 47) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 48) <item row="3" column="1">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 49) <widget class="QLineEdit" name="tagsLineEdit"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 50) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 51) </layout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 52) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 53) <item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 54) <widget class="QDialogButtonBox" name="buttonBox">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 55) <property name="orientation">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 56) <enum>Qt::Horizontal</enum>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 57) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 58) <property name="standardButtons">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 59) <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 60) </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 61) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 62) </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 63) </layout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 64) </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 65) <resources/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 66) <connections/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 67) </ui>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 1) #include "inventorymodel.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 2) #include <QJsonObject>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 3) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 4) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 5) InventoryModel::InventoryMo
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 6) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) #pragma once
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) #include <QAbstractTableModel>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) #include <QVector>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) #include <QJsonArray>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) struct InventoryItem {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) QString name;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) double qty{0.0};
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) QString unit;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) QStringList tags;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) };
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) class InventoryModel : public QAbstractTableModel {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) Q_OBJECT
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) public:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) explicit InventoryModel(QObject* parent = nullptr);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19) int rowCount(const QModelIndex &parent = {}) const override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) int columnCount(const QModelIndex &parent = {}) const override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21) QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22) QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23) Qt::ItemFlags flags(const QModelIndex &index) const override;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26) void addItem(const InventoryItem &it);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27) void removeRowAt(int row);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28) void updateItem(int row, const InventoryItem &it);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29) const InventoryItem &itemAt(int row) const;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 30) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 31) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 32) QJsonArray toJson() const;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 33) void fromJson(const QJsonArray &arr);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34) int findByName(const QString &name) const;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 35) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 36) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37) private:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38) QVector<InventoryItem> m_items;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39) };
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) #include "mainwindow.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) #include <QApplication>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) int main(int argc, char *argv[])
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6)     QApplication a(argc, argv);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7)     MainWindow w;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8)     w.setWindowTitle("RecipeApp");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9)     w.show();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10)     return a.exec();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400   1) #include "mainwindow.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   2) #include "ui_mainwindow.h"
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   3) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   4) #include <QFile>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   5) #include <QTextStream>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   6) #include <QMessageBox>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   7) #include <QDebug>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   8) #include <QStandardItemModel>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400   9) #include <QVBoxLayout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  10) #include <QHBoxLayout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  11) #include <QListWidgetItem>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  12) #include <QComboBox>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  13) #include <QLineEdit>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  14) #include <QLabel>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  15) #include <QTextEdit>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  16) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  17) MainWindow::MainWindow(QWidget *parent)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  18)     : QMainWindow(parent)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  19)     , ui(new Ui::MainWindow)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  20) {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  21)     ui->setupUi(this);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  22) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  23)     // --- Initialize UI elements ---
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  24)     // Search bar for name
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  25)     searchBar = new QLineEdit(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  26)     searchBar->setPlaceholderText("Search by recipe name...");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  27) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  28)     // Region filter
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  29)     regionBox = new QComboBox(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  30)     regionBox->addItem("All Regions");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  31) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  32)     // Tier filter
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  33)     tierBox = new QComboBox(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  34)     tierBox->addItem("All Tiers");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  35)     tierBox->addItem("1 - Very Light");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  36)     tierBox->addItem("2 - Light");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  37)     tierBox->addItem("3 - Medium");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  38)     tierBox->addItem("4 - Hearty");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  39)     tierBox->addItem("5 - Stuffed/Complex");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  40) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  41)     // Recipe list
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  42)     recipeList = new QListWidget(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  43) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  44)     // Details panel
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  45)     detailsTitle = new QLabel("Recipe Name", ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  46)     detailsRegion = new QLabel("Region: ", ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  47)     detailsTier = new QLabel("Tier: ", ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  48)     detailsIngredients = new QTextEdit(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  49)     detailsIngredients->setReadOnly(true);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  50) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  51)     // Layout inside mainContentWidget
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  52)     QVBoxLayout* mainLayout = new QVBoxLayout(ui->mainContentWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  53)     QHBoxLayout* topFiltersLayout = new QHBoxLayout();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  54)     topFiltersLayout->addWidget(searchBar);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  55)     topFiltersLayout->addWidget(regionBox);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  56)     topFiltersLayout->addWidget(tierBox);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  57)     mainLayout->addLayout(topFiltersLayout);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  58)     mainLayout->addWidget(recipeList);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  59)     mainLayout->addWidget(detailsTitle);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  60)     mainLayout->addWidget(detailsRegion);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  61)     mainLayout->addWidget(detailsTier);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  62)     mainLayout->addWidget(detailsIngredients);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  63) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  64)     // --- Load recipes ---
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  65)     loadRecipes();
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  66) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  67)     // Populate ingredientListWidget
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  68)     ingredientListWidget = ui->ingredientListWidget;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  69)     QSet<QString> allIngredients;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  70)     for (const Recipe &r : allRecipes) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  71)         QStringList ingList = r.ingredients.split(",", Qt::SkipEmptyParts);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  72)         for (QString ing : ingList)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  73)             allIngredients.insert(ing.trimmed());
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  74)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  75)     QStringList sortedIngredients = allIngredients.values();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  76)     sortedIngredients.sort();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  77)     for (const QString &ing : sortedIngredients) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  78)         QListWidgetItem *item = new QListWidgetItem(ing, ingredientListWidget);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  79)         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  80)         item->setCheckState(Qt::Unchecked);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  81)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  82) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  83)     // --- Connections ---
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  84)     connect(searchBar, &QLineEdit::textChanged, this, &MainWindow::updateFilter);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  85)     connect(regionBox, &QComboBox::currentTextChanged, this, &MainWindow::updateFilter);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  86)     connect(tierBox, &QComboBox::currentTextChanged, this, &MainWindow::updateFilter);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  87)     connect(ingredientListWidget, &QListWidget::itemChanged, this, &MainWindow::updateFilter);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  88)     connect(recipeList, &QListWidget::itemClicked, this, &MainWindow::showRecipeDetails);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  89) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  90)     // Initial display
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  91)     refreshDisplay(allRecipes);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  92) }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  93) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  94) MainWindow::~MainWindow()
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  95) {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  96)     delete ui;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  97) }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  98) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  99) void MainWindow::loadRecipes()
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 100) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 101)     QFile file("recipes.txt");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 102)     if (!file.exists()) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 103)         QMessageBox::warning(this, "File Missing", "recipes.txt not found in project directory.");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 104)         return;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 105)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 106)     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 107)         QMessageBox::warning(this, "Error", "Could not open recipes.txt for reading.");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 108)         return;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 109)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 110) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 111)     QTextStream in(&file);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 112)     allRecipes.clear();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 113) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 114)     // Skip header
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 115)     if (!in.atEnd())
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 116)         in.readLine();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 117) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 118)     while (!in.atEnd()) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 119)         QString line = in.readLine();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 120)         QStringList fields = line.split("|");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 121)         if (fields.size() < 8) continue;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 122) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 123)         Recipe r;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 124)         r.name = fields[0].trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 125)         r.ingredients = fields[1].trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 126)         r.region = fields[6].trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 127)         r.tier = fields[7].trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 128)         allRecipes.append(r);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 129) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 130)         // Add region to regionBox if new
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 131)         if (regionBox->findText(r.region) == -1)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 132)             regionBox->addItem(r.region);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 133)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 134) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 135)     file.close();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 136)     qDebug() << "Loaded" << allRecipes.size() << "recipes.";
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 137) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 138) void MainWindow::resetFilters()
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 139) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 140)     // Example: uncheck all ingredients
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 141)     for (int i = 0; i < ingredientListWidget->count(); ++i) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 142)         ingredientListWidget->item(i)->setCheckState(Qt::Unchecked);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 143)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 144) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 145)     // Reset text and combo boxes
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 146)     searchBar->clear();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 147)     regionBox->setCurrentIndex(0);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 148)     tierBox->setCurrentIndex(0);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 149) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 150)     // Refresh the recipe list
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 151)     refreshDisplay(allRecipes);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 152) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 153) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 154) void MainWindow::updateFilter()
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 155) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 156)     QString searchText = searchBar->text().trimmed();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 157)     QString selectedRegion = regionBox->currentText();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 158)     QString selectedTier = tierBox->currentText();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 159) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 160)     // Collect selected ingredients
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 161)     QStringList selectedIngredients;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 162)     for (int i = 0; i < ingredientListWidget->count(); ++i) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 163)         QListWidgetItem *item = ingredientListWidget->item(i);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 164)         if (item->checkState() == Qt::Checked)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 165)             selectedIngredients.append(item->text());
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 166)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 167) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 168)     QList<Recipe> filtered;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 169)     for (const Recipe &r : allRecipes) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 170)         // Filter by name
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 171)         if (!searchText.isEmpty() && !r.name.contains(searchText, Qt::CaseInsensitive))
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 172)             continue;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 173) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 174)         // Filter by region
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 175)         if (selectedRegion != "All Regions" && r.region != selectedRegion)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 176)             continue;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 177) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 178)         // Filter by tier
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 179)         if (selectedTier != "All Tiers") {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 180)             if (!r.tier.startsWith(selectedTier.left(1))) continue;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 181)         }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 182) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 183)         // Filter by ingredients
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 184)         bool include = true;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 185)         for (const QString &ing : selectedIngredients) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 186)             if (!r.ingredients.contains(ing, Qt::CaseInsensitive)) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 187)                 include = false;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 188)                 break;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 189)             }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 190)         }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 191)         if (!include) continue;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 192) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 193)         filtered.append(r);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 194)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 195) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 196)     refreshDisplay(filtered);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 197) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 198) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 199) void MainWindow::refreshDisplay(const QList<Recipe> &recipes)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 200) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 201)     recipeList->clear();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 202)     for (const Recipe &r : recipes)
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 203)         recipeList->addItem(r.name);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 204) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 205)     if (!recipes.isEmpty())
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 206)         showRecipeDetails(recipeList->item(0));
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 207)     else {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 208)         detailsTitle->setText("No recipe selected");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 209)         detailsRegion->setText("");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 210)         detailsTier->setText("");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 211)         detailsIngredients->setText("");
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 212)     }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 213) }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 214) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 215) void MainWindow::showRecipeDetails(QListWidgetItem *item)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 216) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 217)     if (!item) return;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 218) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 219)     QString name = item->text();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 220)     for (const Recipe &r : allRecipes) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 221)         if (r.name == name) {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 222)             detailsTitle->setText(r.name);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 223)             detailsRegion->setText("Region: " + r.region);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 224)             detailsTier->setText("Tier: " + r.tier);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 225)             detailsIngredients->setText(r.ingredients);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 226)             break;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 227)         }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 228)     }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 229) }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  1) #ifndef MAINWINDOW_H
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  2) #define MAINWINDOW_H
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  3) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) #include <QLabel>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) #include <QTextEdit>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  6) #include <QMainWindow>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) #include <QListWidget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) #include <QLineEdit>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) #include <QComboBox>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) #include <QPushButton>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) #include <QTextEdit>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) #include <QList>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) QT_BEGIN_NAMESPACE
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) namespace Ui { class MainWindow; }
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) QT_END_NAMESPACE
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) struct Recipe {
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19)     QString name;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20)     QString ingredients;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21)     QString steps;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22)     int time;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23)     QString difficulty;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24)     QString tags;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25)     QString region; // For filtering
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26)     QString tier;   // For filtering
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27) };
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 28) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 29) class MainWindow : public QMainWindow
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 30) {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 31)     Q_OBJECT
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 32) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 33) public:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34)     MainWindow(QWidget *parent = nullptr);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 35)     ~MainWindow();
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 36) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37) private slots:
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38)     void loadRecipes();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39)     void updateFilter();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 40)     void resetFilters();
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 41)     void showRecipeDetails(QListWidgetItem *item);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 42) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 43) private:
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 44)     Ui::MainWindow *ui;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 45) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 46)     // Data
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 47)     QList<Recipe> allRecipes;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 48) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 49)     // UI elements
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 50)     QListWidget *ingredientListWidget;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 51)     QListWidget* recipeList;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 52)     QTextEdit* detailsPanel;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 53)     QLineEdit* searchBar;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 54)     QLineEdit* ingredientBar;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 55)     QComboBox* regionBox;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 56)     QComboBox* tierBox;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 57)     QPushButton* resetButton;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 58) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 59)     QLabel *detailsTitle;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 60)     QLabel *detailsRegion;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 61)     QLabel *detailsTier;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 62)     QTextEdit *detailsIngredients;
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 63) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 64) 
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 65)     void refreshDisplay(const QList<Recipe>& recipes);
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 66)     void populateFilterBoxes();
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 67) };
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 68) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 69) #endif // MAINWINDOW_H
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) <?xml version="1.0" encoding="UTF-8"?>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) <ui version="4.0">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3)  <class>MainWindow</class>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4)  <widget class="QMainWindow" name="MainWindow">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5)   <property name="windowModality">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6)    <enum>Qt::WindowModality::ApplicationModal</enum>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7)   </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8)   <property name="geometry">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9)    <rect>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10)     <x>0</x>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11)     <y>0</y>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12)     <width>800</width>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13)     <height>600</height>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14)    </rect>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15)   </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16)   <property name="windowTitle">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17)    <string>RecipeApp</string>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18)   </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19)   <widget class="QWidget" name="centralwidget">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20)    <layout class="QVBoxLayout" name="verticalLayout">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21)     <item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22)      <layout class="QHBoxLayout" name="horizontalLayout">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23)       <item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24)        <widget class="QListWidget" name="ingredientListWidget"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25)       </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26)       <item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27)        <widget class="QWidget" name="mainContentWidget" native="true"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28)       </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29)      </layout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 30)     </item>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 31)    </layout>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 32)   </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 33)   <widget class="QMenuBar" name="menubar">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34)    <property name="geometry">
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 35)     <rect>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 36)      <x>0</x>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37)      <y>0</y>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38)      <width>800</width>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39)      <height>22</height>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 40)     </rect>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 41)    </property>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 42)   </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 43)   <widget class="QStatusBar" name="statusbar"/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 44)  </widget>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 45)  <resources/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 46)  <connections/>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 47) </ui>
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  1) Name|Ingredients|Steps|Time(min)|Difficulty|Tags|Region|Tier
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  2) Spaghetti Carbonara|spaghetti, eggs, pancetta, parmesan, pepper|Boil pasta; cook pancetta; mix with eggs and cheese.|25|Medium|Italian, Pasta|Italy|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  3) Chicken Stir Fry|chicken, soy sauce, garlic, bell pepper, onion, rice|Cook chicken; add vegetables; stir-fry with sauce.|20|Easy|Asian, Quick|China|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  4) Beef Tacos|beef, taco shells, lettuce, tomato, cheese, salsa|Cook beef; fill shells; add toppings.|15|Easy|Mexican, Snack|Mexico|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  5) Vegetable Curry|potatoes, carrots, peas, curry paste, coconut milk|Simmer vegetables with curry paste and coconut milk.|40|Medium|Vegetarian, Indian|India|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  6) Chocolate Cake|flour, cocoa, sugar, eggs, butter, baking powder|Mix ingredients; bake at 350°F for 30 min.|60|Hard|Dessert, Baking|France|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  7) Tomato Soup|tomatoes, onion, garlic, cream, basil|Blend and simmer ingredients.|30|Easy|Soup, Vegetarian|Italy|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  8) Garlic Bread|bread, butter, garlic, parsley|Spread garlic butter on bread and bake.|15|Easy|Snack, Italian|Italy|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400  9) Pancakes|flour, eggs, milk, butter, sugar|Mix batter; cook on griddle.|20|Easy|Breakfast, Dessert|USA|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 10) Grilled Salmon|salmon, lemon, salt, pepper, olive oil|Grill salmon with seasoning.|25|Medium|Seafood, Healthy|Norway|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 11) Caesar Salad|lettuce, croutons, parmesan, dressing|Toss all ingredients.|10|Easy|Salad, Quick|USA|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 12) Margherita Pizza|pizza dough, tomato, mozzarella, basil|Assemble and bake at 475°F for 12 min.|45|Medium|Italian, Pizza|Italy|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 13) Sushi Rolls|sushi rice, nori, cucumber, avocado, salmon|Roll ingredients and slice.|50|Hard|Japanese, Seafood|Japan|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 14) Pad Thai|rice noodles, shrimp, egg, peanuts, bean sprouts, tamarind|Cook noodles; stir-fry with sauce and ingredients.|35|Medium|Thai, Noodles|Thailand|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 15) Beef Bourguignon|beef, red wine, carrots, onions, mushrooms|Slow cook beef in wine with vegetables.|180|Hard|French, Stew|France|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 16) Falafel Wrap|chickpeas, garlic, onion, parsley, pita|Form falafel; fry and wrap in pita with toppings.|30|Medium|Middle Eastern, Vegetarian|Middle East|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 17) Greek Salad|tomatoes, cucumber, onion, olives, feta|Chop and toss ingredients.|15|Easy|Mediterranean, Salad|Greece|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 18) Tom Yum Soup|shrimp, mushrooms, lemongrass, lime, chili|Boil ingredients in broth.|25|Medium|Thai, Soup|Thailand|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 19) Lasagna|lasagna noodles, beef, tomato sauce, ricotta, mozzarella|Layer ingredients and bake.|90|Hard|Italian, Pasta|Italy|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 20) Chicken Quesadilla|tortilla, chicken, cheese, peppers|Cook tortilla with filling.|20|Easy|Mexican, Snack|Mexico|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 21) Miso Soup|miso paste, tofu, seaweed, green onion|Simmer ingredients in water.|15|Easy|Japanese, Soup|Japan|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 22) Shepherd’s Pie|ground lamb, mashed potatoes, vegetables|Layer ingredients and bake.|75|Medium|British, Comfort Food|UK|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 23) Bruschetta|bread, tomato, basil, garlic, olive oil|Top toasted bread with mixture.|10|Easy|Italian, Appetizer|Italy|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 24) Ratatouille|eggplant, zucchini, bell pepper, tomato, onion|Bake vegetables in layers.|50|Medium|French, Vegetarian|France|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 25) Croissant|flour, butter, yeast, milk, sugar|Fold dough with butter and bake.|120|Hard|French, Pastry|France|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 26) Chicken Tikka Masala|chicken, yogurt, tomato, cream, spices|Marinate chicken; cook in sauce.|60|Medium|Indian, Curry|India|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 27) Shrimp Scampi|shrimp, garlic, butter, lemon, pasta|Cook shrimp and toss with pasta.|20|Easy|Italian, Seafood|Italy|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 28) Beef Enchiladas|tortillas, beef, cheese, enchilada sauce|Roll and bake.|40|Medium|Mexican, Dinner|Mexico|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 29) Veggie Stir Fry|broccoli, carrots, peppers, soy sauce, garlic|Stir fry vegetables with sauce.|20|Easy|Asian, Vegetarian|China|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 30) Apple Pie|apples, flour, butter, sugar, cinnamon|Assemble and bake pie.|60|Medium|Dessert, Baking|USA|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 31) Ceviche|fish, lime, onion, chili, cilantro|Marinate fish in lime juice.|25|Medium|Latin American, Seafood|Peru|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 32) Frittata|eggs, spinach, cheese, onion|Cook in pan and finish in oven.|25|Easy|Breakfast, Vegetarian|Italy|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 33) BBQ Ribs|pork ribs, BBQ sauce, spices|Grill ribs with sauce.|120|Hard|American, Meat|USA|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 34) Gazpacho|tomatoes, cucumber, bell pepper, garlic|Blend ingredients and chill.|15|Easy|Spanish, Soup|Spain|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 35) Ramen|noodles, pork, egg, broth, scallions|Cook noodles and assemble soup.|45|Medium|Japanese, Noodles|Japan|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 36) Stuffed Peppers|bell pepper, rice, beef, tomato|Stuff and bake peppers.|60|Medium|Dinner, Vegetarian|Mediterranean|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 37) Banh Mi|baguette, pork, pickled vegetables, cilantro|Assemble sandwich with ingredients.|30|Medium|Vietnamese, Sandwich|Vietnam|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 38) Clam Chowder|clams, potatoes, cream, onion|Cook ingredients into soup.|50|Medium|American, Seafood|USA|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 39) Macarons|almond flour, egg whites, sugar, food coloring|Mix, pipe, and bake.|90|Hard|French, Pastry|France|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 40) Chicken Salad|chicken, mayonnaise, celery, grapes|Mix ingredients.|15|Easy|Salad, Quick|USA|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 41) Beef Wellington|beef, puff pastry, mushroom, mustard|Wrap and bake.|120|Hard|British, Dinner|UK|5
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 42) Shakshuka|eggs, tomato, peppers, onion|Simmer vegetables and poach eggs.|30|Medium|Middle Eastern, Breakfast|Middle East|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 43) Fish Tacos|fish, tortilla, cabbage, salsa|Assemble tacos.|20|Easy|Mexican, Seafood|Mexico|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 44) Eggplant Parmesan|eggplant, tomato sauce, mozzarella, parmesan|Bake layered ingredients.|60|Medium|Italian, Vegetarian|Italy|4
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 45) Tomato Bruschetta|tomatoes, basil, garlic, bread|Top bread with tomato mixture.|10|Easy|Italian, Appetizer|Italy|1
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 46) Beef Stir Fry|beef, broccoli, soy sauce, garlic|Stir fry beef and veggies.|25|Medium|Asian, Quick|China|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 47) Quiche Lorraine|eggs, cream, bacon, pastry|Bake mixture in pastry.|50|Medium|French, Breakfast|France|3
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 48) Veggie Burger|bun, beans, lettuce, tomato, cheese|Assemble burger and cook patty.|30|Easy|American, Vegetarian|USA|2
+c78120c4 (WanabeNecro 2025-10-16 08:18:27 -0400 49) Turkey Sandwich|bread, turkey, lettuce, tomato, mayo|Assemble sandwich.|10|Easy|Quick, Lunch|USA|1
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  1) #ifndef UI_MAINWINDOW_H
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  2) #define UI_MAINWINDOW_H
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  3) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  4) #include <QtWidgets/QMainWindow>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  5) #include <QtWidgets/QWidget>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  6) #include <QtWidgets/QLineEdit>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  7) #include <QtWidgets/QListWidget>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  8) #include <QtWidgets/QVBoxLayout>
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400  9) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 10) QT_BEGIN_NAMESPACE
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 11) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 12) class Ui_MainWindow
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 13) {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 14) public:
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 15)     QWidget *centralWidget;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 16)     QVBoxLayout *verticalLayout;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 17)     QLineEdit *searchBar;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 18)     QListWidget *listWidget;
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 19) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 20)     void setupUi(QMainWindow *MainWindow)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 21)     {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 22)         if (MainWindow->objectName().isEmpty())
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 23)             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 24) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 25)         MainWindow->resize(600, 400);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 26) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 27)         centralWidget = new QWidget(MainWindow);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 28)         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 29) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 30)         verticalLayout = new QVBoxLayout(centralWidget);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 31)         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 32) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 33)         searchBar = new QLineEdit(centralWidget);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 34)         searchBar->setObjectName(QString::fromUtf8("searchBar"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 35)         searchBar->setPlaceholderText(QString::fromUtf8("Search recipes..."));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 36)         verticalLayout->addWidget(searchBar);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 37) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 38)         listWidget = new QListWidget(centralWidget);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 39)         listWidget->setObjectName(QString::fromUtf8("listWidget"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 40)         verticalLayout->addWidget(listWidget);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 41) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 42)         MainWindow->setCentralWidget(centralWidget);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 43) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 44)         retranslateUi(MainWindow);
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 45)     }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 46) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 47)     void retranslateUi(QMainWindow *MainWindow)
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 48)     {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 49)         MainWindow->setWindowTitle(QString::fromUtf8("Recipe App"));
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 50)     }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 51) };
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 52) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 53) namespace Ui {
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 54) class MainWindow: public Ui_MainWindow {};
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 55) }
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 56) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 57) QT_END_NAMESPACE
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 58) 
+1e7c2468 (WanabeNecro 2025-10-09 10:14:48 -0400 59) #endif // UI_MAINWINDOW_H
