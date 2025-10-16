@@ -1,61 +1,93 @@
-#include "mainwindow.h"
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QLabel>
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    // create display widget
+    //create display widget
     QWidget window;
     window.setWindowTitle("Recipe Display");
 
-    // layout
+     //layout
     QVBoxLayout *layout = new QVBoxLayout(&window);
-
-    //List of recipes
     QStackedWidget *recipeDetails = new QStackedWidget();
-
     QListWidget *recipeList = new QListWidget();
+
     layout->addWidget(recipeList);
-    recipeList->addItem("Spaghetti Bolognese");
-    recipeList->addItem("Fried Rice");
-    recipeList->addItem("Chocolate Chip Cookie");
 
-    // create recipe pages
-    QWidget *spaghettiPage = new QWidget();
-    QVBoxLayout *spaghettiLayout = new QVBoxLayout(spaghettiPage);
-    spaghettiLayout->addWidget(new QLabel("Spaghetti Bolognese Recipe:\n 1 lb Ground Beef\n 1 lb Pasta \n 1 Jar Tomato Sauce "));
+    //open and read recipes file
+    QFile file("recipes.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        recipeList->addItem("Error: Could not open recipes.txt");
+    } else {
+        QTextStream in(&file);
+        QStringList allLines;
+        while (!in.atEnd()) {
+            QString line = in.readLine().trimmed();
+            allLines << line;
+        }
+        file.close();
 
-    QWidget *friedRicePage = new QWidget();
-    QVBoxLayout *friedRiceLayout = new QVBoxLayout(friedRicePage);
-    friedRiceLayout->addWidget(new QLabel("Fried Rice Recipe:\n White Rice\n Eggs\n Vegetable Oil\n Soy Sauce\n Carrots\n Peas\n White Onion"));
+        QString recipeName;
+        QStringList ingredients;
 
-    QWidget *cookiePage = new QWidget();
-    QVBoxLayout *cookieLayout = new QVBoxLayout(cookiePage);
-    cookieLayout->addWidget(new QLabel("Chocolate Chip Cookie Recipe:\n Eggs\n Flour\n Vanilla extract\n Salt\n Baking Soda\n Butter\n Sugar\n Brown Sugar\n Chocolate Chips"));
 
-    // add recipe pages to stacked widget
-    recipeDetails->addWidget(spaghettiPage);
-    recipeDetails->addWidget(friedRicePage);
-    recipeDetails->addWidget(cookiePage);
+        for (const QString &line : allLines) {
+            if (line.isEmpty()) {
+                //blank line signals end of current recipe
+                if (!recipeName.isEmpty()) {
+                    recipeList->addItem(recipeName);
 
-    // connect selection change to stacked widget index
+                    //create new widget and layout for recipe
+                    QWidget *page = new QWidget();
+                    QVBoxLayout *pageLayout = new QVBoxLayout(page);
+                    pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+                    recipeDetails->addWidget(page);
+
+                    //reset for next recipe
+                    recipeName.clear();
+                    ingredients.clear();
+                }
+            } else {
+                if (recipeName.isEmpty()) {
+                    recipeName = line;       //first non-blank line is recipe name
+                } else {
+                    ingredients << line;     //subsequent lines are ingredients
+                }
+            }
+        }
+
+        //handle last recipe if file does not end with a blank line
+        if (!recipeName.isEmpty()) {
+            recipeList->addItem(recipeName);
+            QWidget *page = new QWidget();
+            QVBoxLayout *pageLayout = new QVBoxLayout(page);
+            pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+            recipeDetails->addWidget(page);
+        }
+    }
+    //connect selection change to stacked widget index
     QObject::connect(recipeList, &QListWidget::currentRowChanged,
                      recipeDetails, &QStackedWidget::setCurrentIndex);
-    // layout: list on left, details on right
+
+    //layout: list of recipes on left, recipe details on right
     QHBoxLayout *mainLayout = new QHBoxLayout();
     mainLayout->addWidget(recipeList);
     mainLayout->addWidget(recipeDetails);
 
     layout->addLayout(mainLayout);
-
-    // set default selection
     recipeList->setCurrentRow(0);
+
     window.setLayout(layout);
     window.show();
 
