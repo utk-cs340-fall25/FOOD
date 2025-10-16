@@ -1,0 +1,49 @@
+Name|Ingredients|Steps|Time(min)|Difficulty|Tags|Region|Tier
+Spaghetti Carbonara|spaghetti, eggs, pancetta, parmesan, pepper|Boil pasta; cook pancetta; mix with eggs and cheese.|25|Medium|Italian, Pasta|Italy|3
+Chicken Stir Fry|chicken, soy sauce, garlic, bell pepper, onion, rice|Cook chicken; add vegetables; stir-fry with sauce.|20|Easy|Asian, Quick|China|3
+Beef Tacos|beef, taco shells, lettuce, tomato, cheese, salsa|Cook beef; fill shells; add toppings.|15|Easy|Mexican, Snack|Mexico|2
+Vegetable Curry|potatoes, carrots, peas, curry paste, coconut milk|Simmer vegetables with curry paste and coconut milk.|40|Medium|Vegetarian, Indian|India|3
+Chocolate Cake|flour, cocoa, sugar, eggs, butter, baking powder|Mix ingredients; bake at 350°F for 30 min.|60|Hard|Dessert, Baking|France|5
+Tomato Soup|tomatoes, onion, garlic, cream, basil|Blend and simmer ingredients.|30|Easy|Soup, Vegetarian|Italy|2
+Garlic Bread|bread, butter, garlic, parsley|Spread garlic butter on bread and bake.|15|Easy|Snack, Italian|Italy|1
+Pancakes|flour, eggs, milk, butter, sugar|Mix batter; cook on griddle.|20|Easy|Breakfast, Dessert|USA|2
+Grilled Salmon|salmon, lemon, salt, pepper, olive oil|Grill salmon with seasoning.|25|Medium|Seafood, Healthy|Norway|3
+Caesar Salad|lettuce, croutons, parmesan, dressing|Toss all ingredients.|10|Easy|Salad, Quick|USA|1
+Margherita Pizza|pizza dough, tomato, mozzarella, basil|Assemble and bake at 475°F for 12 min.|45|Medium|Italian, Pizza|Italy|4
+Sushi Rolls|sushi rice, nori, cucumber, avocado, salmon|Roll ingredients and slice.|50|Hard|Japanese, Seafood|Japan|5
+Pad Thai|rice noodles, shrimp, egg, peanuts, bean sprouts, tamarind|Cook noodles; stir-fry with sauce and ingredients.|35|Medium|Thai, Noodles|Thailand|3
+Beef Bourguignon|beef, red wine, carrots, onions, mushrooms|Slow cook beef in wine with vegetables.|180|Hard|French, Stew|France|5
+Falafel Wrap|chickpeas, garlic, onion, parsley, pita|Form falafel; fry and wrap in pita with toppings.|30|Medium|Middle Eastern, Vegetarian|Middle East|3
+Greek Salad|tomatoes, cucumber, onion, olives, feta|Chop and toss ingredients.|15|Easy|Mediterranean, Salad|Greece|1
+Tom Yum Soup|shrimp, mushrooms, lemongrass, lime, chili|Boil ingredients in broth.|25|Medium|Thai, Soup|Thailand|3
+Lasagna|lasagna noodles, beef, tomato sauce, ricotta, mozzarella|Layer ingredients and bake.|90|Hard|Italian, Pasta|Italy|5
+Chicken Quesadilla|tortilla, chicken, cheese, peppers|Cook tortilla with filling.|20|Easy|Mexican, Snack|Mexico|2
+Miso Soup|miso paste, tofu, seaweed, green onion|Simmer ingredients in water.|15|Easy|Japanese, Soup|Japan|1
+Shepherd’s Pie|ground lamb, mashed potatoes, vegetables|Layer ingredients and bake.|75|Medium|British, Comfort Food|UK|4
+Bruschetta|bread, tomato, basil, garlic, olive oil|Top toasted bread with mixture.|10|Easy|Italian, Appetizer|Italy|1
+Ratatouille|eggplant, zucchini, bell pepper, tomato, onion|Bake vegetables in layers.|50|Medium|French, Vegetarian|France|3
+Croissant|flour, butter, yeast, milk, sugar|Fold dough with butter and bake.|120|Hard|French, Pastry|France|5
+Chicken Tikka Masala|chicken, yogurt, tomato, cream, spices|Marinate chicken; cook in sauce.|60|Medium|Indian, Curry|India|4
+Shrimp Scampi|shrimp, garlic, butter, lemon, pasta|Cook shrimp and toss with pasta.|20|Easy|Italian, Seafood|Italy|2
+Beef Enchiladas|tortillas, beef, cheese, enchilada sauce|Roll and bake.|40|Medium|Mexican, Dinner|Mexico|3
+Veggie Stir Fry|broccoli, carrots, peppers, soy sauce, garlic|Stir fry vegetables with sauce.|20|Easy|Asian, Vegetarian|China|2
+Apple Pie|apples, flour, butter, sugar, cinnamon|Assemble and bake pie.|60|Medium|Dessert, Baking|USA|4
+Ceviche|fish, lime, onion, chili, cilantro|Marinate fish in lime juice.|25|Medium|Latin American, Seafood|Peru|3
+Frittata|eggs, spinach, cheese, onion|Cook in pan and finish in oven.|25|Easy|Breakfast, Vegetarian|Italy|2
+BBQ Ribs|pork ribs, BBQ sauce, spices|Grill ribs with sauce.|120|Hard|American, Meat|USA|5
+Gazpacho|tomatoes, cucumber, bell pepper, garlic|Blend ingredients and chill.|15|Easy|Spanish, Soup|Spain|1
+Ramen|noodles, pork, egg, broth, scallions|Cook noodles and assemble soup.|45|Medium|Japanese, Noodles|Japan|3
+Stuffed Peppers|bell pepper, rice, beef, tomato|Stuff and bake peppers.|60|Medium|Dinner, Vegetarian|Mediterranean|4
+Banh Mi|baguette, pork, pickled vegetables, cilantro|Assemble sandwich with ingredients.|30|Medium|Vietnamese, Sandwich|Vietnam|3
+Clam Chowder|clams, potatoes, cream, onion|Cook ingredients into soup.|50|Medium|American, Seafood|USA|3
+Macarons|almond flour, egg whites, sugar, food coloring|Mix, pipe, and bake.|90|Hard|French, Pastry|France|5
+Chicken Salad|chicken, mayonnaise, celery, grapes|Mix ingredients.|15|Easy|Salad, Quick|USA|1
+Beef Wellington|beef, puff pastry, mushroom, mustard|Wrap and bake.|120|Hard|British, Dinner|UK|5
+Shakshuka|eggs, tomato, peppers, onion|Simmer vegetables and poach eggs.|30|Medium|Middle Eastern, Breakfast|Middle East|3
+Fish Tacos|fish, tortilla, cabbage, salsa|Assemble tacos.|20|Easy|Mexican, Seafood|Mexico|2
+Eggplant Parmesan|eggplant, tomato sauce, mozzarella, parmesan|Bake layered ingredients.|60|Medium|Italian, Vegetarian|Italy|4
+Tomato Bruschetta|tomatoes, basil, garlic, bread|Top bread with tomato mixture.|10|Easy|Italian, Appetizer|Italy|1
+Beef Stir Fry|beef, broccoli, soy sauce, garlic|Stir fry beef and veggies.|25|Medium|Asian, Quick|China|3
+Quiche Lorraine|eggs, cream, bacon, pastry|Bake mixture in pastry.|50|Medium|French, Breakfast|France|3
+Veggie Burger|bun, beans, lettuce, tomato, cheese|Assemble burger and cook patty.|30|Easy|American, Vegetarian|USA|2
+Turkey Sandwich|bread, turkey, lettuce, tomato, mayo|Assemble sandwich.|10|Easy|Quick, Lunch|USA|1

@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(RecipeApp VERSION 0.1 LANGUAGES CXX)
+project(RecipeApp LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Enable Qt's automatic processing
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+# Find Qt (Qt6 version)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
+# Define sources
 set(SOURCES
     main.cpp
     mainwindow.cpp
@@ -14,17 +21,25 @@ set(SOURCES
 
 set(HEADERS
     mainwindow.h
-    ui_mainwindow.h
 )
 
-# Explicitly run moc on headers with Q_OBJECT
-qt6_wrap_cpp(MOC_FILES mainwindow.h)
+set(UI_FILES
+    mainwindow.ui
+)
 
-# Create executable including generated moc files
-add_executable(RecipeApp
+# Create the executable
+add_executable(${PROJECT_NAME}
     ${SOURCES}
     ${HEADERS}
-    ${MOC_FILES}  # <- Add moc files here
+    ${UI_FILES}
 )
 
-target_link_libraries(RecipeApp PRIVATE Qt6::Widgets)
+# Link with Qt libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+
+# --- Auto-copy recipes.txt to build folder ---
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_SOURCE_DIR}/recipes.txt
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
