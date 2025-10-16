@@ -1,0 +1,88 @@
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  35)     ingredients["Bihon Noodles"] = false;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  38)     //QListWidgetItem *item3 = new QListWidgetItem("Oil", selection);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  39)     //item3->setFlags(item3->flags() | ItemIsUserCheckable);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  40)     //item3->setCheckState(Unchecked);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  42)     // dynamically creating the list from the map
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  43)     for(iit = ingredients.begin(); iit != ingredients.end(); iit++)
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  44)     {
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  45)         QListWidgetItem *item = new QListWidgetItem(iit->first, selection);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  46)         item->setFlags(item->flags() | ItemIsUserCheckable);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  47)         item->setCheckState(Unchecked);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  48)     }
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400  94)             // go thru the list and hide the ones that do not have the search term & show the ones that do
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 101)                 } else
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 102)                 {
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 103)                     temp->setHidden(false);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 116) 
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 117)     // freeing on quit
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 118)     QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 119)     {
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 120)         for( int i = 0; i < selection->count(); i++ )
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 121)         {
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 122)             QListWidgetItem *temp = selection->item(i);
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 123)             delete temp;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 124)         }
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 125) 
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 126)         delete enter;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 127)         delete searchBar;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 128)         delete output;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 129)         delete selection;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 130)         delete layout;
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 131)     });
+45900577 (Ro Neel 2025-10-15 16:59:33 -0400 132)
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  1) #include "tab.h"
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  2) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  3) #include <QApplication>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  4) #include <QWidget>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  5) #include <QVBoxLayout>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  6) #include <QTabWidget>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  7) #include <QMainWindow>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  8) #include <QPushButton>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400  9) #include <QTextEdit>
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 10) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 11) int main(int argc, char *argv[])
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 12) {
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 13)     QApplication a(argc, argv);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 14)     QWidget window;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 15)     QWidget dummyPage;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 16)     QWidget dummyPage2;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 17)     QPushButton *button = new QPushButton("Button", &dummyPage);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 18)     QPushButton *button2 = new QPushButton("Button2", &dummyPage2);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 19)     QTextEdit *input = new QTextEdit("This is the input page", &dummyPage);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 20)     QVBoxLayout *layout = new QVBoxLayout(&window);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 21)     QVBoxLayout *page1Layout = new QVBoxLayout(&dummyPage);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 22)     QVBoxLayout *page2Layout = new QVBoxLayout(&dummyPage2);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 23)     QTabWidget *tabs = new QTabWidget(&window);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 24) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 25) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 26)     // add the layout to the page widget directly, NOT to the tab widget !
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 27)     dummyPage.setLayout(page1Layout);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 28)     page1Layout->addWidget(button);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 29)     page1Layout->addWidget(input);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 30) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 31)     dummyPage2.setLayout(page2Layout);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 32)     page2Layout->addWidget(button2);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 33) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 34)     tabs->addTab(&dummyPage, "Input");
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 35)     tabs->addTab(&dummyPage2, "Recipes");
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 36) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 37)     window.setLayout(layout);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 38)     layout->addWidget(tabs);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 39) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 40)     window.resize(800, 600);
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 41) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 42)     window.show();
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 43) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 44)     QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 45)     {
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 46)         delete layout;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 47)         delete page1Layout;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 48)         delete page2Layout;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 49)         delete button;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 50)         delete input;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 51)         delete button2;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 52)         delete tabs;
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 53)     });
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 54) 
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 55)     return a.exec();
+7d39c5aa (Ro Neel 2025-10-15 18:03:43 -0400 56) }
