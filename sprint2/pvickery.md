@@ -16,9 +16,9 @@ Everything was accomplished.
 2. Figuring out how to add the widgets for each recipe while the file is being read, rather than adding the widgets at the end like when the recipes were hardcoded
 
 ### Issues you worked on
-[input of a recipes file](https://trello.com/c/9AEXV3LF/38-input-of-a-recipes-file)
-[read in recipes from file](https://trello.com/c/DYtfBsQS/39-read-in-recipes-from-file)
-[display each recipe](https://trello.com/c/owWIvY8M/40-display-each-recipe)
+1. [input of a recipes file](https://trello.com/c/9AEXV3LF/38-input-of-a-recipes-file)
+2. [read in recipes from file](https://trello.com/c/DYtfBsQS/39-read-in-recipes-from-file)
+3. [display each recipe](https://trello.com/c/owWIvY8M/40-display-each-recipe)
 
 ### Files you worked on
 FOOD/recipeDisplay/main.cpp
