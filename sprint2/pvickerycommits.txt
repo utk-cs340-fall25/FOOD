@@ -1,0 +1,59 @@
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  1) #include <QHBoxLayout>
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  2) #include <QFile>
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  3) #include <QTextStream>
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  4) #include <QStringList>
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  5) #include <QDebug>
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  6)     //create display widget
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  7)      //layout
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  8) 
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400  9)     //open and read recipes file
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 10)     QFile file("recipes.txt");
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 11)     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 12)         recipeList->addItem("Error: Could not open recipes.txt");
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 13)     } else {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 14)         QTextStream in(&file);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 15)         QStringList allLines;
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 16)         while (!in.atEnd()) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 17)             QString line = in.readLine().trimmed();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 18)             allLines << line;
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 19)         }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 20)         file.close();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 21) 
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 22)         QString recipeName;
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 23)         QStringList ingredients;
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 24)         for (const QString &line : allLines) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 25)             if (line.isEmpty()) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 26)                 //blank line signals end of current recipe
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 27)                 if (!recipeName.isEmpty()) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 28)                     recipeList->addItem(recipeName);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 29)                     //create new widget and layout for recipe
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 30)                     QWidget *page = new QWidget();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 31)                     QVBoxLayout *pageLayout = new QVBoxLayout(page);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 32)                     pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 33)                     recipeDetails->addWidget(page);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 34)                     //reset for next recipe
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 35)                     recipeName.clear();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 36)                     ingredients.clear();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 37)                 }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 38)             } else {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 39)                 if (recipeName.isEmpty()) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 40)                     recipeName = line;       //first non-blank line is recipe name
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 41)                 } else {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 42)                     ingredients << line;     //subsequent lines are ingredients
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 43)                 }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 44)             }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 45)         }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 46) 
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 47)         //handle last recipe if file does not end with a blank line
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 48)         if (!recipeName.isEmpty()) {
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 49)             recipeList->addItem(recipeName);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 50)             QWidget *page = new QWidget();
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 51)             QVBoxLayout *pageLayout = new QVBoxLayout(page);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 52)             pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 53)             recipeDetails->addWidget(page);
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 54)         }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 55)     }
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 56)     //connect selection change to stacked widget index
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 57) 
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 58)     //layout: list of recipes on left, recipe details on right
+f760255e (Philip Vickery 2025-10-16 08:21:50 -0400 59) 
