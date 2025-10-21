@@ -77,8 +77,10 @@ int main(int argc, char *argv[])
             // go thru the list and hide the ones that do not have the search term & show the ones that do
             for( int i = 0; i < inputSelection->count(); i++ )
             {
-                QListWidgetItem *temp = inputSelection->item(i);
-                if( !( temp->text().contains( inputSearchBar->text() ) ) )
+                QListWidgetItem *temp = inputSelection->item(i);        
+
+                // to lower for case insentive search
+                if( !( temp->text().toLower().contains( inputSearchBar->text().toLower() ) ) )
                 {
                     temp->setHidden(true);
                 } else
