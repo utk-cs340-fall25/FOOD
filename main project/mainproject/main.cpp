@@ -1,3 +1,4 @@
+#include "../../headers/food.hpp"
 #include <QApplication>
 #include <QWidget>
 #include <QTabWidget>
@@ -13,6 +14,11 @@
 
 int main(int argc, char *argv[])
 {
+    STATUS status;
+    std::map <std::string, Recipe> recipes;
+    status = INIT(recipes);
+    if (status != STATUS_SUCCESS) { return status; }
+
     // main application variables
     QApplication a(argc, argv);
     QWidget mainWindow;
@@ -168,7 +174,6 @@ int main(int argc, char *argv[])
 
     // // // on close section end // // //
 
-
-
+    status = DEINIT(recipes);
     return a.exec();
 }

@@ -1,5 +1,4 @@
 #include "../headers/food.hpp"
-
 #include <map>
 #include <cstdint>
 #include <string>
@@ -59,8 +58,6 @@ STATUS INIT(std::map<std::string, Recipe>& recipes)
         return STATUS_OPEN_FAILED;
     }
     config >> RECIPES_PATH;
-
-
 
     struct Recipe default_recipe;
     default_recipe.ingredients.clear();
