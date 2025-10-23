@@ -14,21 +14,6 @@
 
 int main(int argc, char *argv[])
 {
-    STATUS status;
-    std::map <std::string, Recipe> recipes_buffer; // The map for the reicpes.
-    std::map<Qstring, Recipe> recipes;
-    status = INIT(recipes);
-    if (status != STATUS_SUCCESS) { return status; }
-
-    // Converting the strings to Qstrings
-    for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
-    {
-        std::string str = it->first;
-        Qstring qstr = QString::fromStdString(str);
-        recipes[qstr] = it->second;
-    }
-    recipes_buffer.clear();
-
     // main application variables
     QApplication a(argc, argv);
     QWidget mainWindow;
@@ -46,6 +31,21 @@ int main(int argc, char *argv[])
     std::map<QString, bool>::iterator iit;
 
     // // // on launch section // // //
+
+    STATUS status;
+    std::map <std::string, Recipe> recipes_buffer; // The map for the reicpes.
+    std::map<Qstring, Recipe> recipes;
+    status = INIT(recipes);
+    if (status != STATUS_SUCCESS) { return status; }
+
+    // Converting the strings to Qstrings
+    for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
+    {
+        std::string str = it->first;
+        Qstring qstr = QString::fromStdString(str);
+        recipes[qstr] = it->second;
+    }
+    recipes_buffer.clear();
 
     // temporary map fillings - replace with loading of the map here!
     ingredients["Zucchini"] = false;
@@ -182,7 +182,6 @@ int main(int argc, char *argv[])
         delete mainWindowLayout;
     });
 
-    // // // on close section end // // //
     // Converting the Qstrings to std::strings
     for (std::map<Qstring, Recipe>::iterator it = recipes.begin(); it != recipes.end(); it++)
     {
@@ -191,5 +190,8 @@ int main(int argc, char *argv[])
         recipes_buffer[str] = it->second;
     }
     status = DEINIT(recipes);
+
+    // // // on close section end // // //
+
     return a.exec();
 }
