@@ -28,15 +28,17 @@ int main(int argc, char *argv[])
     QTextEdit *inputOutput = new QTextEdit(inputPage);
     QLineEdit *inputSearchBar = new QLineEdit(inputPage);
     std::map<QString, bool> ingredients;
+    std::map<QString, double> ingredients_amount;
     std::map<QString, bool>::iterator iit;
-
-    // // // on launch section // // //
 
     STATUS status;
     std::map <std::string, Recipe> recipes_buffer; // The map for the reicpes.
     std::map<Qstring, Recipe> recipes;
-    status = INIT(recipes);
-    if (status != STATUS_SUCCESS) { return status; }
+
+    // // // on launch section // // //
+    std::map<std::string, double> ingredients_buffer;
+    status = INIT(recipes_buffer, ingredients_buffer);
+    if (status != STATUS_SUCCESS) { goto exit; }
 
     // Converting the strings to Qstrings
     for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
@@ -46,6 +48,14 @@ int main(int argc, char *argv[])
         recipes[qstr] = it->second;
     }
     recipes_buffer.clear();
+    for (std::map<std::string, double>::iterator it = ingredients_buffer.begin(); it != ingredients_buffer.end(); it++)
+    {
+        std::string str = it->first;
+        Qstring qstr = QString::fromStdString(str);
+        ingredients_amount[qstr] = it->second;
+        ingredients[qstr] = true;
+    }
+    ingredients_buffer.clear();
 
     // temporary map fillings - replace with loading of the map here!
     ingredients["Zucchini"] = false;
@@ -157,8 +167,11 @@ int main(int argc, char *argv[])
 
 
     // // // on close section // // //
-
     // This runs on close - clean up any resources you allocate!
+
+    // Label for immediately closing the application due to errors.
+    // This label should always be above any code in the "on close" section.
+    exit:
 
     QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
     {
