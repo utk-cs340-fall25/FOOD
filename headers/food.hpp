@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <QString>
 
 // The STATUS type.
 typedef uint64_t STATUS;
@@ -41,6 +42,7 @@ struct Recipe
     std::string name; // The name of the recipe.
     std::vector<Ingredient> ingredients; // The ingredients in a recipe.
     std::vector<std::string> instructions; // The instructions of a recipe.
+    std::vector<Qstring> tags;
 };
 
 // Loads status messages
@@ -48,7 +50,7 @@ void STATUS_LOADER();
 // Prints status messages to msg-log.log file.
 void ERROR_PRINTER(int64_t, std::string);
 // Initializes and loads basic data for the app.
-STATUS INIT(std::map<std::string, Recipe>&);
+STATUS INIT(std::map<std::string, Recipe>&, std::map<std::string, double>&);
 // Deinititializes and stores basic data for the app.
 STATUS DEINIT(const std::map<std::string, Recipe>&);
 
