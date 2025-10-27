@@ -63,13 +63,13 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, double
     config >> RECIPES_PATH;
     config >> INGREDIENTS_PATH;
 
+    // Loading the owned ingredients
     std::ifstream ingredient_pool(INGREDIENTS_PATH + "ingredients.txt");
     if (!ingredient_pool.is_open())
     {
         ERROR_PRINTER(STATUS_OPEN_FAILED, INGREDIENTS_PATH + "ingredients.txt");
         return STATUS_OPEN_FAILED;   
     }
-
     std::string ingredient_name;
     double ingredient_amount;
     while (ingredient_pool >> ingredient_name >> ingredient_amount)
@@ -83,7 +83,7 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, double
     default_recipe.name.clear();
 
     // Mulithreading variables
-    std::vector <std::string> file_names;
+    std::vector<std::string> file_names;
     std::vector<Recipe> loaded_recipes;
     std::vector<std::future<STATUS>> threads;
 
@@ -124,12 +124,24 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, double
 
     return STATUS_SUCCESS;
 }
-STATUS DEINIT(const std::map<std::string, Recipe>& recipes)
+STATUS DEINIT(const std::map<std::string, Recipe>& recipes, const std::map<std::string, double> ingredients&)
 {
-    const std::string path_prefix = RECIPES_PATH;
     std::vector<std::future<STATUS>> threads;
     std::vector<std::string> file_names;
     std::map<std::string, Recipe>::const_iterator rcp_it;
+
+    std::ofstream ingredient_pool(INGREDIENTS_PATH + "ingredients.txt", std::ofstream::trunc);
+    if (!ingredient_pool.is_open())
+    {
+        ERROR_PRINTER(STATUS_OPEN_FAILED, INGREDIENTS_PATH + "ingredients.txt");
+    } 
+    else 
+    {
+        for (std::map<std::string, double>::iterator it = ingredients.begin(); it != ingredients.end(); it++)
+        {
+            ingredient_pool << it->first << ' ' << it->second;
+        }
+    }
 
     uint64_t i = 0;
     threads.resize(recipes.size());
@@ -214,40 +226,51 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe)
     recipe.name = to_lower(recipe.name);
     temp_string.resize(1);
 
-    while (to_lower(temp_string) != "i")
+    // Reading all the ingredients
+    std::getline(file_input, temp_string, '\n');
+    while (to_lower(temp_string) != "instructions")
     {
         STATUS status;
         struct Ingredient temp_ingredient;
-        file_input >> temp_ingredient.amount_s >> temp_ingredient.unit >> temp_ingredient.name;
+        std::istringstream splitter(temp_string);
+        splitter >> temp_ingredient.amount_s >> temp_ingredient.unit >> temp_ingredient.name;
         temp_ingredient.name = to_lower(temp_ingredient.name);
 
         status = fraction_to_double(temp_ingredient.amount_s, temp_ingredient.amount_d);
-        if (status != STATUS_SUCCESS){ return status; }
+        if (status != STATUS_SUCCESS)
+        {
+            file_input.close(); 
+            return status; 
+        }
 
         recipe.ingredients.push_back(temp_ingredient);
 
-        char temp_char = file_input.peek();
-        while (isspace((int)temp_char))
-        {
-            file_input >> std::noskipws >> temp_char;
-            temp_char = file_input.peek();
-        }
-
-        temp_string.at(0) = temp_char;
+        std::getline(file_input, temp_string, '\n');
+        splitter.clear();
     }
 
+    // Reading all instructions
     std::getline(file_input, temp_string, '\n');
+    while (to_lower(temp_string) != "tags")
+    {
+        std::getline(file_input, temp_string, '\n')
+        if (temp_string.length() == 0) { continue; }
+        recipe.tags.push_back(temp_string);
+    }
+
+    // Reading all tags
     while (std::getline(file_input, temp_string, '\n'))
     {
-        if (temp_string.length() == 0) { continue; }
-        recipe.instructions.push_back(temp_string);
+        if (temp_string.length() == 0) break;
+        recipe.tags.push_back(temp_string);
     }
 
     *output_recipe = recipe;
     file_input.close();
+
     return STATUS_SUCCESS;
 }
-STATUS Write_Recipe(const std::string path, const struct Recipe& output_recipe, bool overwrite)
+STATUS Write_Recipe(const std::string path, const struct Recipe* output_recipe, bool overwrite)
 {
     // Checking the file extenstion
     if (path.substr(path.length() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
