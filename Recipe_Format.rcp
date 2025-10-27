@@ -1,0 +1,12 @@
+Name
+
+Ingredient_amount Unit Name
+
+instructions (Case insensitive. Must be present)
+Instruction 1 (Instructions are separated by new lines
+Instruction 2
+etc...
+
+tags (Case insensitive. Must be present. Tags themselves are not required)
+tag 1
+tag 2
