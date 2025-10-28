@@ -4,7 +4,7 @@
 #include <QJsonArray>
 
 
-struct InventoryItem {
+struct RInventoryItem {
 QString name;
 double qty{0.0};
 QString unit;
@@ -12,10 +12,10 @@ QStringList tags;
 };
 
 
-class InventoryModel : public QAbstractTableModel {
+class RInventoryModel : public QAbstractTableModel {
 Q_OBJECT
 public:
-explicit InventoryModel(QObject* parent = nullptr);
+explicit RInventoryModel(QObject* parent = nullptr);
 int rowCount(const QModelIndex &parent = {}) const override;
 int columnCount(const QModelIndex &parent = {}) const override;
 QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -23,10 +23,10 @@ QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::Dis
 Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 
-void addItem(const InventoryItem &it);
+void addItem(const RInventoryItem &it);
 void removeRowAt(int row);
-void updateItem(int row, const InventoryItem &it);
-const InventoryItem &itemAt(int row) const;
+void updateItem(int row, const RInventoryItem &it);
+const RInventoryItem &itemAt(int row) const;
 
 
 QJsonArray toJson() const;
@@ -35,5 +35,5 @@ int findByName(const QString &name) const;
 
 
 private:
-QVector<InventoryItem> m_items;
+QVector<RInventoryItem> m_items;
 };
