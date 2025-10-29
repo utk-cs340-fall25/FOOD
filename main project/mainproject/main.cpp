@@ -1,4 +1,5 @@
 #include "../../headers/food.hpp"
+#include "../../RobsSearchFunc/Rrsearchwindow.h"
 #include <QApplication>
 #include <QWidget>
 #include <QTabWidget>
@@ -147,6 +148,14 @@ int main(int argc, char *argv[])
     // // // inputPage section end // // //
 
 
+    // // // RsearchFunc section // // //
+    
+    // Create the RsearchFunc widget
+    RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
+
+    // // // RsearchFunc section end // // //
+
+
 
 
     // // // main application display - add your pages here! // // //
@@ -156,6 +165,7 @@ int main(int argc, char *argv[])
 
     // tabs->addTab(yourPage, "Page Title");
     tabs->addTab(inputPage, "Input");
+    tabs->addTab(rsearchPage, "Recipe Search");
 
 
     mainWindowLayout->addWidget(tabs);
@@ -189,6 +199,8 @@ int main(int argc, char *argv[])
         delete inputPageLayout;
         delete inputPage;
 
+        // RsearchFunc frees
+        delete rsearchPage;
 
         // main application frees
         delete tabs;
