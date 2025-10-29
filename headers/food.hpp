@@ -46,12 +46,14 @@ struct Recipe
 
 // Loads status messages
 void STATUS_LOADER();
+// Prints a message to the msg-log.log file.
+void LOG_PRINTER(std::string);
 // Prints status messages to msg-log.log file.
 void STATUS_PRINTER(STATUS, std::string);
 // Initializes and loads basic data for the app.
 STATUS INIT(std::map<std::string, Recipe>&, std::map<std::string, Ingredient>&);
 // Deinititializes and stores basic data for the app.
-STATUS DEINIT(const std::map<std::string, Recipe>&, const std::map<std::string, Ingredient>&);
+STATUS DEINIT(std::map<std::string, Recipe>&, std::map<std::string, Ingredient>&);
 
 // Converts a string to all lowercase.
 std::string to_lower(std::string);
@@ -59,8 +61,8 @@ std::string to_lower(std::string);
 STATUS fraction_to_double(std::string, double&);
 
 // This will read a .rcp file.
-STATUS Read_Recipe(const std::string, struct Recipe*);
+STATUS Read_Recipe(std::string, struct Recipe*, bool);
 // This will write to a .rcp file. The name of the file should be the 
 // same as the name of the recipe.
-STATUS Write_Recipe(const std::string, const struct Recipe*, bool);
+STATUS Write_Recipe(std::string, struct Recipe*, bool);
 
