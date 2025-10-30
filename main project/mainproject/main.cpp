@@ -155,9 +155,65 @@ int main(int argc, char *argv[])
 
     // // // RsearchFunc section end // // //
 
+    // Recipe Display
+    QWidget *recipeDisplayPage = new QWidget(&mainWindow);
+    QVBoxLayout *recipeDisplayLayout = new QVBoxLayout(recipeDisplayPage);
+    QStackedWidget *recipeDetails = new QStackedWidget();
+    QListWidget *recipeList = new QListWidget();
 
+    QHBoxLayout *recipeLayout = new QHBoxLayout();
+    recipeLayout->addWidget(recipeList);
+    recipeLayout->addWidget(recipeDetails);
 
+    recipeDisplayLayout->addLayout(recipeLayout);
+    QFile file("recipe.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        recipeList->addItem("Error: Could not open recipe.txt");
+    } else {
+        QTextStream in(&file);
+        QStringList allLines;
+        while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        allLines << line;
+    }
+    file.close();
 
+    QString recipeName;
+    QStringList ingredients;
+
+    for (const QString &line : allLines) {
+        if (line.isEmpty()) {
+            if (!recipeName.isEmpty()) {
+                recipeList->addItem(recipeName);
+                QWidget *page = new QWidget();
+                QVBoxLayout *pageLayout = new QVBoxLayout(page);
+                pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+                recipeDetails->addWidget(page);
+
+                recipeName.clear();
+                ingredients.clear();
+            }
+        } else {
+            if (recipeName.isEmpty()) {
+                recipeName = line;
+            } else {
+                ingredients << line;
+            }
+        }
+    }
+
+    if (!recipeName.isEmpty()) {
+        recipeList->addItem(recipeName);
+        QWidget *page = new QWidget();
+        QVBoxLayout *pageLayout = new QVBoxLayout(page);
+        pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+        recipeDetails->addWidget(page);
+    }
+}
+
+    QObject::connect(recipeList, &QListWidget::currentRowChanged,
+                 recipeDetails, &QStackedWidget::setCurrentIndex);
+    recipeList->setCurrentRow(0);
     // // // main application display - add your pages here! // // //
 
     // Note: Add your layouts to your page widget, not the tabs or mainwindow!
@@ -166,7 +222,7 @@ int main(int argc, char *argv[])
     // tabs->addTab(yourPage, "Page Title");
     tabs->addTab(inputPage, "Input");
     tabs->addTab(rsearchPage, "Recipe Search");
-
+    tabs->addTab(recipeDisplayPage, "Recipe Display")
 
     mainWindowLayout->addWidget(tabs);
     mainWindow.resize(800, 600);

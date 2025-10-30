@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <filesystem>
 #include <fstream>
@@ -15,6 +16,14 @@ std::string INGREDIENTS_PATH;
 // Associated status messages
 std::map<STATUS, std::string> ERROR_MSGS;
 
+void LOG_PRINTER(std::string message)
+{
+    // The error log
+    std::ofstream output("msg-log.log", std::ios::app);
+    output << message << '\n';
+    output.close();
+    return;
+}
 void STATUS_PRINTER(STATUS status, std::string prefix)
 {
     // The error log
@@ -34,6 +43,7 @@ void STATUS_PRINTER(STATUS status, std::string prefix)
     output.close();
     return;
 }
+
 void STATUS_LOADER()
 {
     ERROR_MSGS[STATUS_SUCCESS] = "Successfuly performed";
@@ -46,6 +56,7 @@ void STATUS_LOADER()
 
     return;
 }
+
 STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingredient> &ingredients)
 {
     STATUS status; // STATUS variable used for determining errors
@@ -116,7 +127,7 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
     for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(RECIPES_PATH))
     {
         std::string path = entry.path().u8string(); // converting a path to a std::string
-        threads.at(i) = std::async(&Read_Recipe, path, &loaded_recipes.at(i));
+        threads.at(i) = std::async(&Read_Recipe, path, &loaded_recipes.at(i), false);
         file_names.at(i) = path;
         i += 1;
     }
@@ -129,7 +140,7 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
         // If a file failed to be read, don't load that file.
         if (status != STATUS_SUCCESS)
         {
-            STATUS_PRINTER(status, file_names.at(i));
+            //STATUS_PRINTER(status, file_names.at(i));
             continue;
         }
 
@@ -138,15 +149,13 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
     /*//  //  //  //     Recipes have been loaded     \\  \\  \\  \\*/
 
     /*//  //  //  //     Initialization succeeded     \\  \\  \\  \\*/
-    STATUS_PRINTER(STATUS_SUCCESS, "Initialization succeeded");
+    STATUS_PRINTER(STATUS_SUCCESS, "Initialization");
+    LOG_PRINTER("");
     return STATUS_SUCCESS;
 }
-STATUS DEINIT(const std::map<std::string, Recipe>& recipes, const std::map<std::string, double> &ingredients)
+STATUS DEINIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingredient> &ingredients)
 {
-    std::vector<std::future<STATUS>> threads;
-    std::vector<std::string> file_names;
-    std::map<std::string, Recipe>::const_iterator rcp_it;
-
+    /*//  //  //  //     Storing owned ingredients     \\  \\  \\  \\*/
     std::ofstream ingredient_pool(INGREDIENTS_PATH + "ingredients.txt", std::ofstream::trunc);
     if (!ingredient_pool.is_open())
     {
@@ -154,19 +163,25 @@ STATUS DEINIT(const std::map<std::string, Recipe>& recipes, const std::map<std::
     }
     else
     {
-        for (std::map<std::string, double>::const_iterator it = ingredients.begin(); it != ingredients.end(); it++)
+        for (std::map<std::string, Ingredient>::iterator it = ingredients.begin(); it != ingredients.end(); it++)
         {
-            ingredient_pool << it->first << ' ' << it->second;
+            ingredient_pool << it->second.name << ' ';
+            ingredient_pool << it->second.unit << ' ';
+            ingredient_pool << it->second.amount_d << '\n';
         }
     }
+    /*//  //  //  //     Ingredients have been stored    \\  \\  \\  \\*/
 
-    uint64_t i = 0;
+    /*//  //  //  //     Storing all recipes     \\  \\  \\  \\*/
+    std::vector<std::future<STATUS>> threads;
+    std::vector<std::string> file_names;
     threads.resize(recipes.size());
-    for (rcp_it = recipes.begin(); rcp_it != recipes.end(); rcp_it++)
+    uint64_t i = 0;
+    for (std::map<std::string, Recipe>::iterator rcp_it = recipes.begin(); rcp_it != recipes.end(); rcp_it++)
     {
         std::string file_name = rcp_it->second.name + ".rcp";
         file_names.push_back(file_name);
-        threads.at(i) = std::async(&Write_Recipe, RECIPES_PATH + file_name, &rcp_it->second, true);
+        threads.at(i) = std::async(&Write_Recipe, RECIPES_PATH + file_name, &rcp_it->second, false);
         i += 1;
     }
 
@@ -175,10 +190,11 @@ STATUS DEINIT(const std::map<std::string, Recipe>& recipes, const std::map<std::
         STATUS status = threads.at(i).get();
         if (status != STATUS_SUCCESS)
         {
-            STATUS_PRINTER(status, file_names.at(i));
+            //STATUS_PRINTER(status, file_names.at(i));
         }
     }
-
+    /*//  //  //  //     All recipes stored     \\  \\  \\  \\*/
+    STATUS_PRINTER(STATUS_SUCCESS, "Deinitialization");
     return STATUS_SUCCESS;
 }
 
@@ -225,7 +241,7 @@ STATUS fraction_to_double(std::string input_str, double& result)
     return (result == 0L) ? STATUS_BAD_ARGUMENTS : STATUS_SUCCESS;
 }
 
-STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe)
+STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool individual)
 {
     if (path.substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
 
@@ -259,6 +275,7 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe)
         if (status != STATUS_SUCCESS)
         {
             file_input.close();
+            splitter.clear();
             return status;
         }
 
@@ -286,15 +303,17 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe)
     *output_recipe = recipe;
     file_input.close();
 
+    STATUS_PRINTER(STATUS_SUCCESS, "Read_Recipe: " + path);
+    if (individual) { LOG_PRINTER(""); }
+
     return STATUS_SUCCESS;
 }
-STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool overwrite)
+STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool individual)
 {
     if (output_recipe->name.size() == 0) { return STATUS_INVALID_DATA; }
     // Checking the file extenstion
     if (path.substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
     // Checking if the file can be overwritten
-    if (!overwrite && std::filesystem::exists(path)) { return STATUS_FILE_EXISTS; }
 
     // Opening/creating the ouput file
     std::ofstream file_output(path, std::ios::trunc | std::ios::out);
@@ -304,7 +323,7 @@ STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool o
         else return STATUS_OPEN_FAILED;
     }
 
-    file_output << output_recipe->name << '\n';
+    file_output << output_recipe->name << "\n\n";
     for (uint64_t i = 0; i < output_recipe->ingredients.size(); i += 1)
     {
         file_output << output_recipe->ingredients[i].amount_s << ' ';
@@ -312,18 +331,22 @@ STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool o
         file_output << output_recipe->ingredients[i].name << '\n';
     }
 
-    file_output << "instructions\n";
-    for (uint64_t i = 0; i < output_recipe->ingredients.size(); i += 1)
+    file_output << "\ninstructions\n";
+    for (uint64_t i = 0; i < output_recipe->instructions.size(); i += 1)
     {
         file_output << output_recipe->instructions[i] << '\n';
     }
 
-    file_output << "tags\n";
+    file_output << "\ntags\n";
     for (uint64_t i = 0; i < output_recipe->tags.size(); i += 1)
     {
         file_output << output_recipe->tags[i] << '\n';
     }
 
     file_output.close();
+
+    STATUS_PRINTER(STATUS_SUCCESS, "Write_Recipe: " + path);
+    if (individual) { LOG_PRINTER(""); }
+
     return STATUS_SUCCESS;
 }
