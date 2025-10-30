@@ -15,7 +15,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <map>
-
+#include <QStackedWidget>
 int main(int argc, char *argv[])
 {
     // main application variables
