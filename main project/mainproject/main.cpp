@@ -15,6 +15,10 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <map>
+#include <QStackedWidget>
+#include <QFile>
+#include <QIODevice>
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
@@ -225,7 +229,7 @@ int main(int argc, char *argv[])
     // tabs->addTab(yourPage, "Page Title");
     tabs->addTab(inputPage, "Input");
     tabs->addTab(rsearchPage, "Recipe Search");
-    tabs->addTab(recipeDisplayPage, "Recipe Display")
+    tabs->addTab(recipeDisplayPage, "Recipe Display");
 
     mainWindowLayout->addWidget(tabs);
     mainWindow.resize(800, 600);

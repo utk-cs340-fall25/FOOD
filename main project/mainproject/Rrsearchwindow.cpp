@@ -6,6 +6,11 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QLabel>
+#include <QComboBox>
+#include <QPushButton>
+#include <QListWidget>
+#include <QTextEdit>
 
 RRSearchWindow::RRSearchWindow(QWidget *parent)
     : QWidget(parent)

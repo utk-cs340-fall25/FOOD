@@ -1,5 +1,7 @@
 #include "Radditemdialog.h"
-#include "ui_radditemdialog.h"
+#include "ui_Radditemdialog.h"
+#include <QDialogButtonBox>
+#include <QDialog>
 
 RAddItemDialog::RAddItemDialog(QWidget* parent) : QDialog(parent), ui(new Ui::RAddItemDialog) {
 ui->setupUi(this);

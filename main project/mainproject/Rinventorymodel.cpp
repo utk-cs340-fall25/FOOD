@@ -1,6 +1,8 @@
 #include "Rinventorymodel.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QVariant>
+#include <QStringList>
 #include <QDebug>
 
 RInventoryModel::RInventoryModel(QObject* parent)

@@ -40,6 +40,7 @@ private slots:
     void showRecipeDetails(QListWidgetItem *item);
 
 private:
+    void setupUI();
     Ui::RRSearchWindow *ui;
 
     QList<RRecipe> allRecipes;
