@@ -24,7 +24,8 @@ SOURCES += \
 HEADERS += \
     Rrsearchwindow.h \
     Rinventorymodel.h \
-    Radditemdialog.h
+    Radditemdialog.h \
+    food.h
 
 FORMS += \
     mainwindow.ui \

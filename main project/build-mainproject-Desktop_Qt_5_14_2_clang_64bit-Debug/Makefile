@@ -52,8 +52,19 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../mainproject/main.cpp 
-OBJECTS       = main.o
+SOURCES       = ../mainproject/main.cpp \
+		../mainproject/Rrsearchwindow.cpp \
+		../mainproject/Rinventorymodel.cpp \
+		../mainproject/Radditemdialog.cpp moc_Rrsearchwindow.cpp \
+		moc_Rinventorymodel.cpp \
+		moc_Radditemdialog.cpp
+OBJECTS       = main.o \
+		Rrsearchwindow.o \
+		Rinventorymodel.o \
+		Radditemdialog.o \
+		moc_Rrsearchwindow.o \
+		moc_Rinventorymodel.o \
+		moc_Radditemdialog.o
 DIST          = ../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/qdevice.pri \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/device_config.prf \
@@ -263,7 +274,13 @@ DIST          = ../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/spec
 		../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/exceptions.prf \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/yacc.prf \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/lex.prf \
-		../mainproject/mainproject.pro  ../mainproject/main.cpp
+		../mainproject/mainproject.pro ../mainproject/Rrsearchwindow.h \
+		../mainproject/Rinventorymodel.h \
+		../mainproject/Radditemdialog.h \
+		../mainproject/food.h ../mainproject/main.cpp \
+		../mainproject/Rrsearchwindow.cpp \
+		../mainproject/Rinventorymodel.cpp \
+		../mainproject/Radditemdialog.cpp
 QMAKE_TARGET  = mainproject
 DESTDIR       = 
 TARGET        = mainproject.app/Contents/MacOS/mainproject
@@ -282,7 +299,7 @@ include /Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-mainproject.app/Contents/MacOS/mainproject: ui_mainwindow.h $(OBJECTS)  
+mainproject.app/Contents/MacOS/mainproject: ui_mainwindow.h ui_Radditemdialog.h $(OBJECTS)  
 	@test -d mainproject.app/Contents/MacOS/ || mkdir -p mainproject.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -745,8 +762,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../mainproject/main.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../mainproject/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../mainproject/Rrsearchwindow.h ../mainproject/Rinventorymodel.h ../mainproject/Radditemdialog.h ../mainproject/food.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../mainproject/main.cpp ../mainproject/Rrsearchwindow.cpp ../mainproject/Rinventorymodel.cpp ../mainproject/Radditemdialog.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../mainproject/mainwindow.ui ../mainproject/Radditemdialog.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -780,18 +798,69 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/data/dummy.cpp
 	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.13 -Wall -Wextra -dM -E -o moc_predefs.h ../../../../../../Qt5.14.2/5.14.2/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_Rrsearchwindow.cpp moc_Rinventorymodel.cpp moc_Radditemdialog.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_Rrsearchwindow.cpp moc_Rinventorymodel.cpp moc_Radditemdialog.cpp
+moc_Rrsearchwindow.cpp: ../mainproject/Rrsearchwindow.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlabel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QListWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlistwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QComboBox \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qcombobox.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QList \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qlist.h \
+		moc_predefs.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/bin/moc
+	/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/bin/moc $(DEFINES) --include '/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/build-mainproject-Desktop_Qt_5_14_2_clang_64bit-Debug/moc_predefs.h' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/mkspecs/macx-clang -I'/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/mainproject' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtGui.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include -I/Library/Developer/CommandLineTools/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include -F/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib ../mainproject/Rrsearchwindow.h -o moc_Rrsearchwindow.cpp
+
+moc_Rinventorymodel.cpp: ../mainproject/Rinventorymodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		moc_predefs.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/bin/moc
+	/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/bin/moc $(DEFINES) --include '/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/build-mainproject-Desktop_Qt_5_14_2_clang_64bit-Debug/moc_predefs.h' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/mkspecs/macx-clang -I'/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/mainproject' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtGui.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include -I/Library/Developer/CommandLineTools/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include -F/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib ../mainproject/Rinventorymodel.h -o moc_Rinventorymodel.cpp
+
+moc_Radditemdialog.cpp: ../mainproject/Radditemdialog.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		../mainproject/Rinventorymodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		moc_predefs.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/bin/moc
+	/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/bin/moc $(DEFINES) --include '/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/build-mainproject-Desktop_Qt_5_14_2_clang_64bit-Debug/moc_predefs.h' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/mkspecs/macx-clang -I'/Users/mathieuneel/Desktop/cosc340/project/FOOD/main project/mainproject' -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtGui.framework/Headers -I/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include -I/Library/Developer/CommandLineTools/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include -F/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/lib ../mainproject/Radditemdialog.h -o moc_Radditemdialog.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ui_mainwindow.h ui_Radditemdialog.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
+	-$(DEL_FILE) ui_mainwindow.h ui_Radditemdialog.h
 ui_mainwindow.h: ../mainproject/mainwindow.ui \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/bin/uic
 	/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/bin/uic ../mainproject/mainwindow.ui -o ui_mainwindow.h
+
+ui_Radditemdialog.h: ../mainproject/Radditemdialog.ui \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/bin/uic
+	/Users/mathieuneel/Qt5.14.2/5.14.2/clang_64/bin/uic ../mainproject/Radditemdialog.ui -o ui_Radditemdialog.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -801,21 +870,121 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_uic_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
-main.o: ../mainproject/main.cpp ../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
-		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+main.o: ../mainproject/main.cpp ../../headers/food.hpp \
+		../mainproject/Rrsearchwindow.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlabel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
-		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QTabWidget \
-		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qtabwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QListWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlistwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QComboBox \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qcombobox.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QList \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qlist.h \
+		../mainproject/Rinventorymodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		../mainproject/Radditemdialog.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		../mainproject/Rmainwindow.h \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QVBoxLayout \
-		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qboxlayout.h
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qboxlayout.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QHBoxLayout \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QTabWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qtabwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QString \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QListWidgetItem
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../mainproject/main.cpp
+
+Rrsearchwindow.o: ../mainproject/Rrsearchwindow.cpp ../mainproject/Rrsearchwindow.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlabel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QListWidget \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlistwidget.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QComboBox \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qcombobox.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QList \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qlist.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QVBoxLayout \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qboxlayout.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QHBoxLayout \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QGridLayout \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qgridlayout.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QFile \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qfile.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QTextStream \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QMessageBox \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QDebug \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Rrsearchwindow.o ../mainproject/Rrsearchwindow.cpp
+
+Rinventorymodel.o: ../mainproject/Rinventorymodel.cpp ../mainproject/Rinventorymodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonObject \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonobject.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonDocument \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsondocument.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QDebug \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Rinventorymodel.o ../mainproject/Rinventorymodel.cpp
+
+Radditemdialog.o: ../mainproject/Radditemdialog.cpp ../mainproject/Radditemdialog.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		../mainproject/Rinventorymodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../../../../Qt5.14.2/5.14.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		ui_radditemdialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Radditemdialog.o ../mainproject/Radditemdialog.cpp
+
+moc_Rrsearchwindow.o: moc_Rrsearchwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Rrsearchwindow.o moc_Rrsearchwindow.cpp
+
+moc_Rinventorymodel.o: moc_Rinventorymodel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Rinventorymodel.o moc_Rinventorymodel.cpp
+
+moc_Radditemdialog.o: moc_Radditemdialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Radditemdialog.o moc_Radditemdialog.cpp
 
 ####### Install
 
