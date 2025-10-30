@@ -1,5 +1,6 @@
 #include "food.h"
 #include "Rrsearchwindow.h"
+#include "../../ShoppingList/ShoppingListWidget.h"
 #include "Rinventorymodel.h"
 #include "Radditemdialog.h"
 #include "Rmainwindow.h"
@@ -153,6 +154,13 @@ int main(int argc, char *argv[])
     // // // inputPage section end // // //
 
 
+    // // // Shopping List section // // //
+
+    // Create the Shopping List widget
+    ShoppingListWidget *shoppingListPage = new ShoppingListWidget(&mainWindow);
+
+    // // // Shopping List section end // // //
+
     // // // RsearchFunc section // // //
     
     // Create the RsearchFunc widget
@@ -228,6 +236,7 @@ int main(int argc, char *argv[])
     tabs->addTab(inputPage, "Input");
     tabs->addTab(rsearchPage, "Recipe Search");
     tabs->addTab(recipeDisplayPage, "Recipe Display");
+    tabs->addTab(shoppingListPage, "Shopping List");
 
     mainWindowLayout->addWidget(tabs);
     mainWindow.resize(800, 600);
@@ -259,6 +268,9 @@ int main(int argc, char *argv[])
         delete inputSearchButton;
         delete inputPageLayout;
         delete inputPage;
+
+        // Shopping List frees
+        delete shoppingListPage;
 
         // RsearchFunc frees
         delete rsearchPage;
