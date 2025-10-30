@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
     QTextEdit *inputOutput = new QTextEdit(inputPage);
     QLineEdit *inputSearchBar = new QLineEdit(inputPage);
     std::map<QString, bool> ingredients;
-    std::map<QString, double> ingredients_amount;
     std::map<QString, bool>::iterator iit;
 
     STATUS status;
@@ -44,9 +43,9 @@ int main(int argc, char *argv[])
     std::map<QString, Recipe> recipes;
 
     // // // on launch section // // //
-    std::map<std::string, double> ingredients_buffer;
+    std::map<std::string, Ingredient> ingredients_buffer;
     status = INIT(recipes_buffer, ingredients_buffer);
-    if (status != STATUS_SUCCESS) { goto exit; }
+//    if (status != STATUS_SUCCESS) { goto exit; }
 
     // Converting the strings to Qstrings
     for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
@@ -56,11 +55,10 @@ int main(int argc, char *argv[])
         recipes[qstr] = it->second;
     }
     recipes_buffer.clear();
-    for (std::map<std::string, double>::iterator it = ingredients_buffer.begin(); it != ingredients_buffer.end(); it++)
+    for (std::map<std::string, Ingredient>::iterator it = ingredients_buffer.begin(); it != ingredients_buffer.end(); it++)
     {
         std::string str = it->first;
         QString qstr = QString::fromStdString(str);
-        ingredients_amount[qstr] = it->second;
         ingredients[qstr] = true;
     }
     ingredients_buffer.clear();
@@ -277,7 +275,7 @@ int main(int argc, char *argv[])
         std::string str = qstr.toStdString();
         recipes_buffer[str] = it->second;
     }
-    status = DEINIT(recipes);
+    //status = DEINIT(recipes, ingredients);
 
     // // // on close section end // // //
 
