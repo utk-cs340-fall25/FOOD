@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     STATUS status;
     std::map <std::string, Recipe> recipes_buffer; // The map for the reicpes.
-    std::map<Qstring, Recipe> recipes;
+    std::map<QString, Recipe> recipes;
 
     // // // on launch section // // //
     std::map<std::string, double> ingredients_buffer;
@@ -45,14 +45,14 @@ int main(int argc, char *argv[])
     for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
     {
         std::string str = it->first;
-        Qstring qstr = QString::fromStdString(str);
+        QString qstr = QString::fromStdString(str);
         recipes[qstr] = it->second;
     }
     recipes_buffer.clear();
     for (std::map<std::string, double>::iterator it = ingredients_buffer.begin(); it != ingredients_buffer.end(); it++)
     {
         std::string str = it->first;
-        Qstring qstr = QString::fromStdString(str);
+        QString qstr = QString::fromStdString(str);
         ingredients_amount[qstr] = it->second;
         ingredients[qstr] = true;
     }
@@ -207,10 +207,10 @@ int main(int argc, char *argv[])
         delete mainWindowLayout;
     });
 
-    // Converting the Qstrings to std::strings
-    for (std::map<Qstring, Recipe>::iterator it = recipes.begin(); it != recipes.end(); it++)
+    // Converting the QStrings to std::strings
+    for (std::map<QString, Recipe>::iterator it = recipes.begin(); it != recipes.end(); it++)
     {
-        Qstring qstr = it->first;
+        QString qstr = it->first;
         std::string str = qstr.toStdString();
         recipes_buffer[str] = it->second;
     }
