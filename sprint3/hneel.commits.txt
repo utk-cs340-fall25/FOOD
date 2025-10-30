@@ -1,0 +1,166 @@
+05299b37 (Ro Neel        2025-10-30 08:55:32 -0400   1) #include "food.h"
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400   7) #include <QApplication>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400   8) #include <QWidget>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400   9) #include <QTabWidget>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  10) #include <QMainWindow>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  11) #include <QVBoxLayout>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  12) #include <QString>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  13) #include <QListWidget>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  14) #include <QListWidgetItem>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  15) #include <QTextEdit>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  16) #include <QPushButton>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  17) #include <QLineEdit>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  18) #include <map>
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  23) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  24) int main(int argc, char *argv[])
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  25) {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  26)     // main application variables
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  27)     QApplication a(argc, argv);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  28)     QWidget mainWindow;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  29)     QVBoxLayout *mainWindowLayout = new QVBoxLayout(&mainWindow);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  30)     QTabWidget *tabs = new QTabWidget(&mainWindow);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  31) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  32)     // input variables
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  33)     QWidget *inputPage = new QWidget(&mainWindow);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  34)     QListWidget *inputSelection = new QListWidget(inputPage);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  35)     QPushButton *inputSearchButton = new QPushButton("Search", inputPage);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  36)     QVBoxLayout *inputPageLayout = new QVBoxLayout(inputPage);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  37)     QTextEdit *inputOutput = new QTextEdit(inputPage);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  38)     QLineEdit *inputSearchBar = new QLineEdit(inputPage);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  39)     std::map<QString, bool> ingredients;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  40)     std::map<QString, bool>::iterator iit;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  41) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  67)     // temporary map fillings - replace with loading of the map here!
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  68)     ingredients["Zucchini"] = false;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  69)     ingredients["Salt"] = false;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  70)     ingredients["Oil"] = false;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  71)     ingredients["Bihon Noodles"] = false;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  72) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  73)     // // // on launch section end // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  74) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  75) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  76) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  77)     // // // inputPage section // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  78) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  79)     // setting the layouts
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  80)     inputPageLayout->addWidget(inputSearchBar);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  81)     inputPageLayout->addWidget(inputSearchButton);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  82)     inputPageLayout->addWidget(inputSelection);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  83)     inputPageLayout->addWidget(inputOutput);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  84) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  85)     inputOutput->setReadOnly(true);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  86)     inputOutput->setText("Ingredients Owned:");
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  87) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  88)     // dynamically creating the list from the map
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  89)     for(iit = ingredients.begin(); iit != ingredients.end(); iit++)
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  90)     {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  91)         QListWidgetItem *item = new QListWidgetItem(iit->first, inputSelection);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  92)         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  93)         item->setCheckState(Qt::Unchecked);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  94)     }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  95) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  96)     // search function
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  97)     QObject::connect(inputSearchButton, &QPushButton::clicked, [&]()
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  98)     {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400  99)         // restore search when emtpy
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 100)         if( inputSearchBar->text().isEmpty() )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 101)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 102)             for( int i = 0; i < inputSelection->count(); i++ )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 103)             {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 104)                 QListWidgetItem *temp = inputSelection->item(i);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 105)                 temp->setHidden(false);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 106) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 107)             }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 108)         } else
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 109)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 110)             // go thru the list and hide the ones that do not have the search term & show the ones that do
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 111)             for( int i = 0; i < inputSelection->count(); i++ )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 112)             {
+8a88c896 (Ro Neel        2025-10-21 09:50:35 -0400 113)                 QListWidgetItem *temp = inputSelection->item(i);        
+8a88c896 (Ro Neel        2025-10-21 09:50:35 -0400 114) 
+8a88c896 (Ro Neel        2025-10-21 09:50:35 -0400 115)                 // to lower for case insentive search
+8a88c896 (Ro Neel        2025-10-21 09:50:35 -0400 116)                 if( !( temp->text().toLower().contains( inputSearchBar->text().toLower() ) ) )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 117)                 {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 118)                     temp->setHidden(true);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 119)                 } else
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 120)                 {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 121)                     temp->setHidden(false);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 122)                 }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 123)             }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 124)         }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 125)     });
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 126) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 127)     // checkbox selection
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 128)     QObject::connect(inputSelection, &QListWidget::itemChanged, [&](const QListWidgetItem *item)
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 129)     {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 130)         if(item->checkState() == Qt::Checked)
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 131)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 132)             // checked ingredient had
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 133)             ingredients[item->text()] = true;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 134)         } else
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 135)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 136)             // unchecked ingredient no had
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 137)             ingredients[item->text()] = false;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 138)         }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 139) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 140)         // outputting the list of ingredients we have
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 141)         inputOutput->clear();
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 142)         inputOutput->append("Ingredients Owned:");
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 143)         for( iit = ingredients.begin(); iit != ingredients.end(); iit++)
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 144)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 145)             // if we have it, add it on to the display
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 146)             if( iit->second == true )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 147)             {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 148)                 inputOutput->append(iit->first);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 149)             }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 150)         }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 151)     });
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 152) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 153) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 154)     // // // inputPage section end // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 155) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 156) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 226) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 230)     // // // main application display - add your pages here! // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 231) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 232)     // Note: Add your layouts to your page widget, not the tabs or mainwindow!
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 233)     //       See input section for example
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 234) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 235)     // tabs->addTab(yourPage, "Page Title");
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 236)     tabs->addTab(inputPage, "Input");
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 240) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 241)     mainWindowLayout->addWidget(tabs);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 242)     mainWindow.resize(800, 600);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 243)     mainWindow.show();
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 244) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 245)     // // // main application display end // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 246) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 247) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 248) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 249)     // // // on close section // // //
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 250)     // This runs on close - clean up any resources you allocate!
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 251) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 256)     QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 257)     {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 258)         // input frees
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 259)         for( int i = 0; i < inputSelection->count(); i++ )
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 260)         {
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 261)             QListWidgetItem *temp = inputSelection->item(i);
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 262)             delete temp;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 263)         }
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 264) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 265)         delete inputSelection;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 266)         delete inputOutput;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 267)         delete inputSearchBar;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 268)         delete inputSearchButton;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 269)         delete inputPageLayout;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 270)         delete inputPage;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 271) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 277) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 278)         // main application frees
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 279)         delete tabs;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 280)         delete mainWindowLayout;
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 281)     });
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 282) 
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 294)     return a.exec();
+22ab9516 (Ro Neel        2025-10-21 09:29:55 -0400 295) }
