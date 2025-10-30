@@ -17,18 +17,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    ../../RobsSearchFunc/Rrsearchwindow.cpp \
-    ../../RobsSearchFunc/Rinventorymodel.cpp \
-    ../../RobsSearchFunc/Radditemdialog.cpp
+    Rrsearchwindow.cpp \
+    Rinventorymodel.cpp \
+    Radditemdialog.cpp
 
 HEADERS += \
-    ../../RobsSearchFunc/Rrsearchwindow.h \
-    ../../RobsSearchFunc/Rinventorymodel.h \
-    ../../RobsSearchFunc/Radditemdialog.h
+    Rrsearchwindow.h \
+    Rinventorymodel.h \
+    Radditemdialog.h \
+    food.h
 
 FORMS += \
     mainwindow.ui \
-    ../../RobsSearchFunc/Radditemdialog.ui
+    Radditemdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
