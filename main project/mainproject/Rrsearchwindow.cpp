@@ -91,27 +91,9 @@ void RRSearchWindow::setupUI()
 
 void RRSearchWindow::loadRecipes()
 {
-    // Try multiple possible locations for recipes.txt
-    QStringList possiblePaths = {
-        "recipes.txt",
-        "../../RobsSearchFunc/recipes.txt",
-        "../RobsSearchFunc/recipes.txt",
-        "RobsSearchFunc/recipes.txt"
-    };
-    
-    QFile file;
-    bool fileFound = false;
-    
-    for (const QString &path : possiblePaths) {
-        file.setFileName(path);
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            fileFound = true;
-            break;
-        }
-    }
-    
-    if (!fileFound) {
-        QMessageBox::warning(this, "Error", "Could not open recipes.txt file in any expected location");
+    QFile file("recipes.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Error", "Could not open recipes.txt");
         return;
     }
     

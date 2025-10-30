@@ -1,5 +1,8 @@
 #include "../../headers/food.hpp"
-#include "../../RobsSearchFunc/Rrsearchwindow.h"
+#include "Rrsearchwindow.h"
+#include "Rinventorymodel.h"
+#include "Radditemdialog.h"
+#include "Rmainwindow.h"
 #include <QApplication>
 #include <QWidget>
 #include <QTabWidget>
