@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
 
     // Label for immediately closing the application due to errors.
     // This label should always be above any code in the "on close" section.
-    exit:
+    //exit:
 
     QObject::connect(&a, &QApplication::lastWindowClosed, [&]()
     {
