@@ -1,4 +1,4 @@
-#include "../../headers/food.hpp"
+#include "food.hpp"
 #include "Rrsearchwindow.h"
 #include "Rinventorymodel.h"
 #include "Radditemdialog.h"
