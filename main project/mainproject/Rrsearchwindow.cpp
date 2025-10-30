@@ -10,7 +10,7 @@
 RRSearchWindow::RRSearchWindow(QWidget *parent)
     : QWidget(parent)
 {
-    setupUI();
+    setupUi();
     loadRecipes();
 }
 
