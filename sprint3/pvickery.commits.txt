@@ -1,0 +1,57 @@
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 171)     // Recipe Display
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 172)     QWidget *recipeDisplayPage = new QWidget(&mainWindow);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 173)     QVBoxLayout *recipeDisplayLayout = new QVBoxLayout(recipeDisplayPage);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 174)     QStackedWidget *recipeDetails = new QStackedWidget();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 175)     QListWidget *recipeList = new QListWidget();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 176) 
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 177)     QHBoxLayout *recipeLayout = new QHBoxLayout();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 178)     recipeLayout->addWidget(recipeList);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 179)     recipeLayout->addWidget(recipeDetails);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 180) 
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 181)     recipeDisplayLayout->addLayout(recipeLayout);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 182)     QFile file("recipe.txt");
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 183)     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 184)         recipeList->addItem("Error: Could not open recipe.txt");
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 185)     } else {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 186)         QTextStream in(&file);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 187)         QStringList allLines;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 188)         while (!in.atEnd()) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 189)         QString line = in.readLine().trimmed();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 190)         allLines << line;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 191)     }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 192)     file.close();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 193) 
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 194)     QString recipeName;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 195)     QStringList ingredients;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 196) 
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 197)     for (const QString &line : allLines) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 198)         if (line.isEmpty()) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 199)             if (!recipeName.isEmpty()) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 200)                 recipeList->addItem(recipeName);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 201)                 QWidget *page = new QWidget();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 202)                 QVBoxLayout *pageLayout = new QVBoxLayout(page);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 203)                 pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 204)                 recipeDetails->addWidget(page);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 205) 
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 206)                 recipeName.clear();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 207)                 ingredients.clear();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 208)             }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 209)         } else {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 210)             if (recipeName.isEmpty()) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 211)                 recipeName = line;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 212)             } else {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 213)                 ingredients << line;
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 214)             }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 215)         }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 216)     }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 218)     if (!recipeName.isEmpty()) {
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 219)         recipeList->addItem(recipeName);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 220)         QWidget *page = new QWidget();
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 221)         QVBoxLayout *pageLayout = new QVBoxLayout(page);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 222)         pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 223)         recipeDetails->addWidget(page);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 224)     }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 225) }
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 227)     QObject::connect(recipeList, &QListWidget::currentRowChanged,
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 228)                  recipeDetails, &QStackedWidget::setCurrentIndex);
+0226febb (Philip Vickery 2025-10-30 08:08:49 -0400 229)     recipeList->setCurrentRow(0);
