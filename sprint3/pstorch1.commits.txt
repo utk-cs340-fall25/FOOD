@@ -1,0 +1,406 @@
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   1) #ifndef SHOPPINGLISTWIDGET_H
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   2) #define SHOPPINGLISTWIDGET_H
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   3) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   4) #include <QWidget>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   5) #include <QVBoxLayout>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   6) #include <QHBoxLayout>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   7) #include <QComboBox>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   8) #include <QGroupBox>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400   9) #include <QCheckBox>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  10) #include <QLabel>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  11) #include <QListWidget>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  12) #include <QStringList>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  13) #include <QSet>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  14) #include <QVector>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  15) #include <QMap>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  16) #include <QPushButton>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  17) #include <QMessageBox>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  18) #include <QLineEdit>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  19) #include <QMenu>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  20) #include <QAction>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  21) #include <QDateTime>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  22) #include <QStatusBar>
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  23) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  24) // Priority levels for shopping list items
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  25) enum Priority { LOW, MEDIUM, HIGH };
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  26) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  27) struct ShoppingListRecipe {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  28)     QString name;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  29)     QStringList ingredients;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  30) };
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  31) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  32) class ShoppingListWidget : public QWidget {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  33)     Q_OBJECT
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  34) public:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  35)     ShoppingListWidget(QWidget *parent = nullptr) : QWidget(parent) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  36)         // Hardcoded recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  37)         recipes.append({"Pasta", {"pasta", "tomato sauce", "cheese", "basil"}});
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  38)         recipes.append({"Omelette", {"eggs", "cheese", "milk", "butter"}});
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  39)         recipes.append({"Salad", {"lettuce", "tomato", "cucumber", "olive oil"}});
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  40) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  41)         QVBoxLayout *mainLayout = new QVBoxLayout(this);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  42) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  43)         // Date and time display
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  44)         QDateTime currentTime = QDateTime::currentDateTime();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  45)         QLabel *dateTimeLabel = new QLabel("Shopping List - " + currentTime.toString("yyyy-MM-dd"));
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  46)         dateTimeLabel->setAlignment(Qt::AlignCenter);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  47)         mainLayout->addWidget(dateTimeLabel);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  48) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  49)         // Recipe selection section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  50)         QHBoxLayout *recipeSelectionLayout = new QHBoxLayout();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  51)         QLabel *recipeLabel = new QLabel("Select Recipe:");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  52)         recipeBox = new QComboBox();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  53)         for (const ShoppingListRecipe &r : recipes)
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  54)             recipeBox->addItem(r.name);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  55) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  56)         addButton = new QPushButton("Add to Menu");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  57) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  58)         recipeSelectionLayout->addWidget(recipeLabel);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  59)         recipeSelectionLayout->addWidget(recipeBox);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  60)         recipeSelectionLayout->addWidget(addButton);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  61) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  62)         mainLayout->addLayout(recipeSelectionLayout);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  63) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  64)         // Selected recipes section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  65)         selectedRecipesGroup = new QGroupBox("Selected Recipes");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  66)         selectedRecipesLayout = new QVBoxLayout();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  67)         selectedRecipesGroup->setLayout(selectedRecipesLayout);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  68)         mainLayout->addWidget(selectedRecipesGroup);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  69) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  70)         // Ingredients you have section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  71)         ingredientGroup = new QGroupBox("Ingredients you have");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  72)         ingLayout = new QVBoxLayout();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  73)         ingredientGroup->setLayout(ingLayout);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  74)         mainLayout->addWidget(ingredientGroup);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  75) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  76)         // Shopping list section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  77)         mainLayout->addWidget(new QLabel("Missing ingredients (shopping list):"));
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  78)         shoppingList = new QListWidget();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  79)         shoppingList->setContextMenuPolicy(Qt::CustomContextMenu);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  80)         mainLayout->addWidget(shoppingList);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  81) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  82)         // Custom item section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  83)         QGroupBox *customItemGroup = new QGroupBox("Add Custom Item");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  84)         QHBoxLayout *customItemLayout = new QHBoxLayout();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  85)         customItemInput = new QLineEdit();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  86)         QPushButton *addCustomItemButton = new QPushButton("Add");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  87)         QComboBox *priorityComboBox = new QComboBox();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  88) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  89)         priorityComboBox->addItem("Low Priority", LOW);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  90)         priorityComboBox->addItem("Medium Priority", MEDIUM);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  91)         priorityComboBox->addItem("High Priority", HIGH);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  92)         customItemPrioritySelector = priorityComboBox;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  93) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  94)         customItemLayout->addWidget(customItemInput);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  95)         customItemLayout->addWidget(priorityComboBox);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  96)         customItemLayout->addWidget(addCustomItemButton);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  97)         customItemGroup->setLayout(customItemLayout);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  98)         mainLayout->addWidget(customItemGroup);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400  99) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 100)         // Clear button
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 101)         clearAllButton = new QPushButton("Clear All");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 102)         mainLayout->addWidget(clearAllButton);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 103) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 104)         // Status bar for help text
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 105)         statusBar = new QStatusBar();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 106)         statusBar->showMessage("Right-click on shopping list items to set priority");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 107)         mainLayout->addWidget(statusBar);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 108) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 109)         // Connect signals/slots
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 110)         connect(addButton, &QPushButton::clicked, this, &ShoppingListWidget::addRecipeToMenu);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 111)         connect(clearAllButton, &QPushButton::clicked, this, &ShoppingListWidget::clearAll);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 112)         connect(addCustomItemButton, &QPushButton::clicked, this, &ShoppingListWidget::addCustomItem);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 113)         connect(shoppingList, &QListWidget::customContextMenuRequested,
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 114)                 this, &ShoppingListWidget::showItemContextMenu);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 115) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 116)         // Initial update of ingredients display
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 117)         updateIngredientsDisplay();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 118)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 119) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 120) private slots:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 121)     void addRecipeToMenu() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 122)         int index = recipeBox->currentIndex();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 123)         if (index < 0 || index >= recipes.size()) return;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 124) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 125)         // Check if the recipe is already added
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 126)         QString recipeName = recipes[index].name;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 127)         if (selectedRecipes.contains(recipeName)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 128)             QMessageBox::information(this, "Already Added",
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 129)                                     "This recipe is already in your menu.");
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 130)             return;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 131)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 132) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 133)         // Add recipe to selected list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 134)         selectedRecipes.insert(recipeName);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 135) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 136)         // Add checkbox to selected recipes section
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 137)         QCheckBox *recipeCheckBox = new QCheckBox(recipeName);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 138)         selectedRecipesLayout->addWidget(recipeCheckBox);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 139)         recipeCheckBoxes[recipeName] = recipeCheckBox;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 140) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 141)         // Connect checkbox signal to update ingredients when toggled
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 142)         connect(recipeCheckBox, &QCheckBox::stateChanged, this, &ShoppingListWidget::updateIngredientsDisplay);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 143) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 144)         // Update the display with the new recipe
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 145)         updateIngredientsDisplay();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 146)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 147) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 148)     void updateIngredientsDisplay() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 149)         // Clear previous checkboxes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 150)         QLayoutItem *child;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 151)         while ((child = ingLayout->takeAt(0)) != nullptr) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 152)             QWidget *w = child->widget();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 153)             if (w) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 154)                 w->deleteLater();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 155)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 156)             delete child;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 157)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 158)         checkboxes.clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 159) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 160)         // Create a set of all ingredients from selected recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 161)         QSet<QString> allIngredients;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 162)         for (const QString &recipeName : selectedRecipes) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 163)             // Only include ingredients for checked recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 164)             QCheckBox *recipeCheckBox = recipeCheckBoxes.value(recipeName);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 165)             if (recipeCheckBox && recipeCheckBox->isChecked()) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 166)                 for (const ShoppingListRecipe &r : recipes) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 167)                     if (r.name == recipeName) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 168)                         for (const QString &ing : r.ingredients) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 169)                             allIngredients.insert(ing);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 170)                         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 171)                         break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 172)                     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 173)                 }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 174)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 175)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 176) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 177)         // Create checkboxes for all unique ingredients
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 178)         for (const QString &ing : allIngredients) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 179)             QCheckBox *cb = new QCheckBox(ing);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 180)             ingLayout->addWidget(cb);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 181)             checkboxes[ing] = cb;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 182)             connect(cb, &QCheckBox::stateChanged, this, &ShoppingListWidget::updateShoppingList);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 183)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 184) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 185)         updateShoppingList();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 186)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 187) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 188)     void updateShoppingList() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 189)         // Store current priorities before clearing the list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 190)         QMap<QString, Priority> currentPriorities;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 191)         for (int i = 0; i < shoppingList->count(); i++) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 192)             QListWidgetItem* item = shoppingList->item(i);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 193)             QString itemText = item->text();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 194)             if (itemPriorities.contains(itemText)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 195)                 currentPriorities[itemText] = itemPriorities[itemText];
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 196)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 197)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 198) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 199)         // Create a set of all ingredients from selected recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 200)         QSet<QString> requiredIngredients;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 201)         for (const QString &recipeName : selectedRecipes) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 202)             // Only include ingredients for checked recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 203)             QCheckBox *recipeCheckBox = recipeCheckBoxes.value(recipeName);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 204)             if (recipeCheckBox && recipeCheckBox->isChecked()) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 205)                 for (const ShoppingListRecipe &r : recipes) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 206)                     if (r.name == recipeName) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 207)                         for (const QString &ing : r.ingredients) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 208)                             requiredIngredients.insert(ing);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 209)                         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 210)                         break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 211)                     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 212)                 }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 213)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 214)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 215) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 216)         // Check which ingredients user has
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 217)         QSet<QString> inventory;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 218)         for (const QString &ing : requiredIngredients) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 219)             if (checkboxes.contains(ing) && checkboxes[ing]->isChecked())
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 220)                 inventory.insert(ing);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 221)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 222) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 223)         // Update the shopping list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 224)         shoppingList->clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 225) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 226)         // First, add recipe ingredients
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 227)         for (const QString &ing : requiredIngredients) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 228)             if (!inventory.contains(ing)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 229)                 QListWidgetItem* item = new QListWidgetItem(ing);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 230)                 shoppingList->addItem(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 231) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 232)                 // Restore or set priority
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 233)                 if (currentPriorities.contains(ing)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 234)                     itemPriorities[ing] = currentPriorities[ing];
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 235)                 } else if (!itemPriorities.contains(ing)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 236)                     itemPriorities[ing] = LOW; // Default priority
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 237)                 }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 238)                 updateItemDisplay(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 239)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 240)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 241) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 242)         // Then, add custom items (keep them in the list)
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 243)         for (const QString &customItem : customItems) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 244)             QListWidgetItem* item = new QListWidgetItem(customItem);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 245)             shoppingList->addItem(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 246)             updateItemDisplay(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 247)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 248)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 249) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 250)     void addCustomItem() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 251)         QString item = customItemInput->text().trimmed();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 252)         if (!item.isEmpty()) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 253)             // Check if item already exists
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 254)             bool alreadyExists = false;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 255)             for (int i = 0; i < shoppingList->count(); i++) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 256)                 if (shoppingList->item(i)->text() == item) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 257)                     alreadyExists = true;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 258)                     break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 259)                 }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 260)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 261) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 262)             if (!alreadyExists) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 263)                 // Get selected priority
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 264)                 Priority priority = static_cast<Priority>(
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 265)                     customItemPrioritySelector->currentData().toInt());
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 266) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 267)                 // Add item to our custom items list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 268)                 customItems.insert(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 269) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 270)                 // Set the priority
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 271)                 itemPriorities[item] = priority;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 272) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 273)                 // Add to the shopping list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 274)                 QListWidgetItem* newItem = new QListWidgetItem(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 275)                 shoppingList->addItem(newItem);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 276)                 updateItemDisplay(newItem);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 277) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 278)                 // Clear the input field
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 279)                 customItemInput->clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 280) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 281)                 statusBar->showMessage("Custom item added: " + item, 2000);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 282)             } else {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 283)                 statusBar->showMessage("Item already in list", 2000);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 284)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 285)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 286)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 287) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 288)     void showItemContextMenu(const QPoint &pos) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 289)         QListWidgetItem *item = shoppingList->itemAt(pos);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 290)         if (!item)
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 291)             return;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 292) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 293)         QMenu contextMenu(tr("Item Priority"), this);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 294) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 295)         QAction *lowAction = new QAction(tr("Low Priority"), this);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 296)         QAction *mediumAction = new QAction(tr("Medium Priority"), this);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 297)         QAction *highAction = new QAction(tr("High Priority"), this);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 298) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 299)         connect(lowAction, &QAction::triggered, [this, item]() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 300)             setPriority(item, LOW);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 301)         });
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 302) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 303)         connect(mediumAction, &QAction::triggered, [this, item]() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 304)             setPriority(item, MEDIUM);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 305)         });
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 306) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 307)         connect(highAction, &QAction::triggered, [this, item]() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 308)             setPriority(item, HIGH);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 309)         });
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 310) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 311)         contextMenu.addAction(lowAction);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 312)         contextMenu.addAction(mediumAction);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 313)         contextMenu.addAction(highAction);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 314) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 315)         contextMenu.exec(shoppingList->viewport()->mapToGlobal(pos));
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 316)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 317) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 318)     void setPriority(QListWidgetItem *item, Priority priority) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 319)         if (!item) return;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 320) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 321)         QString itemText = item->text();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 322)         itemPriorities[itemText] = priority;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 323)         updateItemDisplay(item);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 324) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 325)         statusBar->showMessage("Priority updated for: " + itemText, 2000);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 326)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 327) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 328)     void updateItemDisplay(QListWidgetItem* item) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 329)         QString name = item->text();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 330)         if (itemPriorities.contains(name)) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 331)             switch(itemPriorities[name]) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 332)                 case HIGH:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 333)                     item->setForeground(Qt::red);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 334)                     item->setIcon(QIcon::fromTheme("emblem-important"));
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 335)                     break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 336)                 case MEDIUM:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 337)                     item->setForeground(QColor(255, 165, 0)); // Orange
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 338)                     break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 339)                 case LOW:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 340)                 default:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 341)                     item->setForeground(Qt::black);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 342)                     break;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 343)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 344)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 345)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 346) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 347)     void clearAll() {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 348)         // Clear selected recipes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 349)         selectedRecipes.clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 350) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 351)         // Clear custom items
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 352)         customItems.clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 353) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 354)         // Optionally clear item priorities or keep them for next time
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 355)         // itemPriorities.clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 356) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 357)         // Remove all recipe checkboxes
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 358)         QLayoutItem *child;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 359)         while ((child = selectedRecipesLayout->takeAt(0)) != nullptr) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 360)             QWidget *w = child->widget();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 361)             if (w) {
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 362)                 w->deleteLater();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 363)             }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 364)             delete child;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 365)         }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 366)         recipeCheckBoxes.clear();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 367) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 368)         // Clear ingredients and shopping list
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 369)         updateIngredientsDisplay();
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 370) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 371)         statusBar->showMessage("All items cleared", 2000);
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 372)     }
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 373) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 374) private:
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 375)     QVector<ShoppingListRecipe> recipes;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 376)     QComboBox *recipeBox;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 377)     QPushButton *addButton;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 378)     QPushButton *clearAllButton;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 379)     QGroupBox *selectedRecipesGroup;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 380)     QVBoxLayout *selectedRecipesLayout;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 381)     QGroupBox *ingredientGroup;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 382)     QVBoxLayout *ingLayout;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 383)     QMap<QString, QCheckBox*> checkboxes;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 384)     QMap<QString, QCheckBox*> recipeCheckBoxes;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 385)     QListWidget *shoppingList;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 386)     QSet<QString> selectedRecipes;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 387)     QSet<QString> customItems;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 388)     QMap<QString, Priority> itemPriorities;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 389)     QLineEdit *customItemInput;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 390)     QComboBox *customItemPrioritySelector;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 391)     QStatusBar *statusBar;
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 392) };
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 393) 
+429f24a4 (Durza14 2025-10-30 09:09:18 -0400 394) #endif // SHOPPINGLISTWIDGET_H
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400   3) #include "../../ShoppingList/ShoppingListWidget.h"
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 157)     // // // Shopping List section // // //
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 158) 
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 159)     // Create the Shopping List widget
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 160)     ShoppingListWidget *shoppingListPage = new ShoppingListWidget(&mainWindow);
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 161) 
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 162)     // // // Shopping List section end // // //
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 163) 
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 239)     tabs->addTab(shoppingListPage, "Shopping List");
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 272)         // Shopping List frees
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 273)         delete shoppingListPage;
+025cbe66 (Durza14        2025-10-30 09:12:43 -0400 274) 
