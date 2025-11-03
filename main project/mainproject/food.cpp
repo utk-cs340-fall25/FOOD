@@ -5,7 +5,7 @@
 #include <iostream>
 //#include <iomanip>
 #include <vector>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <fstream>
 #include <sstream>
 #include <future>
@@ -36,10 +36,10 @@ void STATUS_PRINTER(STATUS status, std::string prefix)
     catch (std::out_of_range)
     {
         // Default error message
-        message = "Invalid or undefined error code: " + status;
+        message = "Invalid or undefined error code: ";
     }
 
-    output << prefix << ": " << message << '\n';
+    output << prefix << ": " << message << status <<  '\n';
     output.close();
     return;
 }
@@ -113,7 +113,7 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
 
     // Finding how many recipes there are
     uint64_t file_num = 0;
-    for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(RECIPES_PATH))
+    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH))
     {
         file_num += 1;
     }
@@ -124,7 +124,7 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
 
     // Reading each file with its own dedicated thread.
     uint64_t i = 0;
-    for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(RECIPES_PATH))
+    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH))
     {
         std::string path = entry.path().u8string(); // converting a path to a std::string
         threads.at(i) = std::async(&Read_Recipe, path, &loaded_recipes.at(i), false);
@@ -248,7 +248,7 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool in
     std::ifstream file_input(path, std::ios::in);
     if (!file_input.is_open())
     {
-        if (!std::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
+        if (!std::experimental::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
         else { return STATUS_OPEN_FAILED; }
     }
 
@@ -319,7 +319,7 @@ STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool i
     std::ofstream file_output(path, std::ios::trunc | std::ios::out);
     if (!file_output.is_open())
     {
-        if (!std::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
+        if (!std::experimental::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
         else return STATUS_OPEN_FAILED;
     }
 
