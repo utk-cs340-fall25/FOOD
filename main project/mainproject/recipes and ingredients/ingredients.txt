@@ -1,6 +1,6 @@
 Zucchini 0
 Salt 0
-Olive Oil 0
+Olive_Oil 0
 Banana 0
 Ice 0
 Matcha_Powder 0
