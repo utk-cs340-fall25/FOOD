@@ -336,18 +336,18 @@ STATUS Read_Recipe(QString path, struct Recipe* output_recipe, bool individual)
 
     return STATUS_SUCCESS;
 }
-STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool individual)
+STATUS Write_Recipe(QString path, struct Recipe* output_recipe, bool individual)
 {
     if (output_recipe->name.size() == 0) { return STATUS_INVALID_DATA; }
     // Checking the file extenstion
-    if (path.substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
+    if (path.toStdString().substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
     // Checking if the file can be overwritten
 
     // Opening/creating the ouput file
-    std::ofstream file_output(path, std::ios::trunc | std::ios::out);
+    std::ofstream file_output(path.toStdString(), std::ios::trunc | std::ios::out);
     if (!file_output.is_open())
     {
-        if (!std::experimental::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
+        if (!std::experimental::filesystem::exists(path.toStdString())) { return STATUS_FILE_NOT_FOUND; }
         else return STATUS_OPEN_FAILED;
     }
 

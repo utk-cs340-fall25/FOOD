@@ -1,6 +1,6 @@
 #include "food.h"
 #include "Rrsearchwindow.h"
-#include "../../ShoppingList/ShoppingListWidget.h"
+//#include "../../ShoppingList/ShoppingListWidget.h"
 #include "Rinventorymodel.h"
 #include "Radditemdialog.h"
 #include "Rmainwindow.h"
@@ -15,6 +15,7 @@
 #include <QTextEdit>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QTextStream>
 #include <map>
 #include <QStackedWidget>
 #include <QFile>
@@ -40,30 +41,12 @@ int main(int argc, char *argv[])
     std::map<QString, bool>::iterator iit;
 
     STATUS status;
-    std::map <std::string, Recipe> recipes_buffer; // The map for the reicpes.
     std::map<QString, Recipe> recipes;
 
     // // // on launch section // // //
     std::map<std::string, Ingredient> ingredients_buffer;
-    status = INIT(recipes_buffer, ingredients_buffer);
+    status = INIT(recipes, ingredients);
 //    if (status != STATUS_SUCCESS) { goto exit; }
-
-    // Converting the strings to Qstrings
-    for (std::map<std::string, Recipe>::iterator it = recipes_buffer.begin(); it != recipes_buffer.end(); it++)
-    {
-        std::string str = it->first;
-        QString qstr = QString::fromStdString(str);
-        recipes[qstr] = it->second;
-    }
-    recipes_buffer.clear();
-    for (std::map<std::string, Ingredient>::iterator it = ingredients_buffer.begin(); it != ingredients_buffer.end(); it++)
-    {
-        std::string str = it->first;
-        QString qstr = QString::fromStdString(str);
-        ingredients[qstr] = true;
-    }
-    ingredients_buffer.clear();
-
     // temporary map fillings - replace with loading of the map here!
     ingredients["Zucchini"] = false;
     ingredients["Salt"] = false;
@@ -157,7 +140,7 @@ int main(int argc, char *argv[])
     // // // Shopping List section // // //
 
     // Create the Shopping List widget
-    ShoppingListWidget *shoppingListPage = new ShoppingListWidget(&mainWindow);
+    //ShoppingListWidget *shoppingListPage = new ShoppingListWidget(&mainWindow);
 
     // // // Shopping List section end // // //
 
@@ -236,7 +219,7 @@ int main(int argc, char *argv[])
     tabs->addTab(inputPage, "Input");
     tabs->addTab(rsearchPage, "Recipe Search");
     tabs->addTab(recipeDisplayPage, "Recipe Display");
-    tabs->addTab(shoppingListPage, "Shopping List");
+    //tabs->addTab(shoppingListPage, "Shopping List");
 
     mainWindowLayout->addWidget(tabs);
     mainWindow.resize(800, 600);
@@ -270,7 +253,7 @@ int main(int argc, char *argv[])
         delete inputPage;
 
         // Shopping List frees
-        delete shoppingListPage;
+        //delete shoppingListPage;
 
         // RsearchFunc frees
         delete rsearchPage;
@@ -280,14 +263,7 @@ int main(int argc, char *argv[])
         delete mainWindowLayout;
     });
 
-    // Converting the QStrings to std::strings
-    for (std::map<QString, Recipe>::iterator it = recipes.begin(); it != recipes.end(); it++)
-    {
-        QString qstr = it->first;
-        std::string str = qstr.toStdString();
-        recipes_buffer[str] = it->second;
-    }
-    //status = DEINIT(recipes, ingredients);
+    status = DEINIT(recipes, ingredients);
 
     // // // on close section end // // //
 
