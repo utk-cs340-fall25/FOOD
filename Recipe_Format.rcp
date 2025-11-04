@@ -1,6 +1,13 @@
 Name
 
-Ingredient_amount Unit Name
+ingredient1_measurement
+ingredient1_name
+ingredient2_measurement
+ingredient2_name
+ingredient3_measurement
+ingredient3_name
+...
+...
 
 instructions (Case insensitive. Must be present)
 Instruction 1 (Instructions are separated by new lines
