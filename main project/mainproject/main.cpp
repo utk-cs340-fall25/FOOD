@@ -149,6 +149,47 @@ int main(int argc, char *argv[])
     // Create the RsearchFunc widget
     RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
 
+    // Feed data from INIT-loaded maps into the widget (avoid reading files)
+    {
+        QList<RRecipe> uiRecipes;
+        uiRecipes.reserve(static_cast<int>(recipes.size()));
+        for (const auto &kv : recipes)
+        {
+            const QString &name = kv.first;
+            const Recipe &src = kv.second;
+
+            RRecipe r;
+            r.name = name;
+            // Build ingredients text
+            QStringList ingLines;
+            for (const Ingredient &ing : src.ingredients) {
+                QString line = ing.name;
+                if (!ing.amount_s.isEmpty()) {
+                    line += " - " + ing.amount_s;
+                    if (!ing.unit.isEmpty()) line += " " + ing.unit;
+                } else if (ing.amount_d > 0) {
+                    line += " - " + QString::number(ing.amount_d);
+                    if (!ing.unit.isEmpty()) line += " " + ing.unit;
+                }
+                ingLines << line;
+            }
+            r.ingredients = ingLines.join("\n");
+            // Build steps and tags from std::vector<QString>
+            QStringList stepsList;
+            for (const QString &s : src.instructions) stepsList << s;
+            r.steps = stepsList.join("\n");
+            QStringList tagsList;
+            for (const QString &t : src.tags) tagsList << t;
+            r.tags = tagsList.join(", ");
+            r.time = 0;
+            r.difficulty = "";
+            r.region = "";
+            r.tier = "";
+            uiRecipes.push_back(r);
+        }
+        rsearchPage->setRecipes(uiRecipes);
+    }
+
     // // // RsearchFunc section end // // //
 
     // Recipe Display

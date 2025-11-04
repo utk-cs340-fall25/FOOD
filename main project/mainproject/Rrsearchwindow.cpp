@@ -16,7 +16,6 @@ RRSearchWindow::RRSearchWindow(QWidget *parent)
     : QWidget(parent)
 {
     setupUI();
-    loadRecipes();
 }
 
 RRSearchWindow::~RRSearchWindow()
@@ -144,6 +143,32 @@ void RRSearchWindow::loadRecipes()
     
     populateFilterBoxes();
     refreshDisplay(allRecipes);
+}
+
+void RRSearchWindow::setRecipes(const QList<RRecipe> &recipes)
+{
+    allRecipes = recipes;
+    populateFilterBoxes();
+    refreshDisplay(allRecipes);
+}
+
+void RRSearchWindow::loadFromPairs(const std::vector<std::pair<std::string, std::string>> &pairs)
+{
+    QList<RRecipe> loaded;
+    loaded.reserve(static_cast<int>(pairs.size()));
+    for (const auto &p : pairs) {
+        RRecipe r;
+        r.name = QString::fromStdString(p.first);
+        r.ingredients = QString::fromStdString(p.second);
+        r.steps = "";
+        r.time = 0;
+        r.difficulty = "";
+        r.tags = "";
+        r.region = "";
+        r.tier = "";
+        loaded.push_back(r);
+    }
+    setRecipes(loaded);
 }
 
 void RRSearchWindow::updateFilter()
