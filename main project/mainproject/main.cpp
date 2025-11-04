@@ -178,9 +178,16 @@ int main(int argc, char *argv[])
             QStringList stepsList;
             for (const QString &s : src.instructions) stepsList << s;
             r.steps = stepsList.join("\n");
-            QStringList tagsList;
-            for (const QString &t : src.tags) tagsList << t;
-            r.tags = tagsList.join(", ");
+            // Extract region from tags if present, and keep the rest as plain tags
+            QString regionTag;
+            QStringList plainTags;
+            for (const QString &t : src.tags) {
+                const QString tl = t.trimmed();
+                if (tl.startsWith("region:", Qt::CaseInsensitive)) { regionTag = tl.mid(7).trimmed(); continue; }
+                plainTags << tl;
+            }
+            r.region = regionTag;
+            r.tags   = plainTags.join(", ");
             r.time = 0;
             r.difficulty = "";
             r.region = "";

@@ -62,7 +62,8 @@ void RRSearchWindow::setupUI()
     detailsTitle = new QLabel("Select a recipe to view details");
     detailsTitle->setWordWrap(true);
     detailsRegion = new QLabel();
-    detailsTier = new QLabel();
+    // Tier removed from UI
+    detailsTier = nullptr;
     detailsIngredients = new QTextEdit();
     detailsIngredients->setReadOnly(true);
     detailsPanel = new QTextEdit();
@@ -70,7 +71,7 @@ void RRSearchWindow::setupUI()
     
     rightLayout->addWidget(detailsTitle);
     rightLayout->addWidget(detailsRegion);
-    rightLayout->addWidget(detailsTier);
+    // Skip adding tier label to layout
     rightLayout->addWidget(new QLabel("Ingredients:"));
     rightLayout->addWidget(detailsIngredients);
     rightLayout->addWidget(new QLabel("Steps:"));
@@ -221,7 +222,7 @@ void RRSearchWindow::showRecipeDetails(QListWidgetItem *item)
     if (recipe) {
         detailsTitle->setText(recipe->name);
         detailsRegion->setText("Region: " + recipe->region);
-        detailsTier->setText("Tier: " + recipe->tier);
+        // Tier removed
         detailsIngredients->setText(recipe->ingredients);
         detailsPanel->setText(recipe->steps);
     }
