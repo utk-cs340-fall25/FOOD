@@ -87,9 +87,9 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
         return STATUS_OPEN_FAILED;
     }
     std::string temp;
-    config >> temp;
+    std::getline(config, temp, '\n');
     RECIPES_PATH = QString::fromStdString(temp);
-    config >> temp;
+    std::getline(config, temp, '\n');
     INGREDIENTS_PATH = QString::fromStdString(temp);
     config.close();
     /*//  //  //  //     Configuration options loaded     \\  \\  \\  \\*/
@@ -223,7 +223,7 @@ QString to_lower(QString string)
 {
     std::string output = string.toStdString();
 
-    for (uint64_t i = 0; i < string.size(); i += 1)
+    for (uint64_t i = 0; i < output.size(); i += 1)
     {
         output.at(i) = static_cast<char>(tolower(output.at(i)));
     }
