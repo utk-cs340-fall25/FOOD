@@ -9,6 +9,8 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QList>
+#include <vector>
+#include <utility>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RRSearchWindow; }
@@ -32,6 +34,10 @@ class RRSearchWindow : public QWidget
 public:
     explicit RRSearchWindow(QWidget *parent = nullptr);
     ~RRSearchWindow();
+
+    // Accept upstream data and refresh UI
+    void setRecipes(const QList<RRecipe> &recipes);
+    void loadFromPairs(const std::vector<std::pair<std::string, std::string>> &nameAndIngredients);
 
 private slots:
     void loadRecipes();

@@ -16,7 +16,6 @@ RRSearchWindow::RRSearchWindow(QWidget *parent)
     : QWidget(parent)
 {
     setupUI();
-    loadRecipes();
 }
 
 RRSearchWindow::~RRSearchWindow()
@@ -63,7 +62,8 @@ void RRSearchWindow::setupUI()
     detailsTitle = new QLabel("Select a recipe to view details");
     detailsTitle->setWordWrap(true);
     detailsRegion = new QLabel();
-    detailsTier = new QLabel();
+    // Tier removed from UI
+    detailsTier = nullptr;
     detailsIngredients = new QTextEdit();
     detailsIngredients->setReadOnly(true);
     detailsPanel = new QTextEdit();
@@ -71,7 +71,7 @@ void RRSearchWindow::setupUI()
     
     rightLayout->addWidget(detailsTitle);
     rightLayout->addWidget(detailsRegion);
-    rightLayout->addWidget(detailsTier);
+    // Skip adding tier label to layout
     rightLayout->addWidget(new QLabel("Ingredients:"));
     rightLayout->addWidget(detailsIngredients);
     rightLayout->addWidget(new QLabel("Steps:"));
@@ -146,6 +146,32 @@ void RRSearchWindow::loadRecipes()
     refreshDisplay(allRecipes);
 }
 
+void RRSearchWindow::setRecipes(const QList<RRecipe> &recipes)
+{
+    allRecipes = recipes;
+    populateFilterBoxes();
+    refreshDisplay(allRecipes);
+}
+
+void RRSearchWindow::loadFromPairs(const std::vector<std::pair<std::string, std::string>> &pairs)
+{
+    QList<RRecipe> loaded;
+    loaded.reserve(static_cast<int>(pairs.size()));
+    for (const auto &p : pairs) {
+        RRecipe r;
+        r.name = QString::fromStdString(p.first);
+        r.ingredients = QString::fromStdString(p.second);
+        r.steps = "";
+        r.time = 0;
+        r.difficulty = "";
+        r.tags = "";
+        r.region = "";
+        r.tier = "";
+        loaded.push_back(r);
+    }
+    setRecipes(loaded);
+}
+
 void RRSearchWindow::updateFilter()
 {
     QString searchText = searchBar->text().toLower();
@@ -196,7 +222,7 @@ void RRSearchWindow::showRecipeDetails(QListWidgetItem *item)
     if (recipe) {
         detailsTitle->setText(recipe->name);
         detailsRegion->setText("Region: " + recipe->region);
-        detailsTier->setText("Tier: " + recipe->tier);
+        // Tier removed
         detailsIngredients->setText(recipe->ingredients);
         detailsPanel->setText(recipe->steps);
     }
