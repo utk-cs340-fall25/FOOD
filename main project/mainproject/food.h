@@ -6,6 +6,8 @@
 #include <map>
 #include <vector>
 
+#include <QString>
+
 // The STATUS type.
 typedef uint64_t STATUS;
 // The STATUS codes.
@@ -30,39 +32,41 @@ enum CODES : STATUS
 // Structure for an ingredient
 struct Ingredient
 {
-    std::string name; // Name of the ingredient. Should be all lowercase letters.
-    std::string amount_s; // The amount of an ingredient in a string format.
-    std::string unit; // The unit of how much and ingredient is present. (Such as cups, ozs, tsps, etc..)
+    QString name; // Name of the ingredient. Should be all lowercase letters.
+    QString amount_s; // The amount of an ingredient in a string format.
+    QString unit; // The unit of how much and ingredient is present. (Such as cups, ozs, tsps, etc..)
     double amount_d = 0; // How much of an ingredient is present in a numerical format.
 };
 // Structure for a recipe
 struct Recipe
 {
-    std::string name; // The name of the recipe.
+    QString name; // The name of the recipe.
     std::vector<Ingredient> ingredients; // The ingredients in a recipe.
-    std::vector<std::string> instructions; // The instructions of a recipe.
-    std::vector<std::string> tags;
+    std::vector<QString> instructions; // The instructions of a recipe.
+    std::vector<QString> tags;
 };
 
 // Loads status messages
 void STATUS_LOADER();
 // Prints a message to the msg-log.log file.
 void LOG_PRINTER(std::string);
+void LOG_PRINTER(QString);
 // Prints status messages to msg-log.log file.
 void STATUS_PRINTER(STATUS, std::string);
+void STATUS_PRINTER(STATUS, QString);
 // Initializes and loads basic data for the app.
-STATUS INIT(std::map<std::string, Recipe>&, std::map<std::string, Ingredient>&);
+STATUS INIT(std::map<QString, Recipe>&, std::map<QString, bool>&);
 // Deinititializes and stores basic data for the app.
-STATUS DEINIT(std::map<std::string, Recipe>&, std::map<std::string, Ingredient>&);
+STATUS DEINIT(std::map<QString, Recipe>&, std::map<QString, bool>&);
 
 // Converts a string to all lowercase.
-std::string to_lower(std::string);
+QString to_lower(QString);
 // Converts a string-fraction into a double.
-STATUS fraction_to_double(std::string, double&);
+STATUS fraction_to_double(QString, double&);
 
 // This will read a .rcp file.
-STATUS Read_Recipe(std::string, struct Recipe*, bool);
+STATUS Read_Recipe(QString, struct Recipe*, bool);
 // This will write to a .rcp file. The name of the file should be the 
 // same as the name of the recipe.
-STATUS Write_Recipe(std::string, struct Recipe*, bool);
+STATUS Write_Recipe(QString, struct Recipe*, bool);
 

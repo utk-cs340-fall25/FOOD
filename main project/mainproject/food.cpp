@@ -10,9 +10,11 @@
 #include <sstream>
 #include <future>
 
+#include <QString>
+
 // The path to the recipes folder
-std::string RECIPES_PATH;
-std::string INGREDIENTS_PATH;
+QString RECIPES_PATH = "./";
+QString INGREDIENTS_PATH = "./";
 // Associated status messages
 std::map<STATUS, std::string> ERROR_MSGS;
 
@@ -22,6 +24,11 @@ void LOG_PRINTER(std::string message)
     std::ofstream output("msg-log.log", std::ios::app);
     output << message << '\n';
     output.close();
+    return;
+}
+void LOG_PRINTER(QString message)
+{
+    LOG_PRINTER(message.toStdString());
     return;
 }
 void STATUS_PRINTER(STATUS status, std::string prefix)
@@ -43,6 +50,11 @@ void STATUS_PRINTER(STATUS status, std::string prefix)
     output.close();
     return;
 }
+void STATUS_PRINTER(STATUS status, QString message)
+{
+    STATUS_PRINTER(status, message.toStdString());
+    return;
+}
 
 void STATUS_LOADER()
 {
@@ -57,7 +69,7 @@ void STATUS_LOADER()
     return;
 }
 
-STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingredient> &ingredients)
+STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredients)
 {
     STATUS status; // STATUS variable used for determining errors
     STATUS_LOADER(); // Loading statuses for error printing
@@ -70,50 +82,51 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
     std::ifstream config("config.cfg");
     if (!config.is_open())
     {
-        STATUS_PRINTER(STATUS_OPEN_FAILED, "config.cfg");
+        std::string msg = "config.cfg";
+        STATUS_PRINTER(STATUS_OPEN_FAILED, msg);
         return STATUS_OPEN_FAILED;
     }
-    config >> RECIPES_PATH;
-    config >> INGREDIENTS_PATH;
+    std::string temp;
+    config >> temp;
+    RECIPES_PATH = QString::fromStdString(temp);
+    config >> temp;
+    INGREDIENTS_PATH = QString::fromStdString(temp);
     config.close();
     /*//  //  //  //     Configuration options loaded     \\  \\  \\  \\*/
 
 
     /*//  //  //  //     Loading stored ingredients     \\  \\  \\  \\*/
-    std::ifstream ingredient_pool(INGREDIENTS_PATH + "ingredients.txt");
+    std::string ing_path = INGREDIENTS_PATH.toStdString() + "ingredients.txt";
+    std::ifstream ingredient_pool(ing_path);
     if (!ingredient_pool.is_open())
     {
-        STATUS_PRINTER(STATUS_OPEN_FAILED, INGREDIENTS_PATH + "ingredients.txt");
+        QString msg = "ingredients.txt";
+        STATUS_PRINTER(STATUS_OPEN_FAILED, ing_path);
         return STATUS_OPEN_FAILED;
     }
 
-    struct Ingredient temp_ingredient;
-    while (ingredient_pool >> temp_ingredient.name >> temp_ingredient.unit >> temp_ingredient.amount_s)
+    int val;
+    QString name_final;
+    std::string temp_name;
+    while (ingredient_pool >> val)
     {
-        try
-        {
-            temp_ingredient.amount_d = std::stod(temp_ingredient.amount_s);
-        }
-        catch (std::invalid_argument)
-        {
-            // If an ingredient has an improper ammount associated with it
-            STATUS_PRINTER(STATUS_BAD_ARGUMENTS, temp_ingredient.name);
-            continue;
-        }
-        ingredients[temp_ingredient.name] = temp_ingredient;
+        std::getline(ingredient_pool, temp_name, '\n');
+        if (val != 1 && val != 0) continue;
+        name_final = QString::fromStdString(temp_name);
+        ingredients[name_final] = true;
     }
     ingredient_pool.close();
     /*//  //  //  //     Stored ingredients loaded     \\  \\  \\  \\*/
 
     /*//  //  //  //     Loading stored recipes     \\  \\  \\  \\*/
     // Mulithreading variables
-    std::vector<std::string> file_names;
+    std::vector<QString> file_names;
     std::vector<Recipe> loaded_recipes;
     std::vector<std::future<STATUS>> threads;
 
     // Finding how many recipes there are
     uint64_t file_num = 0;
-    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH))
+    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
         file_num += 1;
     }
@@ -124,11 +137,12 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
 
     // Reading each file with its own dedicated thread.
     uint64_t i = 0;
-    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH))
+    for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
-        std::string path = entry.path().u8string(); // converting a path to a std::string
-        threads.at(i) = std::async(&Read_Recipe, path, &loaded_recipes.at(i), false);
-        file_names.at(i) = path;
+        std::string path_std = entry.path().u8string(); // converting a path to a std::string
+        QString file_path = QString::fromStdString(path_std);
+        threads.at(i) = std::async(&Read_Recipe, file_path, &loaded_recipes.at(i), false);
+        file_names.at(i) = file_path;
         i += 1;
     }
 
@@ -149,37 +163,43 @@ STATUS INIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingred
     /*//  //  //  //     Recipes have been loaded     \\  \\  \\  \\*/
 
     /*//  //  //  //     Initialization succeeded     \\  \\  \\  \\*/
-    STATUS_PRINTER(STATUS_SUCCESS, "Initialization");
-    LOG_PRINTER("");
+    std::string temp_str = "Initialization";
+    STATUS_PRINTER(STATUS_SUCCESS, temp_str);
+    temp_str = "";
+    LOG_PRINTER(temp_str);
     return STATUS_SUCCESS;
 }
-STATUS DEINIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingredient> &ingredients)
+STATUS DEINIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredients)
 {
     /*//  //  //  //     Storing owned ingredients     \\  \\  \\  \\*/
-    std::ofstream ingredient_pool(INGREDIENTS_PATH + "ingredients.txt", std::ofstream::trunc);
+    std::string ing_path = INGREDIENTS_PATH.toStdString() + "ingredients.txt";
+    std::ofstream ingredient_pool(ing_path, std::ofstream::trunc);
     if (!ingredient_pool.is_open())
     {
-        STATUS_PRINTER(STATUS_OPEN_FAILED, INGREDIENTS_PATH + "ingredients.txt");
+        STATUS_PRINTER(STATUS_OPEN_FAILED, ing_path);
     }
     else
     {
-        for (std::map<std::string, Ingredient>::iterator it = ingredients.begin(); it != ingredients.end(); it++)
+        for (std::map<QString, bool>::iterator it = ingredients.begin(); it != ingredients.end(); it++)
         {
-            ingredient_pool << it->second.name << ' ';
-            ingredient_pool << it->second.unit << ' ';
-            ingredient_pool << it->second.amount_d << '\n';
+            if (it->second == true) { ingredient_pool << "1 "; }
+            else if (it->second == true) { ingredient_pool << "0 "; }
+            else { continue; }
+            ingredient_pool << it->first.toStdString() << '\n';
         }
     }
+    ingredient_pool.close();
     /*//  //  //  //     Ingredients have been stored    \\  \\  \\  \\*/
 
     /*//  //  //  //     Storing all recipes     \\  \\  \\  \\*/
     std::vector<std::future<STATUS>> threads;
-    std::vector<std::string> file_names;
+    std::vector<QString> file_names;
     threads.resize(recipes.size());
+
     uint64_t i = 0;
-    for (std::map<std::string, Recipe>::iterator rcp_it = recipes.begin(); rcp_it != recipes.end(); rcp_it++)
+    for (std::map<QString, Recipe>::iterator rcp_it = recipes.begin(); rcp_it != recipes.end(); rcp_it++)
     {
-        std::string file_name = rcp_it->second.name + ".rcp";
+        QString file_name = rcp_it->second.name;
         file_names.push_back(file_name);
         threads.at(i) = std::async(&Write_Recipe, RECIPES_PATH + file_name, &rcp_it->second, false);
         i += 1;
@@ -194,22 +214,23 @@ STATUS DEINIT(std::map<std::string, Recipe>& recipes, std::map<std::string, Ingr
         }
     }
     /*//  //  //  //     All recipes stored     \\  \\  \\  \\*/
-    STATUS_PRINTER(STATUS_SUCCESS, "Deinitialization");
+    std::string temp = "Deinitialization";
+    STATUS_PRINTER(STATUS_SUCCESS, temp);
     return STATUS_SUCCESS;
 }
 
-std::string to_lower(std::string string)
+QString to_lower(QString string)
 {
-    std::string output = string;
+    std::string output = string.toStdString();
 
     for (uint64_t i = 0; i < string.size(); i += 1)
     {
         output.at(i) = static_cast<char>(tolower(output.at(i)));
     }
 
-    return output;
+    return QString::fromStdString(output);
 };
-STATUS fraction_to_double(std::string input_str, double& result)
+STATUS fraction_to_double(QString input_str, double& result)
 {
     // The numerator and denominator in string form
     std::string numerator_str, denominator_str;
@@ -218,7 +239,7 @@ STATUS fraction_to_double(std::string input_str, double& result)
     denominator_d = 0;
 
     std::stringstream stream;
-    stream.str(input_str);
+    stream.str(input_str.toStdString());
 
     std::getline(stream, numerator_str, '/');
     std::getline(stream, denominator_str);
@@ -241,14 +262,14 @@ STATUS fraction_to_double(std::string input_str, double& result)
     return (result == 0L) ? STATUS_BAD_ARGUMENTS : STATUS_SUCCESS;
 }
 
-STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool individual)
+STATUS Read_Recipe(QString path, struct Recipe* output_recipe, bool individual)
 {
-    if (path.substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
+    if (path.toStdString().substr(path.size() - 4, 4) != ".rcp") { return STATUS_BAD_EXTENSION; }
 
-    std::ifstream file_input(path, std::ios::in);
+    std::ifstream file_input(path.toStdString(), std::ios::in);
     if (!file_input.is_open())
     {
-        if (!std::experimental::filesystem::exists(path)) { return STATUS_FILE_NOT_FOUND; }
+        if (!std::experimental::filesystem::exists(path.toStdString())) { return STATUS_FILE_NOT_FOUND; }
         else { return STATUS_OPEN_FAILED; }
     }
 
@@ -256,20 +277,26 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool in
     struct Recipe recipe;
     std::string temp_string;
 
-    std::getline(file_input, recipe.name, '\n');
+    std::getline(file_input, temp_string, '\n');
+    recipe.name = QString::fromStdString(temp_string);
     recipe.name = to_lower(recipe.name);
     temp_string.resize(1);
 
     // Reading all the ingredients
     std::getline(file_input, temp_string, '\n');
-    for (;to_lower(temp_string) != "instructions"; std::getline(file_input, temp_string, '\n'))
+    for (;to_lower(QString::fromStdString(temp_string)) != "instructions"; std::getline(file_input, temp_string, '\n'))
     {
         if (temp_string.size() == 0) { continue; }
         STATUS status;
         struct Ingredient temp_ingredient;
         std::istringstream splitter(temp_string);
-        splitter >> temp_ingredient.amount_s >> temp_ingredient.unit >> temp_ingredient.name;
-        temp_ingredient.name = to_lower(temp_ingredient.name);
+
+        splitter >> temp_string;
+        temp_ingredient.amount_s = QString::fromStdString(temp_string);
+        splitter >> temp_string;
+        temp_ingredient.unit = QString::fromStdString(temp_string);
+        std::getline(splitter, temp_string, '\n');
+        temp_ingredient.name = to_lower(QString::fromStdString(temp_string));
 
         status = fraction_to_double(temp_ingredient.amount_s, temp_ingredient.amount_d);
         if (status != STATUS_SUCCESS)
@@ -286,10 +313,10 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool in
 
     // Reading all instructions
     temp_string.clear();
-    for (;to_lower(temp_string) != "tags"; std::getline(file_input, temp_string, '\n'))
+    for (;to_lower(QString::fromStdString(temp_string)) != "tags"; std::getline(file_input, temp_string, '\n'))
     {
         if (temp_string.size() == 0) { continue; }
-        recipe.instructions.push_back(temp_string);
+        recipe.instructions.push_back(QString::fromStdString(temp_string));
     }
 
     // Reading all tags
@@ -297,14 +324,15 @@ STATUS Read_Recipe(const std::string path, struct Recipe* output_recipe, bool in
     while (std::getline(file_input, temp_string, '\n'))
     {
         if (temp_string.size() == 0) { continue; }
-        recipe.tags.push_back(temp_string);
+        recipe.tags.push_back(QString::fromStdString(temp_string));
     }
 
     *output_recipe = recipe;
     file_input.close();
 
     STATUS_PRINTER(STATUS_SUCCESS, "Read_Recipe: " + path);
-    if (individual) { LOG_PRINTER(""); }
+    temp_string = "";
+    if (individual) { LOG_PRINTER(temp_string); }
 
     return STATUS_SUCCESS;
 }
@@ -323,30 +351,31 @@ STATUS Write_Recipe(const std::string path, struct Recipe* output_recipe, bool i
         else return STATUS_OPEN_FAILED;
     }
 
-    file_output << output_recipe->name << "\n\n";
+    file_output << output_recipe->name.toStdString() << "\n\n";
     for (uint64_t i = 0; i < output_recipe->ingredients.size(); i += 1)
     {
-        file_output << output_recipe->ingredients[i].amount_s << ' ';
-        file_output << output_recipe->ingredients[i].unit << ' ';
-        file_output << output_recipe->ingredients[i].name << '\n';
+        file_output << output_recipe->ingredients[i].amount_s.toStdString() << ' ';
+        file_output << output_recipe->ingredients[i].unit.toStdString() << ' ';
+        file_output << output_recipe->ingredients[i].name.toStdString() << '\n';
     }
 
     file_output << "\ninstructions\n";
     for (uint64_t i = 0; i < output_recipe->instructions.size(); i += 1)
     {
-        file_output << output_recipe->instructions[i] << '\n';
+        file_output << output_recipe->instructions[i].toStdString() << '\n';
     }
 
     file_output << "\ntags\n";
     for (uint64_t i = 0; i < output_recipe->tags.size(); i += 1)
     {
-        file_output << output_recipe->tags[i] << '\n';
+        file_output << output_recipe->tags[i].toStdString() << '\n';
     }
 
     file_output.close();
 
     STATUS_PRINTER(STATUS_SUCCESS, "Write_Recipe: " + path);
-    if (individual) { LOG_PRINTER(""); }
+    std::string temp_string = "";
+    if (individual) { LOG_PRINTER(temp_string); }
 
     return STATUS_SUCCESS;
 }
