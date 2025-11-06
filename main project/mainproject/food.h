@@ -34,8 +34,6 @@ struct Ingredient
 {
     QString name; // Name of the ingredient. Should be all lowercase letters.
     QString amount_s; // The amount of an ingredient in a string format.
-    QString unit; // The unit of how much and ingredient is present. (Such as cups, ozs, tsps, etc..)
-    double amount_d = 0; // How much of an ingredient is present in a numerical format.
 };
 // Structure for a recipe
 struct Recipe
