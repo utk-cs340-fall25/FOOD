@@ -62,14 +62,24 @@ int main(int argc, char *argv[])
     inputPageLayout->addWidget(inputOutput);
 
     inputOutput->setReadOnly(true);
-    inputOutput->setText("Ingredients Owned:");
+    inputOutput->clear();
+    inputOutput->append("Ingredients Owned:");
+    for( iit = ingredients.begin(); iit != ingredients.end(); iit++)
+    {
+        // if we have it, add it on to the display
+        if( iit->second == true )
+        {
+            inputOutput->append(iit->first);
+        }
+    }
 
     // dynamically creating the list from the map
     for(iit = ingredients.begin(); iit != ingredients.end(); iit++)
     {
         QListWidgetItem *item = new QListWidgetItem(iit->first, inputSelection);
         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-        item->setCheckState(Qt::Unchecked);
+        if(iit->second == false) item->setCheckState(Qt::Unchecked);
+        else item->setCheckState(Qt::Checked);
     }
 
     // search function
