@@ -1,0 +1,2 @@
+git ls-files mainproject/ | while read file; do
+    git blame -- "$file" | grep "WanabeNecro" >> sprint4/rduardo.commits.txt
