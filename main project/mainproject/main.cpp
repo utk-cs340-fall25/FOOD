@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
         QString ingredientStr;
         for (const auto& ingredient : recipeEntry.second.ingredients) {
             if (!ingredientStr.isEmpty()) ingredientStr += ", ";
-            ingredientStr += ingredient;        // if ingredient is already a QString
+                ingredientStr += ingredient.name + " " + ingredient.amount_s + "\n";
         }
         rrecipe.ingredients = ingredientStr;
         
