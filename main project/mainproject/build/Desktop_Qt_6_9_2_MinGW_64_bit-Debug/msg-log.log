@@ -1,6 +1,4 @@
-Hello
-RECIPES_PATH: ../../../recipes and ingredients/
-INGREDIENTS_PATH: ../../../recipes and ingredients/
-../../../recipes and ingredients/ingredients.txt: Invalid permissions1
-../../../recipes and ingredients/ingredients.txt: Invalid permissions1
+Read_Recipe: ../../recipes and ingredients/Matcha Banana Smoothie.rcp: Successfuly performed0
+Initialization: Successfuly performed0
+
 Deinitialization: Successfuly performed0
