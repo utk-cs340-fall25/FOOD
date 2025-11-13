@@ -16,6 +16,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QTextStream>
+#include <QLabel>
 #include <map>
 #include <QStackedWidget>
 #include <QFile>
@@ -151,6 +152,42 @@ int main(int argc, char *argv[])
     
     // Create the RsearchFunc widget
     RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
+    
+    // Convert Recipe objects to RRecipe objects and pass to search window
+    QList<RRecipe> recipeList;
+    for (auto it = recipes.begin(); it != recipes.end(); ++it) {
+        RRecipe rrecipe;
+        rrecipe.name = it->second.name;
+        
+        // Convert ingredients vector to string
+        QString ingredientsStr;
+        for (const auto& ingredient : it->second.ingredients) {
+            ingredientsStr += ingredient.amount_s + " " + ingredient.name + "\n";
+        }
+        rrecipe.ingredients = ingredientsStr;
+        
+        // Convert instructions vector to string
+        QString stepsStr;
+        for (const auto& instruction : it->second.instructions) {
+            stepsStr += instruction + "\n";
+        }
+        rrecipe.steps = stepsStr;
+        
+        // Convert tags vector to string
+        QString tagsStr;
+        for (const auto& tag : it->second.tags) {
+            tagsStr += tag + " ";
+        }
+        rrecipe.tags = tagsStr.trimmed();
+        
+        rrecipe.time = 0;
+        rrecipe.difficulty = "";
+        rrecipe.region = "";
+        rrecipe.tier = "";
+        
+        recipeList.append(rrecipe);
+    }
+    rsearchPage->setRecipes(recipeList);
 
     // // // RsearchFunc section end // // //
 
@@ -158,61 +195,53 @@ int main(int argc, char *argv[])
     QWidget *recipeDisplayPage = new QWidget(&mainWindow);
     QVBoxLayout *recipeDisplayLayout = new QVBoxLayout(recipeDisplayPage);
     QStackedWidget *recipeDetails = new QStackedWidget();
-    QListWidget *recipeList = new QListWidget();
+    QListWidget *recipeDisplayList = new QListWidget();
 
     QHBoxLayout *recipeLayout = new QHBoxLayout();
-    recipeLayout->addWidget(recipeList);
+    recipeLayout->addWidget(recipeDisplayList);
     recipeLayout->addWidget(recipeDetails);
 
     recipeDisplayLayout->addLayout(recipeLayout);
-    QFile file("recipe.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        recipeList->addItem("Error: Could not open recipe.txt");
-    } else {
-        QTextStream in(&file);
-        QStringList allLines;
-        while (!in.atEnd()) {
-        QString line = in.readLine().trimmed();
-        allLines << line;
-    }
-    file.close();
-
-    QString recipeName;
-    QStringList ingredients;
-
-    for (const QString &line : allLines) {
-        if (line.isEmpty()) {
-            if (!recipeName.isEmpty()) {
-                recipeList->addItem(recipeName);
-                QWidget *page = new QWidget();
-                QVBoxLayout *pageLayout = new QVBoxLayout(page);
-                pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
-                recipeDetails->addWidget(page);
-
-                recipeName.clear();
-                ingredients.clear();
-            }
-        } else {
-            if (recipeName.isEmpty()) {
-                recipeName = line;
-            } else {
-                ingredients << line;
-            }
-        }
-    }
-
-    if (!recipeName.isEmpty()) {
-        recipeList->addItem(recipeName);
+    
+    // Populate recipe display from loaded recipes
+    for (const auto& rrecipe : recipeList) {
+        recipeDisplayList->addItem(rrecipe.name);
+        
         QWidget *page = new QWidget();
         QVBoxLayout *pageLayout = new QVBoxLayout(page);
-        pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
+        
+        QLabel *titleLabel = new QLabel(rrecipe.name + " Recipe:");
+        titleLabel->setStyleSheet("font-weight: bold; font-size: 14px;");
+        pageLayout->addWidget(titleLabel);
+        
+        QLabel *ingredientsLabel = new QLabel("Ingredients:");
+        ingredientsLabel->setStyleSheet("font-weight: bold;");
+        pageLayout->addWidget(ingredientsLabel);
+        
+        QTextEdit *ingredientsText = new QTextEdit();
+        ingredientsText->setPlainText(rrecipe.ingredients);
+        ingredientsText->setReadOnly(true);
+        pageLayout->addWidget(ingredientsText);
+        
+        QLabel *stepsLabel = new QLabel("Steps:");
+        stepsLabel->setStyleSheet("font-weight: bold;");
+        pageLayout->addWidget(stepsLabel);
+        
+        QTextEdit *stepsText = new QTextEdit();
+        stepsText->setPlainText(rrecipe.steps);
+        stepsText->setReadOnly(true);
+        pageLayout->addWidget(stepsText);
+        
+        pageLayout->addStretch();
+        
         recipeDetails->addWidget(page);
     }
-}
 
-    QObject::connect(recipeList, &QListWidget::currentRowChanged,
+    QObject::connect(recipeDisplayList, &QListWidget::currentRowChanged,
                  recipeDetails, &QStackedWidget::setCurrentIndex);
-    recipeList->setCurrentRow(0);
+    if (recipeDisplayList->count() > 0) {
+        recipeDisplayList->setCurrentRow(0);
+    }
     // // // main application display - add your pages here! // // //
 
     // Note: Add your layouts to your page widget, not the tabs or mainwindow!
