@@ -1,7 +1,7 @@
-1 Banana
-1 Ice
-1 Matcha Powder
-1 Milk
-1 Olive Oil
-1 Salt
-1 Zucchini
+1  Banana
+1  Ice
+1  Matcha Powder
+1  Milk
+1  Olive Oil
+1  Salt
+1  Zucchini
