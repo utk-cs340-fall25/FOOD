@@ -43,18 +43,11 @@ int main(int argc, char *argv[])
     std::map<QString, bool>::iterator iit;
 
     STATUS status;
-    std::map<QString, Recipe> recipes; // kept for fallback but not used when provider available
+    std::map<QString, Recipe> recipes;
 
     // // // on launch section // // //
-    // Prefer provider-supplied in-memory data (Ethan). Do not read/write files here.
-    QList<RRecipe> providerRecipes;
-    bool providerLoaded = load_header_provider(providerRecipes, ingredients);
-    if (!providerLoaded) {
-        // Fallback: call local INIT (legacy behavior)
-        status = INIT(recipes, ingredients);
-    } else {
-        status = STATUS_SUCCESS;
-    }
+    status = INIT(recipes, ingredients);
+//    if (status != STATUS_SUCCESS) { goto exit; }
 
     // temporary map fillings - replace with loading of the map here!
 
@@ -306,10 +299,7 @@ int main(int argc, char *argv[])
         delete mainWindowLayout;
     });
 
-    if (!provider_deinit()) {
-        // if provider not used or deinit failed, try legacy DEINIT
-        status = DEINIT(recipes, ingredients);
-    }
+    status = DEINIT(recipes, ingredients);
 
     // // // on close section end // // //
 
