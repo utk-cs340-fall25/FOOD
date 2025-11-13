@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     food.cpp \
+    ../..\/header_implements\/food.cpp \
     provider_adapter.cpp \
     main.cpp \
     Rrsearchwindow.cpp \
