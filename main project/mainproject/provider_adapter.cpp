@@ -2,16 +2,16 @@
 #include <QString>
 #include <QDebug>
 
-// Include the teammate's header-based API (use the repository headers)
-#include "../../headers/food.hpp"
+// Use the mainproject's QString-based API to avoid duplicate definitions.
+#include "food.h"
 
 // Keep the raw provider maps here so DEINIT can be called later.
-static std::map<std::string, Recipe> s_raw_recipes;
-static std::map<std::string, Ingredient> s_raw_ingredients;
+static std::map<QString, Recipe> s_raw_recipes;
+static std::map<QString, bool> s_raw_ingredients;
 
 bool load_header_recipes(QList<RRecipe> &out)
 {
-    // Initialize provider maps
+    // Initialize provider maps (this calls the existing INIT in this project)
     STATUS st = INIT(s_raw_recipes, s_raw_ingredients);
     if (st != STATUS_SUCCESS) {
         return false;
@@ -21,24 +21,24 @@ bool load_header_recipes(QList<RRecipe> &out)
     for (const auto &p : s_raw_recipes) {
         const Recipe &rcp = p.second;
         RRecipe r;
-        r.name = QString::fromStdString(rcp.name);
+        r.name = rcp.name;
 
         QString ingredientsStr;
         for (const auto &ing : rcp.ingredients) {
-            ingredientsStr += QString::fromStdString(ing.amount_s);
-            if (!ing.unit.empty()) ingredientsStr += " " + QString::fromStdString(ing.unit);
-            ingredientsStr += " " + QString::fromStdString(ing.name) + "\n";
+            ingredientsStr += ing.amount_s;
+            if (!ing.name.isEmpty()) ingredientsStr += " " + ing.name;
+            ingredientsStr += "\n";
         }
         r.ingredients = ingredientsStr;
 
         QString stepsStr;
         for (const auto &s : rcp.instructions) {
-            stepsStr += QString::fromStdString(s) + "\n";
+            stepsStr += s + "\n";
         }
         r.steps = stepsStr;
 
         QString tagsStr;
-        for (const auto &t : rcp.tags) tagsStr += QString::fromStdString(t) + " ";
+        for (const auto &t : rcp.tags) tagsStr += t + " ";
         r.tags = tagsStr.trimmed();
 
         r.time = 0;
@@ -57,23 +57,16 @@ bool load_header_provider(QList<RRecipe> &out, std::map<QString, bool> &outIngre
     outIngredients.clear();
     if (!load_header_recipes(out)) return false;
 
-    // Populate ingredients map (default owned=false; if amount_d>0 set true)
+    // Populate ingredients map using loaded s_raw_ingredients
     for (const auto &p : s_raw_ingredients) {
-        QString name = QString::fromStdString(p.first);
-        bool owned = false;
-        try {
-            if (p.second.amount_d > 0.0) owned = true;
-        } catch (...) { owned = false; }
-        outIngredients[name] = owned;
+        outIngredients[p.first] = p.second;
     }
     return true;
 }
 
 bool provider_deinit()
 {
-    // Call the provider DEINIT to persist any changes
     STATUS st = DEINIT(s_raw_recipes, s_raw_ingredients);
-    // clear caches regardless
     s_raw_recipes.clear();
     s_raw_ingredients.clear();
     return (st == STATUS_SUCCESS);
