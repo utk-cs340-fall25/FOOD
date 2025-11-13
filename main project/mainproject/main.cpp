@@ -156,13 +156,13 @@ int main(int argc, char *argv[])
     QList<RRecipe> convertedRecipes;
     for (auto& recipeEntry : recipes) {
         RRecipe rrecipe;
-        rrecipe.name = QString::fromStdString(recipeEntry.first);
+        rrecipe.name = recipeEntry.first;   // if recipeEntry.first is already a QString
         
         // Combine ingredients into a string
         QString ingredientStr;
         for (const auto& ingredient : recipeEntry.second.ingredients) {
             if (!ingredientStr.isEmpty()) ingredientStr += ", ";
-            ingredientStr += QString::fromStdString(ingredient);
+            ingredientStr += ingredient;        // if ingredient is already a QString
         }
         rrecipe.ingredients = ingredientStr;
         
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
         QString instructionStr;
         for (const auto& instruction : recipeEntry.second.instructions) {
             if (!instructionStr.isEmpty()) instructionStr += "\n";
-            instructionStr += QString::fromStdString(instruction);
+            instructionStr += instruction;      // if instruction is already a QString
         }
         rrecipe.steps = instructionStr;
         
