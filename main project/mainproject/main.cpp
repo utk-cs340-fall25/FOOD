@@ -22,7 +22,6 @@
 #include <QFile>
 #include <QIODevice>
 #include <QMessageBox>
-#include "provider_adapter.h"
 
 int main(int argc, char *argv[])
 {
@@ -154,42 +153,39 @@ int main(int argc, char *argv[])
     // Create the RsearchFunc widget
     RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
     
-    // Load recipes from provider 
+    // Convert Recipe objects to RRecipe objects and pass to search window
     QList<RRecipe> recipeList;
-    if (!load_header_recipes(recipeList)) {
-        // Fallback: convert local Recipe map (older code path)
-        for (auto it = recipes.begin(); it != recipes.end(); ++it) {
-            RRecipe rrecipe;
-            rrecipe.name = it->second.name;
-
-            // Convert ingredients vector to string
-            QString ingredientsStr;
-            for (const auto& ingredient : it->second.ingredients) {
-                ingredientsStr += ingredient.amount_s + " " + ingredient.name + "\n";
-            }
-            rrecipe.ingredients = ingredientsStr;
-
-            // Convert instructions vector to string
-            QString stepsStr;
-            for (const auto& instruction : it->second.instructions) {
-                stepsStr += instruction + "\n";
-            }
-            rrecipe.steps = stepsStr;
-
-            // Convert tags vector to string
-            QString tagsStr;
-            for (const auto& tag : it->second.tags) {
-                tagsStr += tag + " ";
-            }
-            rrecipe.tags = tagsStr.trimmed();
-
-            rrecipe.time = 0;
-            rrecipe.difficulty = "";
-            rrecipe.region = "";
-            rrecipe.tier = "";
-
-            recipeList.append(rrecipe);
+    for (auto it = recipes.begin(); it != recipes.end(); ++it) {
+        RRecipe rrecipe;
+        rrecipe.name = it->second.name;
+        
+        // Convert ingredients vector to string
+        QString ingredientsStr;
+        for (const auto& ingredient : it->second.ingredients) {
+            ingredientsStr += ingredient.amount_s + " " + ingredient.name + "\n";
         }
+        rrecipe.ingredients = ingredientsStr;
+        
+        // Convert instructions vector to string
+        QString stepsStr;
+        for (const auto& instruction : it->second.instructions) {
+            stepsStr += instruction + "\n";
+        }
+        rrecipe.steps = stepsStr;
+        
+        // Convert tags vector to string
+        QString tagsStr;
+        for (const auto& tag : it->second.tags) {
+            tagsStr += tag + " ";
+        }
+        rrecipe.tags = tagsStr.trimmed();
+        
+        rrecipe.time = 0;
+        rrecipe.difficulty = "";
+        rrecipe.region = "";
+        rrecipe.tier = "";
+        
+        recipeList.append(rrecipe);
     }
     rsearchPage->setRecipes(recipeList);
 
