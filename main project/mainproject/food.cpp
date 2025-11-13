@@ -91,17 +91,10 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
     }
     std::string temp;
     std::getline(config, temp, '\n');
-    // Trim trailing whitespace/carriage return
-    temp.erase(temp.find_last_not_of(" \n\r\t") + 1);
     RECIPES_PATH = QString::fromStdString(temp);
     std::getline(config, temp, '\n');
-    // Trim trailing whitespace/carriage return
-    temp.erase(temp.find_last_not_of(" \n\r\t") + 1);
     INGREDIENTS_PATH = QString::fromStdString(temp);
     config.close();
-    
-    LOG_PRINTER("RECIPES_PATH: " + RECIPES_PATH);
-    LOG_PRINTER("INGREDIENTS_PATH: " + INGREDIENTS_PATH);
     /*//  //  //  //     Configuration options loaded     \\  \\  \\  \\*/
 
 
@@ -145,12 +138,9 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
             if (filename.size() >= 4 && filename.substr(filename.size() - 4, 4) == ".rcp")
             {
                 file_num += 1;
-                LOG_PRINTER("Found recipe file: " + filename);
             }
         }
     }
-    
-    LOG_PRINTER("Total recipe files found: " + std::to_string(file_num));
 
     loaded_recipes.resize(file_num);
     file_names.resize(file_num);
@@ -168,7 +158,6 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
             {
                 std::string path_std = entry.path().u8string(); // converting a path to a std::string
                 QString file_path = QString::fromStdString(path_std);
-                LOG_PRINTER("Loading recipe: " + filename);
                 threads.at(i) = std::async(&Read_Recipe, file_path, &loaded_recipes.at(i), false);
                 file_names.at(i) = file_path;
                 i += 1;
