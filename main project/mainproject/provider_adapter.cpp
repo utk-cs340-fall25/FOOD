@@ -5,17 +5,20 @@
 // Include the teammate's header-based API (use the repository headers)
 #include "../../headers/food.hpp"
 
+// Keep the raw provider maps here so DEINIT can be called later.
+static std::map<std::string, Recipe> s_raw_recipes;
+static std::map<std::string, Ingredient> s_raw_ingredients;
+
 bool load_header_recipes(QList<RRecipe> &out)
 {
-    std::map<std::string, Recipe> raw_recipes;
-    std::map<std::string, Ingredient> raw_ingredients;
-
-    STATUS st = INIT(raw_recipes, raw_ingredients);
+    // Initialize provider maps
+    STATUS st = INIT(s_raw_recipes, s_raw_ingredients);
     if (st != STATUS_SUCCESS) {
         return false;
     }
 
-    for (const auto &p : raw_recipes) {
+    out.clear();
+    for (const auto &p : s_raw_recipes) {
         const Recipe &rcp = p.second;
         RRecipe r;
         r.name = QString::fromStdString(rcp.name);
@@ -47,4 +50,31 @@ bool load_header_recipes(QList<RRecipe> &out)
     }
 
     return true;
+}
+
+bool load_header_provider(QList<RRecipe> &out, std::map<QString, bool> &outIngredients)
+{
+    outIngredients.clear();
+    if (!load_header_recipes(out)) return false;
+
+    // Populate ingredients map (default owned=false; if amount_d>0 set true)
+    for (const auto &p : s_raw_ingredients) {
+        QString name = QString::fromStdString(p.first);
+        bool owned = false;
+        try {
+            if (p.second.amount_d > 0.0) owned = true;
+        } catch (...) { owned = false; }
+        outIngredients[name] = owned;
+    }
+    return true;
+}
+
+bool provider_deinit()
+{
+    // Call the provider DEINIT to persist any changes
+    STATUS st = DEINIT(s_raw_recipes, s_raw_ingredients);
+    // clear caches regardless
+    s_raw_recipes.clear();
+    s_raw_ingredients.clear();
+    return (st == STATUS_SUCCESS);
 }
