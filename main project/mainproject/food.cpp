@@ -132,7 +132,7 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
     for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
         // Only count regular files with .rcp extension
-        if (std::experimental::filesystem::is_regular_file(entry.path()))
+        if (entry.is_regular_file())
         {
             std::string filename = entry.path().filename().string();
             if (filename.size() >= 4 && filename.substr(filename.size() - 4, 4) == ".rcp")
@@ -151,7 +151,7 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
     for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
         // Only process regular files with .rcp extension
-        if (std::experimental::filesystem::is_regular_file(entry.path()))
+        if (entry.is_regular_file())
         {
             std::string filename = entry.path().filename().string();
             if (filename.size() >= 4 && filename.substr(filename.size() - 4, 4) == ".rcp")
