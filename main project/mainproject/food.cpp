@@ -127,27 +127,42 @@ STATUS INIT(std::map<QString, Recipe>& recipes, std::map<QString, bool> &ingredi
     std::vector<Recipe> loaded_recipes;
     std::vector<std::future<STATUS>> threads;
 
-    // Finding how many recipes there are
+    // Finding how many .rcp recipe files there are (excluding directories)
     uint64_t file_num = 0;
     for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
-        //LOG_PRINTER(entry.path().u8string());
-        file_num += 1;
+        // Only count regular files with .rcp extension
+        if (entry.is_regular_file())
+        {
+            std::string filename = entry.path().filename().string();
+            if (filename.size() >= 4 && filename.substr(filename.size() - 4, 4) == ".rcp")
+            {
+                file_num += 1;
+            }
+        }
     }
 
     loaded_recipes.resize(file_num);
     file_names.resize(file_num);
     threads.resize(file_num);
 
-    // Reading each file with its own dedicated thread.
+    // Reading each .rcp file with its own dedicated thread.
     uint64_t i = 0;
     for (const std::experimental::filesystem::directory_entry& entry : std::experimental::filesystem::directory_iterator(RECIPES_PATH.toStdString()))
     {
-        std::string path_std = entry.path().u8string(); // converting a path to a std::string
-        QString file_path = QString::fromStdString(path_std);
-        threads.at(i) = std::async(&Read_Recipe, file_path, &loaded_recipes.at(i), false);
-        file_names.at(i) = file_path;
-        i += 1;
+        // Only process regular files with .rcp extension
+        if (entry.is_regular_file())
+        {
+            std::string filename = entry.path().filename().string();
+            if (filename.size() >= 4 && filename.substr(filename.size() - 4, 4) == ".rcp")
+            {
+                std::string path_std = entry.path().u8string(); // converting a path to a std::string
+                QString file_path = QString::fromStdString(path_std);
+                threads.at(i) = std::async(&Read_Recipe, file_path, &loaded_recipes.at(i), false);
+                file_names.at(i) = file_path;
+                i += 1;
+            }
+        }
     }
 
     // Moving the read recipes to the output list.
