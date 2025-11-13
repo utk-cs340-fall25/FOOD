@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     food.cpp \
+    provider_adapter.cpp \
     main.cpp \
     Rrsearchwindow.cpp \
     Rinventorymodel.cpp \
@@ -26,7 +27,8 @@ HEADERS += \
     Rrsearchwindow.h \
     Rinventorymodel.h \
     Radditemdialog.h \
-    food.h
+    food.h \
+    provider_adapter.h
 
 FORMS += \
     mainwindow.ui \
