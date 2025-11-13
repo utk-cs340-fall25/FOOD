@@ -199,54 +199,49 @@ int main(int argc, char *argv[])
     recipeLayout->addWidget(recipeDetails);
 
     recipeDisplayLayout->addLayout(recipeLayout);
-    QFile file("recipe.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        recipeList->addItem("Error: Could not open recipe.txt");
+    if (recipes.empty()) {
+        recipeList->addItem("No recipes found.");
     } else {
-        QTextStream in(&file);
-        QStringList allLines;
-        while (!in.atEnd()) {
-        QString line = in.readLine().trimmed();
-        allLines << line;
-    }
-    file.close();
+        for (const auto &pair : recipes) {
+            const Recipe &recipe = pair.second;
+            recipeList->addItem(recipe.name);
 
-    QString recipeName;
-    QStringList ingredients;
+            // Create new widget for each recipe
+            QWidget *page = new QWidget();
+            QVBoxLayout *pageLayout = new QVBoxLayout(page);
 
-    for (const QString &line : allLines) {
-        if (line.isEmpty()) {
-            if (!recipeName.isEmpty()) {
-                recipeList->addItem(recipeName);
-                QWidget *page = new QWidget();
-                QVBoxLayout *pageLayout = new QVBoxLayout(page);
-                pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
-                recipeDetails->addWidget(page);
-
-                recipeName.clear();
-                ingredients.clear();
+            QString details;
+            details += "Ingredients:\n";
+            for (const auto &ing : recipe.ingredients) {
+                details += "  - " + ing.amount_s + " " + ing.name + "\n";
             }
-        } else {
-            if (recipeName.isEmpty()) {
-                recipeName = line;
-            } else {
-                ingredients << line;
+            
+            details += "\nInstructions:\n";
+            for (const auto &inst : recipe.instructions) {
+                details += "  " + inst + "\n";
             }
+
+            details += "\nTags:\n";
+            for (const auto &tag : recipe.tags) {
+                details += "  " + tag + "\n";
+            }
+
+            QLabel *recipeLabel = new QLabel(details);
+
+            pageLayout->addWidget(recipeLabel);
+            recipeDetails->addWidget(page);
         }
     }
 
-    if (!recipeName.isEmpty()) {
-        recipeList->addItem(recipeName);
-        QWidget *page = new QWidget();
-        QVBoxLayout *pageLayout = new QVBoxLayout(page);
-        pageLayout->addWidget(new QLabel(recipeName + " Recipe:\n" + ingredients.join("\n")));
-        recipeDetails->addWidget(page);
-    }
-}
-
+    // Link list selection to recipe display
     QObject::connect(recipeList, &QListWidget::currentRowChanged,
-                 recipeDetails, &QStackedWidget::setCurrentIndex);
+                     recipeDetails, &QStackedWidget::setCurrentIndex);
+
+    // Default to showing first recipe
     recipeList->setCurrentRow(0);
+    
+    // Recipe Display End
+    
     // // // main application display - add your pages here! // // //
 
     // Note: Add your layouts to your page widget, not the tabs or mainwindow!
