@@ -227,8 +227,13 @@ int main(int argc, char *argv[])
             }
 
             QLabel *recipeLabel = new QLabel(details);
+            recipeLabel->setWordWrap(true);
+            recipeLabel->setAlignment(Qt::AlignTop);
+            QScrollArea *scrollArea = new QScrollArea();
+            scrollArea->setWidget(recipeLabel);
+            scrollArea->setWidgetResizable(true);
+            pageLayout->addWidget(scrollArea);
 
-            pageLayout->addWidget(recipeLabel);
             recipeDetails->addWidget(page);
         }
     }
