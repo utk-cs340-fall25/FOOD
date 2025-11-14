@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     layout->addWidget(recipeList);
 
     //open and read recipes file
-    QFile file("recipes.txt");
+    QFile file("../main project/mainproject/recipes.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         recipeList->addItem("Error: Could not open recipes.txt");
     } else {
