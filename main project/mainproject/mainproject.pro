@@ -20,13 +20,15 @@ SOURCES += \
     main.cpp \
     Rrsearchwindow.cpp \
     Rinventorymodel.cpp \
-    Radditemdialog.cpp
+    Radditemdialog.cpp \
+    ShoppingListWidget.cpp
 
 HEADERS += \
     Rrsearchwindow.h \
     Rinventorymodel.h \
     Radditemdialog.h \
-    food.h
+    food.h \
+    ShoppingListWidget.h
 
 FORMS += \
     mainwindow.ui \

@@ -4,6 +4,7 @@
 #include "Rinventorymodel.h"
 #include "Radditemdialog.h"
 #include "Rmainwindow.h"
+#include "ShoppingListWidget.h"
 #include <QApplication>
 #include <QWidget>
 #include <QTabWidget>
@@ -143,7 +144,7 @@ int main(int argc, char *argv[])
     // // // Shopping List section // // //
 
     // Create the Shopping List widget
-    //ShoppingListWidget *shoppingListPage = new ShoppingListWidget(&mainWindow);
+    ShoppingListWidget *shoppingListPage = new ShoppingListWidget(recipes, &mainWindow);
 
     // // // Shopping List section end // // //
 
@@ -256,8 +257,7 @@ int main(int argc, char *argv[])
     tabs->addTab(inputPage, "Input");
     tabs->addTab(rsearchPage, "Recipe Search");
     tabs->addTab(recipeDisplayPage, "Recipe Display");
-    //tabs->addTab(shoppingListPage, "Shopping List");
-
+    tabs->addTab(shoppingListPage, "Shopping List");
     mainWindowLayout->addWidget(tabs);
     mainWindow.resize(800, 600);
     mainWindow.show();
