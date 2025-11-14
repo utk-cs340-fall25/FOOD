@@ -21,7 +21,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QMessageBox>
-
+#include <QScrollArea>
 int main(int argc, char *argv[])
 {
     // main application variables
