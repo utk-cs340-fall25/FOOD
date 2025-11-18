@@ -290,9 +290,10 @@ STATUS Read_Recipe(QString path, struct Recipe* output_recipe, bool individual)
     std::getline(file_input, temp_string, '\n');
     for (;to_lower(QString::fromStdString(temp_string)) != "instructions"; std::getline(file_input, temp_string, '\n'))
     {
-        if (temp_string.size() == 0) { continue; }
+        //if (temp_string.size() == 0) { continue; }
         struct Ingredient temp_ingredient;
         temp_ingredient.amount_s = QString::fromStdString(temp_string);
+        if (temp_string.size() == 0) { temp_ingredient.amount_s = "UNDEF"; }
         std::getline(file_input, temp_string, '\n');
         temp_ingredient.name = QString::fromStdString(temp_string);
         recipe.ingredients.push_back(temp_ingredient);
