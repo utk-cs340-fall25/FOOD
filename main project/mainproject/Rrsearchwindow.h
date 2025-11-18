@@ -9,23 +9,15 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QList>
+#include <QScrollArea>
 #include <vector>
 #include <utility>
+#include <map>
+#include "food.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RRSearchWindow; }
 QT_END_NAMESPACE
-
-struct RRecipe {
-    QString name;
-    QString ingredients;
-    QString steps;
-    int time;
-    QString difficulty;
-    QString tags;
-    QString region; // For filtering
-    QString tier;   // For filtering
-};
 
 class RRSearchWindow : public QWidget
 {
@@ -35,8 +27,8 @@ public:
     explicit RRSearchWindow(QWidget *parent = nullptr);
     ~RRSearchWindow();
 
-    // Accept upstream data and refresh UI
-    void setRecipes(const QList<RRecipe> &recipes);
+    // Accept upstream data from Recipe map and refresh UI
+    void setRecipes(const std::map<QString, Recipe> &recipeMap);
     void loadFromPairs(const std::vector<std::pair<std::string, std::string>> &nameAndIngredients);
 
 private slots:
@@ -49,24 +41,25 @@ private:
     void setupUI();
     Ui::RRSearchWindow *ui;
 
-    QList<RRecipe> allRecipes;
+    std::map<QString, Recipe> allRecipes;
+    QStringList recipeNames; // Cache for recipe names for quick lookup
 
-    QListWidget *ingredientListWidget;
     QListWidget* recipeList;
     QTextEdit* detailsPanel;
     QLineEdit* searchBar;
-    QLineEdit* ingredientBar;
-    QComboBox* regionBox;
-    QComboBox* tierBox;
+    QComboBox* tagBox;
     QPushButton* resetButton;
 
     QLabel *detailsTitle;
-    QLabel *detailsRegion;
-    QLabel *detailsTier;
     QTextEdit *detailsIngredients;
+    QTextEdit *detailsInstructions;
+    QTextEdit *detailsTags;
 
-    void refreshDisplay(const QList<RRecipe>& recipes);
+    void refreshDisplay(const QStringList& recipeNameList);
     void populateFilterBoxes();
+    QString formatIngredients(const std::vector<Ingredient>& ingredients) const;
+    QString formatInstructions(const std::vector<QString>& instructions) const;
+    QString formatTags(const std::vector<QString>& tags) const;
 };
 
 #endif // RRSEARCHWINDOW_H

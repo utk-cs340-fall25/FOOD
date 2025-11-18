@@ -153,39 +153,8 @@ int main(int argc, char *argv[])
     // Create the RsearchFunc widget
     RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
     
-    // Convert loaded recipes to RRecipe format for the search window
-    QList<RRecipe> convertedRecipes;
-    for (auto& recipeEntry : recipes) {
-        RRecipe rrecipe;
-        rrecipe.name = recipeEntry.first;   // if recipeEntry.first is already a QString
-        
-        // Combine ingredients into a string
-        QString ingredientStr;
-        for (const auto& ingredient : recipeEntry.second.ingredients) {
-            if (!ingredientStr.isEmpty()) ingredientStr += ", ";
-                ingredientStr += ingredient.name + " " + ingredient.amount_s + "\n";
-        }
-        rrecipe.ingredients = ingredientStr;
-        
-        // Combine instructions into a string
-        QString instructionStr;
-        for (const auto& instruction : recipeEntry.second.instructions) {
-            if (!instructionStr.isEmpty()) instructionStr += "\n";
-            instructionStr += instruction;      // if instruction is already a QString
-        }
-        rrecipe.steps = instructionStr;
-        
-        rrecipe.time = 0;  // Not available in Recipe struct
-        rrecipe.difficulty = "";
-        rrecipe.tags = "";
-        rrecipe.region = "";
-        rrecipe.tier = "";
-        
-        convertedRecipes.append(rrecipe);
-    }
-    
-    // Set recipes in the search window
-    rsearchPage->setRecipes(convertedRecipes);
+    // Set recipes directly from the recipe map - now displays all recipe information
+    rsearchPage->setRecipes(recipes);
 
     // // // RsearchFunc section end // // //
 
