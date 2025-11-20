@@ -205,12 +205,10 @@ void RRSearchWindow::updateFilter()
     
     for (const auto& entry : allRecipes) {
         const Recipe& recipe = entry.second;
-        
-        // Check if recipe name matches search
-        bool matchesSearch = searchText.isEmpty() || 
-                           recipe.name.toLower().contains(searchText);
-        
-        // Check if recipe contains tag (if a specific tag is selected)
+        // Per user request: search bar should only match recipe names.
+        bool matchesSearch = searchText.isEmpty() || recipe.name.toLower().contains(searchText);
+
+        // Tag filter remains functional
         bool matchesTag = selectedTag == "All Tags";
         if (!matchesTag) {
             for (const auto& tag : recipe.tags) {
@@ -220,26 +218,7 @@ void RRSearchWindow::updateFilter()
                 }
             }
         }
-        
-        // Also search in ingredients and tags
-        if (!matchesSearch) {
-            for (const auto& ingredient : recipe.ingredients) {
-                if (ingredient.name.toLower().contains(searchText)) {
-                    matchesSearch = true;
-                    break;
-                }
-            }
-        }
-        
-        if (!matchesSearch) {
-            for (const auto& tag : recipe.tags) {
-                if (tag.toLower().contains(searchText)) {
-                    matchesSearch = true;
-                    break;
-                }
-            }
-        }
-        
+
         if (matchesSearch && matchesTag) {
             filteredRecipes.append(recipe.name);
         }
