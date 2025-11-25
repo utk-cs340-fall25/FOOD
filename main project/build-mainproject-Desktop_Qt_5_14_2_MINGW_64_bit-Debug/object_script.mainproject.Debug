@@ -1,0 +1,10 @@
+debug/food.o
+debug/main.o
+debug/Rrsearchwindow.o
+debug/Rinventorymodel.o
+debug/Radditemdialog.o
+debug/ShoppingListWidget.o
+debug/moc_Rrsearchwindow.o
+debug/moc_Rinventorymodel.o
+debug/moc_Radditemdialog.o
+debug/moc_ShoppingListWidget.o

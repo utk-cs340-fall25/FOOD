@@ -1,0 +1,10 @@
+release/food.o
+release/main.o
+release/Rrsearchwindow.o
+release/Rinventorymodel.o
+release/Radditemdialog.o
+release/ShoppingListWidget.o
+release/moc_Rrsearchwindow.o
+release/moc_Rinventorymodel.o
+release/moc_Radditemdialog.o
+release/moc_ShoppingListWidget.o
