@@ -160,18 +160,30 @@ int main(int argc, char *argv[])
             }
         }
 
-        // Build a QSet of owned ingredient names and notify the search widget
+        // Build owned set FROM THE DISPLAYED inputOutput text (lines under "Ingredients Owned:")
         QSet<QString> ownedSet;
-        for (const auto &p : ingredients) {
-            if (p.second) ownedSet.insert(p.first.toLower());
+        const QString text = inputOutput->toPlainText();
+        const QStringList lines = text.split('\n', Qt::SkipEmptyParts);
+        // Lines may include the heading in line 0; collect subsequent non-empty trimmed lines
+        for (int li = 0; li < lines.size(); ++li) {
+            QString trimmed = lines[li].trimmed();
+            if (trimmed.isEmpty()) continue;
+            if (trimmed == "Ingredients Owned:") continue;
+            ownedSet.insert(trimmed.toLower());
         }
         rsearchPage->setOwnedIngredients(ownedSet);
     });
 
-    // Initial push of any pre-checked ingredients into the search page
+    // Initial push -- read the currently displayed inputOutput text
     {
         QSet<QString> ownedSet;
-        for (const auto &p : ingredients) if (p.second) ownedSet.insert(p.first.toLower());
+        const QString text = inputOutput->toPlainText();
+        const QStringList lines = text.split('\n', Qt::SkipEmptyParts);
+        for (const QString &l : lines) {
+            QString trimmed = l.trimmed();
+            if (trimmed.isEmpty() || trimmed == "Ingredients Owned:") continue;
+            ownedSet.insert(trimmed.toLower());
+        }
         rsearchPage->setOwnedIngredients(ownedSet);
     }
 
