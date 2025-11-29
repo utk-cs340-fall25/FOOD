@@ -41,8 +41,12 @@ void RRSearchWindow::setupUI()
     tagBox = new QComboBox();
     tagBox->addItem("All Tags");
     resetButton = new QPushButton("Reset Filters");
+    // Checkbox to limit to recipes makeable with owned ingredients
+    ownedFilterCheckBox = new QCheckBox("Only show recipes I can make");
+    ownedFilterCheckBox->setObjectName("ownedFilterCheckBox");
     filterLayout->addWidget(new QLabel("Filter by Tag:"));
     filterLayout->addWidget(tagBox);
+    filterLayout->addWidget(ownedFilterCheckBox);
     filterLayout->addWidget(resetButton);
     filterLayout->addStretch();
     
@@ -104,6 +108,7 @@ void RRSearchWindow::setupUI()
     connect(searchBar, &QLineEdit::textChanged, this, &RRSearchWindow::updateFilter);
     connect(tagBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RRSearchWindow::updateFilter);
     connect(resetButton, &QPushButton::clicked, this, &RRSearchWindow::resetFilters);
+    connect(ownedFilterCheckBox, &QCheckBox::stateChanged, this, &RRSearchWindow::updateFilter);
     connect(recipeList, &QListWidget::itemClicked, this, &RRSearchWindow::showRecipeDetails);
 }
 
@@ -167,6 +172,16 @@ void RRSearchWindow::setRecipes(const std::map<QString, Recipe> &recipeMap)
     refreshDisplay(recipeNames);
 }
 
+void RRSearchWindow::setOwnedIngredients(const QSet<QString> &owned)
+{
+    ownedIngredients.clear();
+    for (const QString &s : owned) {
+        ownedIngredients.insert(s.trimmed().toLower());
+    }
+    // Immediately refresh when the owned set updates
+    updateFilter();
+}
+
 void RRSearchWindow::loadFromPairs(const std::vector<std::pair<std::string, std::string>> &pairs)
 {
     // This function converts pairs into Recipe objects
@@ -219,7 +234,24 @@ void RRSearchWindow::updateFilter()
             }
         }
 
-        if (matchesSearch && matchesTag) {
+        // If user enabled owned-only filter, ensure recipe's ingredient names are all present
+        bool matchesOwned = true;
+        if (ownedFilterCheckBox && ownedFilterCheckBox->isChecked()) {
+            // If nothing is known/owned, no recipes match
+            if (ownedIngredients.isEmpty()) {
+                matchesOwned = false;
+            } else {
+                for (const auto &ing : recipe.ingredients) {
+                    QString ingName = ing.name.trimmed().toLower();
+                    if (!ownedIngredients.contains(ingName)) {
+                        matchesOwned = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (matchesSearch && matchesTag && matchesOwned) {
             filteredRecipes.append(recipe.name);
         }
     }
@@ -258,6 +290,15 @@ void RRSearchWindow::refreshDisplay(const QStringList& recipeNameList)
     for (const QString &recipeName : recipeNameList) {
         recipeList->addItem(recipeName);
     }
+}
+
+QStringList RRSearchWindow::visibleRecipes() const
+{
+    QStringList out;
+    for (int i = 0; i < recipeList->count(); ++i) {
+        out.append(recipeList->item(i)->text());
+    }
+    return out;
 }
 
 void RRSearchWindow::populateFilterBoxes()

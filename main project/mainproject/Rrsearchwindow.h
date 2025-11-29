@@ -2,6 +2,8 @@
 #define RRSEARCHWINDOW_H
 
 #include <QLabel>
+#include <QCheckBox>
+#include <QSet>
 #include <QTextEdit>
 #include <QWidget>
 #include <QListWidget>
@@ -30,6 +32,10 @@ public:
     // Accept upstream data from Recipe map and refresh UI
     void setRecipes(const std::map<QString, Recipe> &recipeMap);
     void loadFromPairs(const std::vector<std::pair<std::string, std::string>> &nameAndIngredients);
+    // Accept a set of ingredient names that the user has on-hand
+    void setOwnedIngredients(const QSet<QString> &owned);
+    // For tests: return the currently displayed recipe names
+    QStringList visibleRecipes() const;
 
 private slots:
     void loadRecipes();
@@ -49,6 +55,7 @@ private:
     QLineEdit* searchBar;
     QComboBox* tagBox;
     QPushButton* resetButton;
+    QCheckBox* ownedFilterCheckBox; // toggle: only show recipes that can be made with owned ingredients
 
     QLabel *detailsTitle;
     QTextEdit *detailsIngredients;
@@ -57,6 +64,7 @@ private:
 
     void refreshDisplay(const QStringList& recipeNameList);
     void populateFilterBoxes();
+    QSet<QString> ownedIngredients; // ingredients the user has (names, case-insensitive)
     QString formatIngredients(const std::vector<Ingredient>& ingredients) const;
     QString formatInstructions(const std::vector<QString>& instructions) const;
     QString formatTags(const std::vector<QString>& tags) const;

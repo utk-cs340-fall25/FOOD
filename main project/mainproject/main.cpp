@@ -12,6 +12,7 @@
 #include <QVBoxLayout>
 #include <QString>
 #include <QListWidget>
+#include <QSet>
 #include <QListWidgetItem>
 #include <QTextEdit>
 #include <QPushButton>
@@ -111,9 +112,32 @@ int main(int argc, char *argv[])
         }
     });
 
-    // checkbox selection
-    QObject::connect(inputSelection, &QListWidget::itemChanged, [&](const QListWidgetItem *item)
+    // checkbox selection handler: moved later so it can notify other pages (like the Recipe Search) when ingredients change
+
+
+    // // // inputPage section end // // //
+
+
+    // // // Shopping List section // // //
+
+    // Create the Shopping List widget
+    ShoppingListWidget *shoppingListPage = new ShoppingListWidget(recipes, &mainWindow);
+
+    // // // Shopping List section end // // //
+
+    // // // RsearchFunc section // // //
+    
+    // Create the RsearchFunc widget
+    RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
+    
+    // Set recipes directly from the recipe map - now displays all recipe information
+    rsearchPage->setRecipes(recipes);
+
+    // Connect the input tab selection -> update the Search page about owned ingredients
+    QObject::connect(inputSelection, &QListWidget::itemChanged, [&](QListWidgetItem *item)
     {
+        if (!item) return;
+
         if(item->checkState() == Qt::Checked)
         {
             // checked ingredient had
@@ -135,26 +159,21 @@ int main(int argc, char *argv[])
                 inputOutput->append(iit->first);
             }
         }
+
+        // Build a QSet of owned ingredient names and notify the search widget
+        QSet<QString> ownedSet;
+        for (const auto &p : ingredients) {
+            if (p.second) ownedSet.insert(p.first.toLower());
+        }
+        rsearchPage->setOwnedIngredients(ownedSet);
     });
 
-
-    // // // inputPage section end // // //
-
-
-    // // // Shopping List section // // //
-
-    // Create the Shopping List widget
-    ShoppingListWidget *shoppingListPage = new ShoppingListWidget(recipes, &mainWindow);
-
-    // // // Shopping List section end // // //
-
-    // // // RsearchFunc section // // //
-    
-    // Create the RsearchFunc widget
-    RRSearchWindow *rsearchPage = new RRSearchWindow(&mainWindow);
-    
-    // Set recipes directly from the recipe map - now displays all recipe information
-    rsearchPage->setRecipes(recipes);
+    // Initial push of any pre-checked ingredients into the search page
+    {
+        QSet<QString> ownedSet;
+        for (const auto &p : ingredients) if (p.second) ownedSet.insert(p.first.toLower());
+        rsearchPage->setOwnedIngredients(ownedSet);
+    }
 
     // // // RsearchFunc section end // // //
 
