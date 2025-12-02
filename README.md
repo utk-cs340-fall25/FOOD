@@ -35,3 +35,5 @@ To add your own recipes and ingredients:
 - You can open the .rcp files in any text editor to see how they're formatted
 - Open "ingredients.txt" and add your ingredients to the list with the same format
 - 0 for not had, and 1 for had, followed by the ingredient name
+
+[License Information](https://github.com/utk-cs340-fall25/FOOD/blob/main/GPL%20License.txt)
