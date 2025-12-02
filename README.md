@@ -5,7 +5,7 @@
 - Robert Duardo - WanabeNecro
 - Pablo Storch - Durza14
 
-![FOOD logo]([https://i.ibb.co/4n4RxGFv/food.png](https://github.com/utk-cs340-fall25/FOOD/blob/main/food.png))
+![FOOD logo](https://github.com/utk-cs340-fall25/FOOD/blob/main/food.png)
 
 # Project Description
 Our project, FOOD, allows the user to input the ingredients they own and then search a list of recipes based on those ingredients. This is the core part of the project. Additionally, the user can browse recipes they do not have the ingridients for and add items to a shopping list based on those recipes.
